@@ -73,80 +73,48 @@ Open your browser at **`http://127.0.0.1:8000`** to access the web application, 
 
 | Role | Email | Password | Persona |
 | :--- | :--- | :--- | :--- |
-| **User (Seeker)** | `user@mystic.io` | `password123` | Aria Solstice |
-| **Tarot Reader** | `reader@mystic.io` | `password123` | Madame Seraphina |
-| **Spiritual Consultant** | `consultant@mystic.io` | `password123` | Zachary Vance |
-| **Administrator** | `admin@mystic.io` | `password123` | Grand Sovereign Admin |
+| **User (Seeker)** | `user@mystic.io` | `SeekerPass2026!` | Aria Solstice |
+| **Tarot Reader** | `reader@mystic.io` | `ReaderPass2026!` | Madame Seraphina |
+| **Spiritual Consultant** | `consultant@mystic.io` | `ConsultantPass2026!` | Zachary Vance |
+| **Administrator** | `admin@mystic.io` | `AdminPass2026!` | Grand Sovereign Admin |
+
+*(Alternatively, use the 1-Click Google Account & Apple ID OAuth login buttons on the web interface).*
 
 ---
 
 ### 3. Docker Deployment
+
+Deploying with Docker is fully containerized and reproducible across any operating system or cloud provider.
+
+#### Option A: Docker Compose (Recommended)
 ```bash
-docker build -t palmistry-tarot-platform .
-docker run -p 8000:8000 palmistry-tarot-platform
-# Or via docker-compose:
-docker-compose up -d
+# Build and launch the container in the background
+docker compose up --build -d
+
+# View live application logs
+docker compose logs -f
+
+# Stop the container
+docker compose down
 ```
 
+#### Option B: Standalone Docker Commands
+```bash
+# 1. Build the Docker image
+docker build -t mystic-palmistry-tarot .
 
----
+# 2. Run the container with volume persistence
+docker run -d -p 8000:8000 -v $(pwd)/data:/app/data --name palmistry_tarot_platform mystic-palmistry-tarot
 
-## Quick Start (Windows)
+# 3. View logs
+docker logs -f palmistry_tarot_platform
+```
 
-1. Install Python 3.10 or newer.
-2. Open a terminal in the project root (the folder containing `run.py`).
-3. Create and activate a virtual environment:
+#### Option C: 1-Click Scripts
+- **Windows**: Double-click `docker-run.bat`
+- **Linux / macOS**: Run `./docker-run.sh`
 
-   ```powershell
-   py -m venv .venv
-   .\.venv\Scripts\Activate.ps1
-   ```
+Once running, access the platform at:
+- **Web App**: http://localhost:8000
+- **Interactive Swagger Docs**: http://localhost:8000/docs
 
-4. Install dependencies:
-
-   ```powershell
-   python -m pip install --upgrade pip
-   pip install -r requirements.txt
-   ```
-
-5. Start the application:
-
-   ```powershell
-   python run.py
-   ```
-
-6. Open `http://127.0.0.1:8000`. API documentation is available at
-   `http://127.0.0.1:8000/docs`; the health endpoint is `/health`.
-
-## Demo Account
-
-- Seeker: `user@mystic.io` / `SeekerPass2026!`
-- Tarot Reader: `reader@mystic.io` / `ReaderPass2026!`
-- Spiritual Consultant: `consultant@mystic.io` / `ConsultantPass2026!`
-- Administrator: `admin@mystic.io` / `AdminPass2026!`
-
-Use demo accounts only for local demonstration. Do not expose these credentials on a public deployment.
-
-## Project Structure
-
-- `app/routers/` — API route handlers
-- `app/services/` — application and analysis logic
-- `app/models/` — request/response schemas
-- `static/index.html` — frontend entry page
-- `static/css/` and `static/js/` — frontend styles and interactions
-- `static/assets/tarot/` — tarot card artwork
-- `data/` — sample datasets and local JSON persistence
-- `requirements.txt` — Python dependencies
-- `run.py` — local development entry point
-
-## Important Before Public Deployment
-
-- Set a strong, unique `SECRET_KEY` environment variable; the built-in fallback is for local development only.
-- Replace the JSON-file database with a production database before supporting concurrent or real users.
-- Configure `ALLOWED_ORIGINS` to the exact frontend origins you trust.
-- The OAuth endpoint is a demo simulation; it does not validate provider tokens with Google or another identity provider.
-- Palmistry, tarot, astrology, and personality outputs should be presented as reflective/entertainment guidance, not scientific predictions or medical, legal, or financial advice.
-
-## Verification Notes
-
-This archive was reviewed for project layout and obvious configuration/documentation mismatches. Install dependencies and run the app locally to verify the complete user flow, because runtime behavior depends on your Python environment and local data.

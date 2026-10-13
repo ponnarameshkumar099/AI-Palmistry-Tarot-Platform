@@ -48,7 +48,7 @@ def get_me(current_user: dict = Depends(get_current_user)):
 def get_demo_users():
     """Provides seed user credentials for rapid switching across all 4 roles."""
     return [
-        {"role": "User", "email": "user@mystic.io", "password": "SeekerPass2026!", "name": "Aria Solstice (Seeker)"},
+        {"role": "User", "email": "user@mystic.io", "password": "password123", "name": "Aria Solstice (Seeker)"},
         {"role": "Tarot Reader", "email": "reader@mystic.io", "password": "ReaderPass2026!", "name": "Madame Seraphina (Tarot Reader)"},
         {"role": "Spiritual Consultant", "email": "consultant@mystic.io", "password": "ConsultantPass2026!", "name": "Zachary Vance (Spiritual Consultant)"},
         {"role": "Administrator", "email": "admin@mystic.io", "password": "AdminPass2026!", "name": "Grand Sovereign Admin (Administrator)"}

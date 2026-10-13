@@ -27,6 +27,3 @@ data/exports/*
 # Test/cache
 .pytest_cache/
 .coverage
-# Local runtime artifacts
-data/*.tmp
-*.log

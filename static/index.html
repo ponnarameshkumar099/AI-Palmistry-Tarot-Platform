@@ -1,0 +1,2641 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI based palmistry & tarot intelligence</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Chart.js CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <!-- Three.js CDN for 3D Background -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <!-- Custom Styles (White, Light Blue & Black Theme) -->
+  <link rel="stylesheet" href="/static/css/styles.css?v=20260908_vdirect">
+</head>
+<body class="bg-[#f8fafc] text-slate-900 min-h-screen flex flex-col relative overflow-x-hidden">
+
+  <!-- 3D Moving Light Blue Particles Canvas -->
+  <canvas id="three-bg-canvas"></canvas>
+
+  <!-- ========================================================================= -->
+  <!-- MANDATORY LOGIN GATE (FULL-SCREEN FROSTED GLASS ENTRY)                    -->
+  <!-- ========================================================================= -->
+  <div id="entry-login-page" class="fixed inset-0 z-50 bg-[#f8fafc]/95 backdrop-blur-2xl flex flex-col justify-between p-4 md:p-8 overflow-y-auto">
+    <!-- Header Logo -->
+    <div class="max-w-6xl w-full mx-auto flex items-center justify-between py-4 border-b border-sky-300/40">
+      <div class="flex items-center gap-3">
+        <div class="w-12 h-12 rounded-full bg-gradient-to-tr from-sky-400 via-sky-500 to-sky-600 flex items-center justify-center shadow-lg shadow-sky-200">
+          <i data-lucide="bot" class="w-7 h-7 text-white"></i>
+        </div>
+        <div>
+          <h1 class="font-mystic text-2xl md:text-3xl font-extrabold text-gradient-gold uppercase">AI BASED PALMISTRY & TAROT INTELLIGENCE</h1>
+          <p class="text-xs uppercase tracking-widest text-sky-700 font-extrabold">Sovereign Intelligence Platform</p>
+        </div>
+      </div>
+      <span class="px-4 py-1.5 rounded-full bg-white/90 border border-sky-300/50 text-sky-800 text-xs font-extrabold shadow-sm">
+        🔒 Mandatory Email ID & Password Login Required
+      </span>
+    </div>
+
+    <!-- Main Entry Gate Content Grid -->
+    <div class="max-w-4xl w-full mx-auto my-auto grid grid-cols-1 lg:grid-cols-12 gap-8 items-center py-6">
+      
+      <!-- Left Column: Platform Banner & Description -->
+      <div class="lg:col-span-6 space-y-6">
+        <div class="glass-panel p-8 border-sky-300/40 bg-white/80 space-y-4 shadow-xl">
+          <span class="px-3.5 py-1 rounded-full bg-sky-100 text-sky-800 text-xs font-extrabold border border-sky-300/40 uppercase tracking-wider">
+            Mandatory Authentication Gate
+          </span>
+          <h2 class="text-3xl md:text-4xl font-mystic font-extrabold text-gradient-gold">Login with Email ID & Password</h2>
+          <p class="text-sm text-slate-700 leading-relaxed">
+            Without authenticating with an Email ID and Password, the application cannot be accessed. Please log in or register a new user account for your specific role.
+          </p>
+          <div class="pt-2 border-t border-sky-300/30 text-xs text-sky-900 font-semibold space-y-1">
+            <div class="flex items-center gap-2">
+              <i data-lucide="shield-check" class="w-4 h-4 text-sky-600"></i> Encrypted Session Management
+            </div>
+            <div class="flex items-center gap-2">
+              <i data-lucide="lock" class="w-4 h-4 text-sky-600"></i> Locked Role Authorization
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Column: Direct Sign-In & New User Registration Form for Every Role -->
+      <div class="lg:col-span-6 glass-panel p-8 border-sky-300/40 space-y-5 bg-white/95 shadow-2xl">
+        
+        <div class="flex items-center justify-between pb-3 border-b border-sky-300/30">
+          <button onclick="switchEntryTab('login')" id="entry-tab-login" class="font-mystic text-lg font-bold text-sky-700 border-b-2 border-sky-600 pb-1">
+            🔐 Sign In with Email
+          </button>
+          <button onclick="switchEntryTab('register')" id="entry-tab-reg" class="font-mystic text-lg font-bold text-slate-500 hover:text-slate-800 pb-1">
+            📝 Register New User
+          </button>
+        </div>
+
+        <!-- FORM 1: Direct Sign In -->
+        <form id="entry-form-login" onsubmit="submitEntryLogin(event)" class="space-y-4 text-sm">
+          <div>
+            <label class="block text-slate-800 font-semibold mb-1">Email ID</label>
+            <input type="email" id="entry-login-email" required placeholder="user@mystic.io" class="w-full bg-white border border-sky-300/50 rounded-full px-5 py-3 text-slate-900 focus:outline-none focus:border-sky-500 shadow-sm">
+          </div>
+          <div>
+            <label class="block text-slate-800 font-semibold mb-1">Account Password</label>
+            <input type="password" id="entry-login-password" required placeholder="••••••••" class="w-full bg-white border border-sky-300/50 rounded-full px-5 py-3 text-slate-900 focus:outline-none focus:border-sky-500 shadow-sm">
+          </div>
+
+          <div id="entry-login-err" class="text-rose-600 text-xs font-bold hidden"></div>
+
+          <button type="submit" class="w-full btn-mystic-gold py-3.5 text-base flex items-center justify-center gap-2">
+            <i data-lucide="shield-check" class="w-5 h-5"></i> Authenticate & Unlock Platform
+          </button>
+
+          <!-- OAUTH 1-CLICK SIGN IN WITH GOOGLE ACCOUNT & APPLE ID -->
+          <div class="space-y-2 pt-2">
+            <div class="relative flex py-1 items-center">
+              <div class="flex-grow border-t border-slate-200"></div>
+              <span class="flex-shrink mx-3 text-[10px] font-extrabold text-slate-400 uppercase tracking-widest">Or Sign In With OAuth</span>
+              <div class="flex-grow border-t border-slate-200"></div>
+            </div>
+
+            <div class="grid grid-cols-2 gap-2.5">
+              <button type="button" onclick="loginWithOAuth('google')" class="w-full py-2.5 px-3.5 rounded-full border border-slate-300 bg-white hover:bg-slate-50 text-slate-800 font-bold text-xs shadow-xs flex items-center justify-center gap-2 transition cursor-pointer">
+                <svg class="w-4 h-4" viewBox="0 0 24 24">
+                  <path fill="#4285F4" d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.82-2.4 3.68v3.05h3.88c2.27-2.09 3.665-5.17 3.665-9.17z"/>
+                  <path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.05c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.11-6.72-4.96H1.29v3.15C3.26 21.3 7.31 24 12 24z"/>
+                  <path fill="#FBBC05" d="M5.28 14.24c-.25-.72-.38-1.49-.38-2.24s.13-1.52.38-2.24V6.61H1.29C.47 8.24 0 10.06 0 12s.47 3.76 1.29 5.39l3.99-3.15z"/>
+                  <path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.31 0 3.26 2.7 1.29 6.61l3.99 3.15c.95-2.85 3.6-4.96 6.72-4.96z"/>
+                </svg>
+                <span>Google Account</span>
+              </button>
+
+              <button type="button" onclick="loginWithOAuth('apple')" class="w-full py-2.5 px-3.5 rounded-full border border-slate-900 bg-slate-950 hover:bg-black text-white font-bold text-xs shadow-xs flex items-center justify-center gap-2 transition cursor-pointer">
+                <svg class="w-4 h-4 fill-current text-white" viewBox="0 0 24 24">
+                  <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M15.97 6.85c.66-.8 1.11-1.92.99-3.04-.96.04-2.13.64-2.81 1.44-.61.71-1.14 1.86-1 2.97 1.07.08 2.16-.57 2.82-1.37z"/>
+                </svg>
+                <span>Apple ID</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- 1-CLICK QUICK ROLE ACCESS LOGIN SECTION -->
+          <div class="pt-4 border-t border-sky-300/30 space-y-2.5">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-extrabold text-sky-950 uppercase tracking-wider flex items-center gap-1.5">
+                <i data-lucide="zap" class="w-4 h-4 text-amber-500"></i> 1-Click Quick Role Access Login:
+              </span>
+              <span class="text-[10px] text-sky-800 font-bold bg-sky-100 px-2.5 py-0.5 rounded-full">Select Role to Sign In</span>
+            </div>
+
+            <div class="grid grid-cols-2 gap-2 text-xs">
+              <button type="button" onclick="loginAsRole('User')" class="p-3 rounded-2xl bg-gradient-to-r from-sky-50 to-sky-100 border border-sky-300/60 hover:border-sky-500 transition text-left flex flex-col justify-between shadow-xs group cursor-pointer">
+                <div class="flex items-center justify-between">
+                  <span class="font-bold text-slate-900 text-xs">👤 User (Seeker)</span>
+                  <i data-lucide="arrow-right" class="w-3.5 h-3.5 text-sky-600 group-hover:translate-x-1 transition"></i>
+                </div>
+                <div class="text-[10px] text-slate-500 mt-1 font-medium truncate">user@mystic.io</div>
+              </button>
+
+              <button type="button" onclick="loginAsRole('Tarot Reader')" class="p-3 rounded-2xl bg-gradient-to-r from-purple-50 to-purple-100 border border-purple-300/60 hover:border-purple-500 transition text-left flex flex-col justify-between shadow-xs group cursor-pointer">
+                <div class="flex items-center justify-between">
+                  <span class="font-bold text-slate-900 text-xs">🎴 Tarot Reader</span>
+                  <i data-lucide="arrow-right" class="w-3.5 h-3.5 text-purple-600 group-hover:translate-x-1 transition"></i>
+                </div>
+                <div class="text-[10px] text-slate-500 mt-1 font-medium truncate">reader@mystic.io</div>
+              </button>
+
+              <button type="button" onclick="loginAsRole('Spiritual Consultant')" class="p-3 rounded-2xl bg-gradient-to-r from-emerald-50 to-emerald-100 border border-emerald-300/60 hover:border-emerald-500 transition text-left flex flex-col justify-between shadow-xs group cursor-pointer">
+                <div class="flex items-center justify-between">
+                  <span class="font-bold text-slate-900 text-xs">🔮 Consultant</span>
+                  <i data-lucide="arrow-right" class="w-3.5 h-3.5 text-emerald-600 group-hover:translate-x-1 transition"></i>
+                </div>
+                <div class="text-[10px] text-slate-500 mt-1 font-medium truncate">consultant@mystic.io</div>
+              </button>
+
+              <button type="button" onclick="loginAsRole('Administrator')" class="p-3 rounded-2xl bg-gradient-to-r from-amber-50 to-amber-100 border border-amber-300/60 hover:border-amber-500 transition text-left flex flex-col justify-between shadow-xs group cursor-pointer">
+                <div class="flex items-center justify-between">
+                  <span class="font-bold text-slate-900 text-xs">👑 Administrator</span>
+                  <i data-lucide="arrow-right" class="w-3.5 h-3.5 text-amber-600 group-hover:translate-x-1 transition"></i>
+                </div>
+                <div class="text-[10px] text-slate-500 mt-1 font-medium truncate">admin@mystic.io</div>
+              </button>
+            </div>
+          </div>
+        </form>
+
+        <!-- FORM 2: Register New User in Every Role -->
+        <form id="entry-form-reg" onsubmit="submitEntryRegister(event)" class="hidden space-y-3 text-sm">
+          <div>
+            <label class="block text-slate-800 font-semibold mb-1">Full Name</label>
+            <input type="text" id="entry-reg-name" required placeholder="Aria Solstice" class="w-full bg-white border border-sky-300/50 rounded-full px-5 py-2.5 text-slate-900 focus:outline-none focus:border-sky-500">
+          </div>
+          <div>
+            <label class="block text-slate-800 font-semibold mb-1">Email ID</label>
+            <input type="email" id="entry-reg-email" required placeholder="newseeker@mystic.io" class="w-full bg-white border border-sky-300/50 rounded-full px-5 py-2.5 text-slate-900 focus:outline-none focus:border-sky-500">
+          </div>
+          <div>
+            <label class="block text-slate-800 font-semibold mb-1">Account Password</label>
+            <input type="password" id="entry-reg-password" required placeholder="Create password" class="w-full bg-white border border-sky-300/50 rounded-full px-5 py-2.5 text-slate-900 focus:outline-none focus:border-sky-500">
+          </div>
+          <div class="grid grid-cols-2 gap-2">
+            <div>
+              <label class="block text-slate-800 font-semibold mb-1">Select Role</label>
+              <select id="entry-reg-role" class="w-full bg-white border border-sky-300/50 rounded-full px-3 py-2.5 text-slate-900 focus:outline-none font-bold text-xs">
+                <option value="User">👤 User (Seeker)</option>
+                <option value="Tarot Reader">🎴 Tarot Reader</option>
+                <option value="Spiritual Consultant">🔮 Spiritual Consultant</option>
+                <option value="Administrator">👑 Administrator</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-slate-800 font-semibold mb-1">Age Group</label>
+              <select id="entry-reg-age" class="w-full bg-white border border-sky-300/50 rounded-full px-3 py-2.5 text-slate-900 focus:outline-none text-xs">
+                <option value="18-25">18-25</option>
+                <option value="26-35">26-35</option>
+                <option value="36-45">36-45</option>
+                <option value="46-55">46-55</option>
+                <option value="56+">56+</option>
+              </select>
+            </div>
+          </div>
+
+          <div id="entry-reg-err" class="text-rose-600 text-xs font-bold hidden"></div>
+
+          <button type="submit" class="w-full btn-mystic-gold py-3.5 text-base flex items-center justify-center gap-2">
+            <i data-lucide="user-plus" class="w-5 h-5"></i> Register New User & Unlock
+          </button>
+        </form>
+      </div>
+
+    </div>
+
+    <!-- Footer -->
+    <div class="max-w-6xl w-full mx-auto py-3 border-t border-sky-300/30 text-center text-xs text-slate-600 font-medium">
+      AI based palmistry & tarot intelligence © 2026 • Encrypted Sovereign Gateway
+    </div>
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- MAIN APPLICATION CONTENT (LOCKED & HIDDEN UNTIL LOGGED IN)                -->
+  <!-- ========================================================================= -->
+
+  <div id="main-app-wrapper" class="hidden flex-1 flex flex-col">
+
+    <!-- Top Global Navigation Bar (White & Light Blue Glass) -->
+    <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-xl border-b border-sky-300/40 px-4 lg:px-8 py-3 shadow-md">
+      <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-3">
+        
+        <!-- Brand Logo -->
+        <div class="flex items-center gap-2.5 cursor-pointer" onclick="switchView('aichatbot')">
+          <div class="w-10 h-10 rounded-full bg-gradient-to-tr from-sky-400 via-sky-500 to-sky-600 flex items-center justify-center shadow-md shadow-sky-200">
+            <i data-lucide="bot" class="w-5 h-5 text-white"></i>
+          </div>
+          <div class="text-center md:text-left">
+            <span class="font-mystic font-extrabold text-lg lg:text-xl tracking-wider text-gradient-gold uppercase block">
+              AI BASED PALMISTRY & TAROT INTELLIGENCE
+            </span>
+            <p class="text-[10px] uppercase tracking-widest text-sky-700 font-extrabold">Sovereign Intelligence Platform</p>
+          </div>
+        </div>
+
+        <!-- Main Navigation Links - CENTERED & ACCESSIBLE ON ALL SCREENS -->
+        <nav class="flex flex-wrap items-center justify-center gap-1 sm:gap-1.5 bg-sky-50/90 p-1.5 rounded-2xl md:rounded-full border border-sky-300/40 text-xs sm:text-sm font-extrabold shadow-inner">
+          <button onclick="switchView('aichatbot')" id="nav-aichatbot" class="px-3 py-1.5 rounded-full transition-all text-slate-700 hover:text-sky-900 flex items-center gap-1.5">
+            <i data-lucide="bot" class="w-4 h-4 text-sky-600"></i> AI Chatbot
+          </button>
+          <button onclick="switchView('palm')" id="nav-palm" class="px-3 py-1.5 rounded-full transition-all text-slate-700 hover:text-sky-900 flex items-center gap-1.5">
+            <i data-lucide="hand" class="w-4 h-4 text-sky-600"></i> Palmistry
+          </button>
+          <button onclick="switchView('tarot')" id="nav-tarot" class="px-3 py-1.5 rounded-full transition-all text-slate-700 hover:text-sky-900 flex items-center gap-1.5">
+            <i data-lucide="layers" class="w-4 h-4 text-sky-600"></i> Tarot Sanctuary
+          </button>
+          <button onclick="switchView('unified')" id="nav-unified" class="px-3 py-1.5 rounded-full transition-all text-slate-700 hover:text-sky-900 flex items-center gap-1.5">
+            <i data-lucide="wand-2" class="w-4 h-4 text-sky-600"></i> AI Synthesis
+          </button>
+          <button onclick="switchView('trends')" id="nav-trends" class="px-3 py-1.5 rounded-full transition-all text-slate-700 hover:text-sky-900 flex items-center gap-1.5">
+            <i data-lucide="compass" class="w-4 h-4 text-sky-600"></i> Trends
+          </button>
+          <button onclick="switchView('recommendations')" id="nav-recommendations" class="px-3 py-1.5 rounded-full transition-all text-slate-700 hover:text-sky-900 flex items-center gap-1.5">
+            <i data-lucide="heart" class="w-4 h-4 text-sky-600"></i> Rituals
+          </button>
+          <button onclick="switchView('dashboard')" id="nav-dashboard" class="px-3 py-1.5 rounded-full transition-all text-slate-700 hover:text-sky-900 flex items-center gap-1.5">
+            <i data-lucide="layout-dashboard" class="w-4 h-4 text-emerald-600"></i> <span id="nav-dash-label">Dashboard</span>
+          </button>
+        </nav>
+
+        <!-- Right Actions: MY ACCOUNT ICON BUTTON & LOCKED ROLE BADGE & Notifications & Logout -->
+        <div class="flex items-center justify-center gap-2">
+          <!-- MY ACCOUNT ICON BUTTON -->
+          <button onclick="openMyAccountModal()" title="My Account Portal & User Details" class="px-3.5 py-1.5 rounded-full bg-gradient-to-r from-sky-400 via-sky-500 to-sky-600 hover:from-sky-500 hover:to-sky-700 text-white text-xs font-extrabold transition flex items-center gap-1.5 shadow-md shadow-sky-200 border border-white">
+            <i data-lucide="user-check" class="w-4 h-4 text-white"></i> <span class="hidden sm:inline">My Account</span>
+          </button>
+
+          <!-- LOCKED ROLE BADGE (NO ROLE SWITCHING AFTER LOGIN) -->
+          <div class="px-3 py-1 rounded-full bg-sky-100 border border-sky-300/50 text-sky-900 text-xs font-extrabold flex items-center gap-1 shadow-xs" title="Your account role is locked to your login session">
+            <span id="header-role-badge">👤 User</span>
+            <span class="text-[9px] px-1.5 py-0.5 rounded bg-sky-200 text-sky-800 uppercase font-bold">Locked</span>
+          </div>
+
+          <!-- Notification Bell -->
+          <button onclick="toggleNotificationDrawer()" title="Cosmic Notifications" class="relative p-2 rounded-full bg-sky-50 hover:bg-sky-100 text-sky-800 border border-sky-300/40 transition shadow-xs">
+            <i data-lucide="bell" class="w-4 h-4 text-sky-600"></i>
+            <span id="notif-badge" class="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-rose-500 text-[9px] font-bold flex items-center justify-center text-white hidden">3</span>
+          </button>
+
+          <!-- Logout Button -->
+          <button onclick="logoutUser()" title="Logout of Account to change role" class="px-3 py-1.5 rounded-full bg-slate-900 hover:bg-slate-800 text-sky-200 border border-sky-300/40 text-xs font-bold transition flex items-center gap-1 shadow-xs">
+            <i data-lucide="log-out" class="w-3.5 h-3.5"></i> Logout
+          </button>
+
+          <!-- User Avatar -->
+          <div id="user-avatar-btn" onclick="openMyAccountModal()" title="View Account Details" class="w-8 h-8 rounded-full border-2 border-sky-400 overflow-hidden cursor-pointer shadow-md flex items-center justify-center bg-sky-100 hover:scale-105 transition">
+            <img id="header-avatar" src="https://api.dicebear.com/7.x/bottts/svg?seed=Aria" alt="Avatar" class="w-full h-full object-cover">
+          </div>
+        </div>
+
+      </div>
+    </header>
+
+    <!-- Notification Drawer (Slide-Over) -->
+    <aside id="notif-drawer" class="fixed inset-y-0 right-0 z-50 w-full sm:w-96 bg-white/95 backdrop-blur-2xl border-l border-sky-300/30 shadow-2xl p-5 transform translate-x-full transition-transform duration-300 ease-in-out flex flex-col justify-between">
+      <div>
+        <div class="flex items-center justify-between pb-3 border-b border-sky-300/30 mb-3">
+          <div class="flex items-center gap-2">
+            <i data-lucide="bell" class="w-5 h-5 text-sky-600"></i>
+            <h3 class="font-mystic font-bold text-lg text-slate-900">Cosmic Notifications</h3>
+          </div>
+          <button onclick="toggleNotificationDrawer()" class="text-slate-400 hover:text-slate-800 p-1">
+            <i data-lucide="x" class="w-5 h-5"></i>
+          </button>
+        </div>
+
+        <div class="flex items-center justify-between mb-3 text-xs">
+          <span class="text-slate-500 font-bold">Live Engagement Alerts</span>
+          <button onclick="triggerSimulatedGuidance()" class="text-sky-700 hover:text-sky-900 flex items-center gap-1 font-semibold">
+            <i data-lucide="zap" class="w-3.5 h-3.5"></i> 🔔 Send Test Notification
+          </button>
+        </div>
+
+        <!-- Notification Category Filters -->
+        <div class="flex items-center gap-1.5 overflow-x-auto pb-2 mb-3 text-[11px] font-bold">
+          <button onclick="filterNotifDrawer('All')" id="notif-filter-All" class="px-2.5 py-1 rounded-full bg-sky-600 text-white shadow-xs">All</button>
+          <button onclick="filterNotifDrawer('Rituals')" id="notif-filter-Rituals" class="px-2.5 py-1 rounded-full bg-sky-50 text-slate-700 hover:bg-sky-100 border border-sky-200">🗓️ Rituals</button>
+          <button onclick="filterNotifDrawer('Appointments')" id="notif-filter-Appointments" class="px-2.5 py-1 rounded-full bg-sky-50 text-slate-700 hover:bg-sky-100 border border-sky-200">🔮 Sessions</button>
+          <button onclick="filterNotifDrawer('Insights')" id="notif-filter-Insights" class="px-2.5 py-1 rounded-full bg-sky-50 text-slate-700 hover:bg-sky-100 border border-sky-200">✋ Scans</button>
+        </div>
+
+        <div id="notif-list-container" class="space-y-2.5 overflow-y-auto max-h-[calc(100vh-220px)] pr-1"></div>
+      </div>
+      <div class="pt-3 border-t border-sky-300/30 text-center">
+        <p class="text-[11px] text-slate-500">Automated Celestial Notification System</p>
+      </div>
+    </aside>
+
+    <!-- Main Viewport Container (White, Light Blue & Black) -->
+    <main class="relative z-10 flex-1 max-w-[1600px] w-full mx-auto p-4 lg:p-8">
+
+      <!-- ================= VIEW 0: AI CHATBOT ================= -->
+      <section id="view-aichatbot" class="space-y-6">
+        <div class="glass-panel p-6 bg-white/90 border-2 border-sky-300/40 flex flex-col md:flex-row md:items-center justify-between gap-4 shadow-lg">
+          <div class="space-y-1">
+            <div class="flex items-center gap-2">
+              <span class="px-3.5 py-1 rounded-full bg-sky-100 text-sky-800 text-xs font-extrabold uppercase tracking-wider border border-sky-300/40">
+                🤖 AI Chatbot • Friend & Guide & Teacher
+              </span>
+            </div>
+            <h1 class="text-3xl font-mystic font-bold text-gradient-gold">AI Chatbot Sanctuary</h1>
+            <p class="text-sm text-slate-700 max-w-2xl">Ask AI Chatbot any type of question — predictions, life choices, love, career, palmistry lines, tarot cards, or general wisdom. Answers warmly like a friend and wise teacher!</p>
+          </div>
+        </div>
+
+        <!-- AI Chatbot Interactive Console -->
+        <div class="glass-panel p-6 border-2 border-sky-300/30 space-y-4 bg-white/90 shadow-xl">
+          <div class="flex items-center justify-between pb-3 border-b border-sky-300/30">
+            <div class="flex items-center gap-3">
+              <div class="w-10 h-10 rounded-full bg-gradient-to-tr from-sky-400 to-sky-600 flex items-center justify-center shadow-md">
+                🤖
+              </div>
+              <div>
+                <h3 class="font-mystic text-lg font-bold text-slate-900">AI Chatbot Interactive Console</h3>
+                <p class="text-xs text-slate-600">Your trusted friend & teacher for any inquiry</p>
+              </div>
+            </div>
+            <span class="px-3.5 py-1 rounded-full bg-emerald-100 text-emerald-900 border border-emerald-300/40 text-xs font-bold">
+              Friend & Mentor Online
+            </span>
+          </div>
+
+          <!-- System Operational Status Badges -->
+          <div class="flex flex-wrap gap-2 text-[11px] font-extrabold pb-2 border-b border-sky-200/50">
+            <span class="px-3 py-1 rounded-full bg-emerald-100 text-emerald-950 border border-emerald-300 flex items-center gap-1.5 shadow-xs">
+              <i data-lucide="check-circle-2" class="w-3.5 h-3.5 text-emerald-600"></i> AI Interpretation Engine Operational
+            </span>
+            <span class="px-3 py-1 rounded-full bg-sky-100 text-sky-950 border border-sky-300 flex items-center gap-1.5 shadow-xs">
+              <i data-lucide="sparkles" class="w-3.5 h-3.5 text-sky-600"></i> Recommendation System Functional
+            </span>
+            <span class="px-3 py-1 rounded-full bg-amber-100 text-amber-950 border border-amber-300 flex items-center gap-1.5 shadow-xs">
+              <i data-lucide="compass" class="w-3.5 h-3.5 text-amber-600"></i> Personalized Guidance Workflows Completed
+            </span>
+          </div>
+
+          <!-- HIGH-VISIBILITY DAY-TO-DAY RITUAL SCHEDULE QUICK ACCESS BANNER -->
+          <div class="p-4 rounded-2xl bg-gradient-to-r from-amber-500 via-amber-400 to-amber-500 text-slate-950 flex flex-col sm:flex-row items-center justify-between gap-3 shadow-lg border-2 border-amber-300">
+            <div class="flex items-center gap-3">
+              <div class="w-10 h-10 rounded-full bg-slate-950 text-amber-400 flex items-center justify-center text-xl shrink-0 shadow-md">
+                🗓️
+              </div>
+              <div>
+                <div class="font-extrabold text-sm uppercase tracking-wider">Day-to-Day Ritual Schedule & Guidance Engine</div>
+                <div class="text-xs font-bold text-slate-900">Your personalized daily celestial rituals, personal growth goals, and harmonizing remedies are live!</div>
+              </div>
+            </div>
+            <button onclick="switchView('recommendations')" class="px-4 py-2 rounded-full bg-slate-950 text-amber-300 hover:bg-slate-900 font-extrabold text-xs shadow-md transition-all shrink-0 flex items-center gap-1.5 border border-amber-400">
+              ✨ View Today's Ritual Schedule →
+            </button>
+          </div>
+
+          <!-- Suggested Question Pills & Operational Functions -->
+          <div class="space-y-2">
+            <span class="text-xs font-bold text-sky-800 uppercase tracking-wider">Operational Guidance Workflows & ML Engines:</span>
+            <div class="flex flex-wrap gap-2 text-xs">
+              <button onclick="askAIChatbotTabQuestion('Predict my top career choices and give me a step-by-step 30-day, 90-day, 6-month, and 1-year roadmap.')" class="px-3.5 py-1.5 rounded-full bg-gradient-to-r from-amber-100 to-amber-200 border border-amber-400/60 text-amber-950 hover:from-amber-200 hover:to-amber-300 transition font-extrabold shadow-sm flex items-center gap-1.5">
+                🚀 Predict Career Roadmap (ML Engine)
+              </button>
+              <button onclick="askAIChatbotTabQuestion('Give me personal development guidance and daily habits to become a great person with integrity, discipline, and emotional mastery.')" class="px-3.5 py-1.5 rounded-full bg-gradient-to-r from-emerald-100 to-emerald-200 border border-emerald-400/60 text-emerald-950 hover:from-emerald-200 hover:to-emerald-300 transition font-extrabold shadow-sm flex items-center gap-1.5">
+                🌟 Personal Development (Become Great)
+              </button>
+              <button onclick="askAIChatbotTabQuestion('Give me 1-on-1 relationship advice, conflict resolution guidance, and emotional harmony tips.')" class="px-3.5 py-1.5 rounded-full bg-gradient-to-r from-rose-100 to-rose-200 border border-rose-400/60 text-rose-950 hover:from-rose-200 hover:to-rose-300 transition font-extrabold shadow-sm flex items-center gap-1.5">
+                💖 1-on-1 Relationship Harmony
+              </button>
+              <button onclick="askAIChatbotTabQuestion('I feel stressed and overwhelmed. Give me stress management skills and somatic techniques to calm my nervous system.')" class="px-3.5 py-1.5 rounded-full bg-gradient-to-r from-teal-100 to-teal-200 border border-teal-400/60 text-teal-950 hover:from-teal-200 hover:to-teal-300 transition font-extrabold shadow-sm flex items-center gap-1.5">
+                🧘 Stress Management Skills
+              </button>
+              <button onclick="askAIChatbotTabQuestion('I am feeling lonely. Chat like a best friend with me, comfort me, and give me steps to move on from my loneliness.')" class="px-3.5 py-1.5 rounded-full bg-gradient-to-r from-indigo-100 to-indigo-200 border border-indigo-400/60 text-indigo-950 hover:from-indigo-200 hover:to-indigo-300 transition font-extrabold shadow-sm flex items-center gap-1.5">
+                🫂 Chat Like a Friend (Overcome Loneliness)
+              </button>
+              <button onclick="askAIChatbotTabQuestion('I need emotional support right now. Give me some good uplifting ideas, self-care rituals, and positive perspective shifts.')" class="px-3.5 py-1.5 rounded-full bg-gradient-to-r from-pink-100 to-pink-200 border border-pink-400/60 text-pink-950 hover:from-pink-200 hover:to-pink-300 transition font-extrabold shadow-sm flex items-center gap-1.5">
+                💖 Emotional Support & Uplifting Ideas
+              </button>
+              <button onclick="askAIChatbotTabQuestion('I need help solving a problem: How can I overcome friction and achieve my goals effectively?')" class="px-3.5 py-1.5 rounded-full bg-gradient-to-r from-sky-100 to-sky-200 border border-sky-400/60 text-sky-950 hover:from-sky-200 hover:to-sky-300 transition font-extrabold shadow-sm flex items-center gap-1.5">
+                🧩 Universal Problem Solver
+              </button>
+              <button onclick="askAIChatbotTabQuestion('Run AI Interpretation Engine Operational workflow: Synthesize my palm lines, tarot spread, and astrological zodiac sign for complete life guidance.')" class="px-3.5 py-1.5 rounded-full bg-sky-50 border border-sky-300/40 text-sky-900 hover:bg-sky-100 transition font-semibold">
+                🧠 AI Interpretation Engine
+              </button>
+            </div>
+          </div>
+
+
+          <!-- Astrology & Date of Birth Inputs Bar -->
+          <div class="p-4 rounded-2xl bg-gradient-to-r from-sky-50 via-white to-sky-50 border border-sky-300/40 space-y-2 shadow-sm">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-extrabold text-sky-950 uppercase tracking-wider flex items-center gap-1.5">
+                <i data-lucide="sun" class="w-4 h-4 text-sky-600"></i> Astrology & Natal Horoscope Engine
+              </span>
+              <span class="text-[10px] text-sky-800 font-bold bg-sky-100 px-2.5 py-0.5 rounded-full">Enter DOB & Zodiac Sign</span>
+            </div>
+            
+            <div class="grid grid-cols-1 sm:grid-cols-12 gap-3 items-center text-xs">
+              <div class="sm:col-span-4">
+                <label class="block text-[11px] font-bold text-slate-700 mb-0.5">Date of Birth (DOB)</label>
+                <input type="date" id="aichatbot-dob" onchange="autoUpdateZodiacFromDob()" class="w-full bg-white border border-sky-300/60 rounded-full px-3.5 py-2 text-slate-900 focus:outline-none focus:border-sky-500 font-medium">
+              </div>
+
+              <div class="sm:col-span-5">
+                <label class="block text-[11px] font-bold text-slate-700 mb-0.5">Zodiac Star Sign</label>
+                <select id="aichatbot-zodiac" class="w-full bg-white border border-sky-300/60 rounded-full px-3.5 py-2 text-slate-900 focus:outline-none focus:border-sky-500 font-bold">
+                  <option value="Aries">Aries ♈ (Mar 21 - Apr 19 • Fire)</option>
+                  <option value="Taurus">Taurus ♉ (Apr 20 - May 20 • Earth)</option>
+                  <option value="Gemini">Gemini ♊ (May 21 - Jun 20 • Air)</option>
+                  <option value="Cancer">Cancer ♋ (Jun 21 - Jul 22 • Water)</option>
+                  <option value="Leo">Leo ♌ (Jul 23 - Aug 22 • Fire)</option>
+                  <option value="Virgo">Virgo ♍ (Aug 23 - Sep 22 • Earth)</option>
+                  <option value="Libra">Libra ♎ (Sep 23 - Oct 22 • Air)</option>
+                  <option value="Scorpio">Scorpio ♏ (Oct 23 - Nov 21 • Water)</option>
+                  <option value="Sagittarius">Sagittarius ♐ (Nov 22 - Dec 21 • Fire)</option>
+                  <option value="Capricorn">Capricorn ♑ (Dec 22 - Jan 19 • Earth)</option>
+                  <option value="Aquarius">Aquarius ♒ (Jan 20 - Feb 18 • Air)</option>
+                  <option value="Pisces">Pisces ♓ (Feb 19 - Mar 20 • Water)</option>
+                </select>
+              </div>
+
+              <div class="sm:col-span-3 flex items-end">
+                <button type="button" onclick="askAstrologyPrediction()" class="w-full btn-mystic-gold py-2 px-3 text-xs flex items-center justify-center gap-1.5 shadow-md">
+                  <i data-lucide="sparkles" class="w-4 h-4"></i> Get Horoscope
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Chat Stream Messages Box -->
+          <div id="aichatbot-view-chat-box" class="min-h-[280px] max-h-[420px] overflow-y-auto space-y-3 p-4 bg-sky-50/50 rounded-2xl border border-sky-300/30 text-xs">
+            <div class="glass-card p-4 space-y-1.5 border-l-4 border-sky-500 bg-white">
+              <div class="font-bold text-sky-900 flex items-center gap-2">
+                <span>🤖 AI Chatbot</span>
+                <span class="text-[10px] px-2 py-0.5 rounded-full bg-sky-100 text-sky-800 font-semibold">Friend & Teacher</span>
+              </div>
+              <p class="text-slate-800 text-sm leading-relaxed">
+                Greetings, my friend! I am AI Chatbot. Ask me any question about your life path, palm scans, tarot cards, relationship advice, or career decisions!
+              </p>
+            </div>
+          </div>
+
+          <!-- Chat Input -->
+          <form onsubmit="submitAIChatbotTabChat(event)" class="flex items-center gap-3 pt-2">
+            <input type="text" id="aichatbot-view-input" required placeholder="Ask AI Chatbot any question as a friend and guide..." class="flex-1 bg-white border border-sky-300/50 rounded-full px-5 py-3.5 text-sm text-slate-900 focus:outline-none focus:border-sky-500 shadow-sm">
+            <button type="submit" class="btn-mystic-gold py-3.5 px-8 text-sm flex items-center gap-2">
+              <i data-lucide="send" class="w-4 h-4"></i> Ask AI Chatbot
+            </button>
+          </form>
+        </div>
+      </section>
+
+      <!-- ================= VIEW 1: PALMISTRY STUDIO ================= -->
+      <section id="view-palm" class="hidden w-full space-y-4">
+        <!-- TOP STRUCTURED CONTROL HEADER -->
+        <div class="glass-panel p-5 bg-white/95 border-2 border-sky-300/50 flex flex-col lg:flex-row lg:items-center justify-between gap-4 shadow-lg rounded-3xl">
+          <div>
+            <h1 class="text-3xl font-mystic font-extrabold text-gradient-gold">Computer Vision Palmistry Studio</h1>
+            <p class="text-xs text-slate-700 font-medium mt-0.5">Upload palm image photo or capture live video camera to read palm lines & mounts.</p>
+          </div>
+          
+          <div class="flex flex-wrap items-center gap-2">
+            <span class="text-xs text-sky-900 font-extrabold uppercase tracking-wider">Archetype Presets:</span>
+            <button onclick="loadPalmPreset('water_hand')" class="px-3.5 py-1.5 text-xs rounded-full bg-sky-50 border border-sky-300 text-sky-950 hover:bg-sky-100 font-extrabold transition shadow-2xs cursor-pointer">🌊 Water Hand</button>
+            <button onclick="loadPalmPreset('fire_hand')" class="px-3.5 py-1.5 text-xs rounded-full bg-rose-50 border border-rose-300 text-rose-950 hover:bg-rose-100 font-extrabold transition shadow-2xs cursor-pointer">🔥 Fire Hand</button>
+            <button onclick="loadPalmPreset('air_hand')" class="px-3.5 py-1.5 text-xs rounded-full bg-purple-50 border border-purple-300 text-purple-950 hover:bg-purple-100 font-extrabold transition shadow-2xs cursor-pointer">💨 Air Hand</button>
+            <button onclick="loadPalmPreset('earth_hand')" class="px-3.5 py-1.5 text-xs rounded-full bg-emerald-50 border border-emerald-300 text-emerald-950 hover:bg-emerald-100 font-extrabold transition shadow-2xs cursor-pointer">🌿 Earth Hand</button>
+          </div>
+        </div>
+
+        <!-- DIRECT CONSULTANT 1-ON-1 CHAT & SESSION BAR -->
+        <div class="glass-panel p-4 bg-gradient-to-r from-emerald-950 via-teal-950 to-slate-950 text-white rounded-2xl flex flex-wrap items-center justify-between gap-3 shadow-xl border border-emerald-400/50">
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-full bg-emerald-700/80 border-2 border-emerald-400 flex items-center justify-center text-xl shadow-md">
+              🔮
+            </div>
+            <div>
+              <h4 class="font-mystic font-black text-sm text-white flex items-center gap-2">
+                Zachary Vance <span class="text-[10px] px-2.5 py-0.5 rounded-full bg-emerald-500/30 text-emerald-200 border border-emerald-400/40 font-extrabold">Spiritual Consultant</span>
+              </h4>
+              <p class="text-xs text-emerald-200 font-medium">Senior Palmistry Life Analyst • Live 1-on-1 Session Chat & Guidance</p>
+            </div>
+          </div>
+
+          <div class="flex items-center gap-2 flex-wrap">
+            <button onclick="openDirectPractitionerChat('Spiritual Consultant')" class="px-4 py-2 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-600 hover:to-teal-600 text-white font-extrabold text-xs shadow-md transition flex items-center gap-1.5 cursor-pointer border border-emerald-300">
+              <i data-lucide="message-square" class="w-4 h-4"></i> 💬 Chat with Consultant
+            </button>
+            <button onclick="openAppointmentModal('Spiritual Consultant', 'Palmistry Life Trajectory Session', 'Water Hand CV Scan')" class="px-4 py-2 rounded-xl bg-white/10 hover:bg-white/20 border border-emerald-300/40 text-white font-extrabold text-xs transition flex items-center gap-1.5 cursor-pointer">
+              <i data-lucide="calendar" class="w-4 h-4"></i> Schedule Session
+            </button>
+          </div>
+        </div>
+
+        <!-- WIDESCREEN 2-COLUMN STRUCTURED GRID (ZERO EXCESS SPACE) -->
+        <div class="grid grid-cols-1 xl:grid-cols-12 gap-5 items-stretch w-full">
+          <!-- LEFT COLUMN: Palm Canvas & Biometric Scans -->
+          <div class="xl:col-span-6 glass-panel p-5 space-y-4 border-2 border-sky-300/40 bg-white/95 shadow-lg rounded-3xl flex flex-col justify-between">
+            <div class="space-y-4">
+              <div class="flex items-center justify-between gap-2 flex-wrap pb-3 border-b border-sky-200">
+                <span class="font-mystic text-base font-extrabold text-slate-900 flex items-center gap-2">
+                  <i data-lucide="camera" class="w-5 h-5 text-sky-600"></i> Palm Image & Biometric CV Scan
+                </span>
+                
+                <div class="flex items-center gap-2 flex-wrap">
+                  <button onclick="downloadPalmData()" id="btn-download-palm" title="Download Palmistry PDF Report" class="btn-mystic-gold text-xs py-2 px-3.5 flex items-center gap-1.5 shadow-md">
+                    <i data-lucide="file-text" class="w-4 h-4 text-slate-950"></i> Download Palm PDF Report
+                  </button>
+                  <label class="btn-mystic-outline text-xs py-2 px-3.5 flex items-center gap-1.5 cursor-pointer">
+                    <i data-lucide="upload" class="w-4 h-4 text-sky-700"></i> Upload Image
+                    <input type="file" id="palm-file-input" accept="image/*" class="hidden" onchange="handlePalmFileUpload(event)">
+                  </label>
+                  <button onclick="toggleWebcamPalm()" id="btn-webcam-palm" class="btn-mystic-primary text-xs py-2 px-3.5 flex items-center gap-1.5">
+                    <i data-lucide="video" class="w-4 h-4"></i> Camera Scan
+                  </button>
+                </div>
+              </div>
+
+              <div id="palm-webcam-container" class="hidden relative rounded-2xl overflow-hidden border-2 border-sky-400 bg-slate-950 min-h-[300px] flex items-center justify-center">
+                <video id="palm-video" autoplay playsinline class="w-full h-72 object-cover"></video>
+                <button onclick="captureWebcamFrame()" class="absolute bottom-4 left-1/2 -translate-x-1/2 btn-mystic-gold text-xs py-2.5 px-6 flex items-center gap-2 shadow-2xl">
+                  <i data-lucide="aperture" class="w-5 h-5"></i> 📸 Capture & Read Camera Image
+                </button>
+              </div>
+
+              <!-- Palm Canvas Box -->
+              <div class="palm-canvas-container relative" id="palm-display-box">
+                <div id="palm-bg-render" class="w-full h-full flex items-center justify-center bg-white p-2">
+                  <img id="palm-img-view" src="" alt="Palm scan view" class="w-full h-full object-contain opacity-90">
+                </div>
+                <div id="palm-svg-overlay" class="absolute inset-0 pointer-events-none"></div>
+                <div id="palm-mounts-spheres-layer"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- RIGHT COLUMN BOX: Hand Percentage, Archetype, Trajectory, Core Lines & Mounts -->
+          <div class="xl:col-span-6 space-y-4 flex flex-col justify-between">
+            <!-- 1. HAND ELEMENT ARCHETYPE & PERCENTAGE SCORE CARD (RIGHT SIDE BOX) -->
+            <div class="glass-panel p-5 border-l-4 border-sky-500 bg-white/95 shadow-lg rounded-3xl flex items-center justify-between">
+              <div>
+                <span class="text-xs uppercase text-sky-900 font-extrabold tracking-wider">Hand Element Archetype</span>
+                <h2 id="palm-shape-title" class="font-mystic text-2xl font-black text-slate-900">Water Hand (Water Element)</h2>
+                <p id="palm-shape-desc" class="text-xs text-slate-700 font-medium mt-1">Intuitive insights and emotional flow.</p>
+              </div>
+              <div class="text-right shrink-0 bg-sky-50 px-4 py-2.5 rounded-2xl border border-sky-200">
+                <span class="text-[10px] uppercase tracking-wider text-slate-500 font-extrabold block">Hand Percentage</span>
+                <div class="text-3xl font-black text-sky-700 font-mystic leading-none mt-0.5" id="palm-conf-val">95.2%</div>
+              </div>
+            </div>
+
+            <!-- 2. SYNTHESIZED PALM TRAJECTORY SUMMARY -->
+            <div id="palm-synthesized-trajectory"></div>
+
+            <!-- CORE PALM LINES BREAKDOWN -->
+            <div class="glass-panel p-5 space-y-3 bg-white/95 border-2 border-sky-300/40 shadow-lg rounded-3xl">
+              <h3 class="font-mystic text-base uppercase tracking-wider text-sky-950 font-black flex items-center gap-2 pb-2 border-b border-sky-200">
+                <i data-lucide="activity" class="w-5 h-5 text-sky-600"></i> Core Palm Lines Breakdown
+              </h3>
+              <div id="palm-lines-list" class="space-y-2.5 text-xs"></div>
+            </div>
+
+            <!-- 7 PLANETARY MOUNTS GRID -->
+            <div class="glass-panel p-5 space-y-3 bg-white/95 border-2 border-sky-300/40 shadow-lg rounded-3xl">
+              <h3 class="font-mystic text-base uppercase tracking-wider text-sky-950 font-black flex items-center gap-2 pb-2 border-b border-sky-200">
+                <i data-lucide="circle-dot" class="w-5 h-5 text-sky-600"></i> 7 Planetary Mounts Grid
+              </h3>
+              <div id="palm-mounts-grid" class="grid grid-cols-2 sm:grid-cols-3 gap-2.5 text-xs"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= VIEW 2: TAROT SANCTUARY ================= -->
+      <section id="view-tarot" class="hidden space-y-6">
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+          <div>
+            <h1 class="text-3xl font-mystic font-bold text-gradient-gold">Tarot Divination Sanctuary</h1>
+            <p class="text-base text-slate-700">All 78 cards fanned graphically at once — select any random card or custom spread.</p>
+        <!-- DIRECT TAROT READER 1-ON-1 CHAT BAR IN TAROT SANCTUARY -->
+        <div class="glass-panel p-4 bg-gradient-to-r from-purple-900 via-indigo-900 to-slate-900 text-white rounded-2xl flex flex-wrap items-center justify-between gap-3 shadow-lg my-2">
+          <div class="flex items-center gap-3">
+            <div class="w-11 h-11 rounded-full bg-purple-700/80 border-2 border-purple-400 flex items-center justify-center text-xl shadow-md">
+              🎴
+            </div>
+            <div>
+              <h4 class="font-mystic font-extrabold text-sm text-white flex items-center gap-2">
+                Madame Seraphina <span class="text-[10px] px-2 py-0.5 rounded-full bg-purple-500/30 text-purple-200 border border-purple-400/40">Tarot Reader</span>
+              </h4>
+              <p class="text-xs text-purple-200">Certified Tarot Master • Live 1-on-1 Arcana Synthesis Chat & Consultation</p>
+            </div>
+          </div>
+
+          <div class="flex items-center gap-2 flex-wrap">
+            <button onclick="openDirectPractitionerChat('Tarot Reader')" class="px-4 py-2 rounded-xl bg-gradient-to-r from-purple-500 to-indigo-500 hover:from-purple-600 hover:to-indigo-600 text-white font-extrabold text-xs shadow-md transition flex items-center gap-1.5 cursor-pointer">
+              <i data-lucide="message-square" class="w-4 h-4"></i> 💬 Chat with Tarot Reader
+            </button>
+            <button onclick="openAppointmentModal('Tarot Reader', 'Celtic Cross Deep Synthesis', 'The Star')" class="px-4 py-2 rounded-xl bg-white/10 hover:bg-white/20 border border-purple-300/40 text-white font-extrabold text-xs transition flex items-center gap-1.5 cursor-pointer">
+              <i data-lucide="calendar" class="w-4 h-4"></i> Schedule Session
+            </button>
+          </div>
+        </div>
+
+        <!-- 🎴 78-CARD ARCANA GRAPHIC FAN SANCTUARY -->
+        <div class="glass-panel p-6 border-2 border-sky-400 bg-gradient-to-b from-sky-50/70 via-white to-sky-50/70 space-y-4 shadow-xl">
+          <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-3 border-b border-sky-300/40">
+            <div class="space-y-1">
+              <div class="flex items-center gap-2">
+                <span class="px-3.5 py-1 rounded-full bg-gradient-to-r from-sky-500 to-sky-700 text-white text-xs font-extrabold uppercase tracking-wider shadow-sm flex items-center gap-1.5">
+                  <i data-lucide="layers" class="w-4 h-4"></i> 78 Cards Fanned at Once
+                </span>
+                <span class="px-3 py-1 rounded-full bg-amber-100 text-amber-950 border border-amber-300 text-xs font-bold">
+                  Graphical Fan Deck View
+                </span>
+              </div>
+              <h2 class="text-2xl font-mystic font-extrabold text-slate-900">🎴 Interactive 78-Card Fan Deck Sanctuary</h2>
+              <p class="text-xs text-slate-700">Hover over any card to elevate it from the 78-card graphic fan. Click to reveal its 3D interpretation!</p>
+            </div>
+
+            <div class="flex items-center gap-2 flex-wrap">
+              <button onclick="pickRandomCardFrom78Fan()" class="btn-mystic-gold text-xs py-2.5 px-5 flex items-center gap-2 shadow-md">
+                <i data-lucide="sparkles" class="w-4 h-4"></i> 🎲 Select Random Card from Fan
+              </button>
+              <button onclick="shuffle78FanDeck()" class="btn-mystic-outline text-xs py-2.5 px-4 flex items-center gap-1.5">
+                <i data-lucide="refresh-cw" class="w-4 h-4"></i> Re-Fan Deck
+              </button>
+            </div>
+          </div>
+
+          <!-- SELECT 1 CARD / SELECT 3 CARDS OPTION BAR AT TOP OF 78 CARDS FAN -->
+          <div class="p-4 rounded-2xl bg-gradient-to-r from-amber-500/10 via-sky-500/10 to-purple-500/10 border-2 border-amber-300/60 flex flex-wrap items-center justify-between gap-3 my-2 shadow-sm">
+            <div class="space-y-0.5">
+              <div class="font-mystic font-extrabold text-sm text-slate-900 flex items-center gap-2">
+                <i data-lucide="sparkles" class="w-4 h-4 text-amber-500"></i> Card Selection Mode (Pick Randomly by Yourself):
+              </div>
+              <p class="text-xs text-slate-600 font-medium">Select whether you want to pick <b>1 Card (Daily Focus)</b> or <b>3 Cards (Past • Present • Future)</b> from the 78-card fan deck!</p>
+            </div>
+            
+            <div class="flex items-center gap-2 flex-wrap">
+              <button type="button" onclick="setCardSelectionMode('Single Card Reading')" id="mode-btn-1card" class="px-5 py-2.5 rounded-full bg-gradient-to-r from-amber-500 to-amber-600 text-slate-950 font-black text-xs shadow-md transition flex items-center gap-2 cursor-pointer ring-2 ring-amber-400">
+                🎴 Select 1 Card Draw
+              </button>
+              <button type="button" onclick="setCardSelectionMode('Three Card Reading')" id="mode-btn-3cards" class="px-5 py-2.5 rounded-full bg-white text-slate-700 hover:bg-sky-50 border border-sky-300 font-bold text-xs shadow-xs transition flex items-center gap-2 cursor-pointer">
+                🎴 Select 3 Cards Arcana
+              </button>
+            </div>
+          </div>
+
+          <!-- Filter Pills for 78-Card Fan Deck -->
+          <div class="flex flex-wrap items-center justify-between gap-3 text-xs">
+            <div class="flex items-center gap-1.5 flex-wrap">
+              <span class="font-bold text-sky-950 uppercase tracking-wider text-[11px]">Suit Filter:</span>
+              <button onclick="filter78FanDeck('All')" id="fan-filter-All" class="px-3 py-1 rounded-full bg-sky-600 text-white font-extrabold shadow-xs">All 78 Cards</button>
+              <button onclick="filter78FanDeck('Major')" id="fan-filter-Major" class="px-3 py-1 rounded-full bg-white text-slate-700 hover:bg-sky-50 border border-sky-300/40 font-bold">Major Arcana (22)</button>
+              <button onclick="filter78FanDeck('Cups')" id="fan-filter-Cups" class="px-3 py-1 rounded-full bg-white text-slate-700 hover:bg-sky-50 border border-sky-300/40 font-bold">Cups 🌊 (14)</button>
+              <button onclick="filter78FanDeck('Pentacles')" id="fan-filter-Pentacles" class="px-3 py-1 rounded-full bg-white text-slate-700 hover:bg-sky-50 border border-sky-300/40 font-bold">Pentacles 🌿 (14)</button>
+              <button onclick="filter78FanDeck('Swords')" id="fan-filter-Swords" class="px-3 py-1 rounded-full bg-white text-slate-700 hover:bg-sky-50 border border-sky-300/40 font-bold">Swords 💨 (14)</button>
+              <button onclick="filter78FanDeck('Wands')" id="fan-filter-Wands" class="px-3 py-1 rounded-full bg-white text-slate-700 hover:bg-sky-50 border border-sky-300/40 font-bold">Wands 🔥 (14)</button>
+            </div>
+
+            <span id="fan-cards-count-badge" class="px-3.5 py-1 rounded-full bg-sky-100 text-sky-900 border border-sky-300/40 font-extrabold">
+              Showing 78 Cards in Graphical Fan
+            </span>
+          </div>
+
+          <!-- GRAPHICAL 78-CARD FAN STAGE CONTAINER -->
+          <div id="tarot-78-fan-stage" class="fan-deck-container my-2"></div>
+        </div>
+
+        <div class="glass-panel p-5 border-sky-300/40 bg-white/90">
+          <div class="text-xs uppercase tracking-wider font-extrabold text-sky-900 mb-3 flex items-center gap-2">
+            <i data-lucide="sparkles" class="w-5 h-5 text-sky-600"></i> Select Divination Spread:
+          </div>
+          <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
+            <button onclick="selectSpreadType('Single Card Reading')" class="spread-btn p-3 rounded-2xl bg-white border border-sky-300/40 hover:border-sky-500 transition text-left" data-spread="Single Card Reading">
+              <div class="font-bold text-sky-900 text-sm">Single Card</div>
+              <div class="text-[11px] text-slate-500">1 Card • Daily Focus</div>
+            </button>
+            <button onclick="selectSpreadType('Three Card Reading')" class="spread-btn p-3 rounded-2xl bg-white border border-sky-300/40 hover:border-sky-500 transition text-left" data-spread="Three Card Reading">
+              <div class="font-bold text-sky-900 text-sm">Three Card</div>
+              <div class="text-[11px] text-slate-500">3 Cards • Past/Pres/Fut</div>
+            </button>
+            <button onclick="selectSpreadType('Relationship Spread')" class="spread-btn p-3 rounded-2xl bg-white border border-sky-300/40 hover:border-sky-500 transition text-left" data-spread="Relationship Spread">
+              <div class="font-bold text-sky-900 text-sm">Relationship</div>
+              <div class="text-[11px] text-slate-500">5 Cards • Soul Bond</div>
+            </button>
+            <button onclick="selectSpreadType('Career Spread')" class="spread-btn p-3 rounded-2xl bg-white border border-sky-300/40 hover:border-sky-500 transition text-left" data-spread="Career Spread">
+              <div class="font-bold text-sky-900 text-sm">Career & Growth</div>
+              <div class="text-[11px] text-slate-500">5 Cards • Vocation</div>
+            </button>
+            <button onclick="selectSpreadType('Celtic Cross Spread')" class="spread-btn p-3 rounded-2xl bg-white border border-sky-300/40 hover:border-sky-500 transition text-left" data-spread="Celtic Cross Spread">
+              <div class="font-bold text-sky-900 text-sm">Celtic Cross</div>
+              <div class="text-[11px] text-slate-500">10 Cards • Master View</div>
+            </button>
+            <button onclick="selectSpreadType('Life Path Spread')" class="spread-btn p-3 rounded-2xl bg-white border border-sky-300/40 hover:border-sky-500 transition text-left" data-spread="Life Path Spread">
+              <div class="font-bold text-sky-900 text-sm">Life Path</div>
+              <div class="text-[11px] text-slate-500">7 Cards • Soul Calling</div>
+            </button>
+          </div>
+        </div>
+
+        <div class="glass-panel p-6 border-2 border-sky-300/40 space-y-6 bg-white/90">
+          <div class="flex flex-col sm:flex-row items-center justify-between gap-4 pb-4 border-b border-sky-300/30">
+            <div>
+              <h2 id="active-spread-title" class="font-mystic text-2xl font-bold text-gradient-gold">Celtic Cross Spread</h2>
+              <p id="manual-picker-status" class="text-sm text-sky-800 font-bold mt-1">
+                👈 Click facedown cards or use buttons below to randomly select cards by your choice!
+              </p>
+            </div>
+            <div class="flex items-center gap-2 flex-wrap">
+              <button onclick="pickRandomTarotCardByUserChoice()" class="px-4 py-2.5 rounded-full bg-gradient-to-r from-sky-500 to-sky-700 hover:from-sky-600 hover:to-sky-800 text-white text-xs font-extrabold shadow-md flex items-center gap-1.5 transition border border-white">
+                <i data-lucide="sparkles" class="w-4 h-4"></i> 🎲 Pick Random Card for Me
+              </button>
+              <button onclick="drawAllCardsRandomlyByUserChoice()" class="px-4 py-2.5 rounded-full bg-gradient-to-r from-amber-500 to-amber-700 hover:from-amber-600 hover:to-amber-800 text-white text-xs font-extrabold shadow-md flex items-center gap-1.5 transition border border-white">
+                <i data-lucide="layers" class="w-4 h-4"></i> 🎴 Randomly Draw All Cards
+              </button>
+              <button onclick="revealAllCardsNow()" class="btn-mystic-outline text-xs py-2.5 px-4 flex items-center gap-1.5">
+                <i data-lucide="eye" class="w-4 h-4"></i> Reveal All Cards
+              </button>
+              <button onclick="trigger3DCardShuffle()" class="btn-mystic-gold text-xs py-2.5 px-5 flex items-center gap-2">
+                <i data-lucide="refresh-cw" class="w-4 h-4"></i> Shuffle Deck
+              </button>
+            </div>
+          </div>
+
+          <div id="tarot-cards-stage" class="flex flex-wrap items-center justify-center gap-6 py-6 min-h-[300px]"></div>
+
+          <!-- Interactive 3D Card Reveal & Simple Info Panel (Left: 3D Card, Right: Simple Information) -->
+          <div id="tarot-card-inspector" class="glass-panel p-6 border-2 border-sky-400 bg-white/95 shadow-xl space-y-4">
+            <div class="flex items-center justify-between pb-3 border-b border-sky-300/40">
+              <div class="flex items-center gap-2 font-mystic text-base font-bold text-sky-950">
+                <i data-lucide="layers" class="w-5 h-5 text-sky-600"></i>
+                <span>🎴 Selected Card 3D Reveal & Simple Information</span>
+              </div>
+              <span id="inspector-slot-badge" class="px-3.5 py-1 rounded-full text-xs font-extrabold bg-sky-100 text-sky-900 border border-sky-300/40">
+                👉 Click any card slot to inspect
+              </span>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+              <!-- LEFT SIDE: 3D Flipped Card Display -->
+              <div class="lg:col-span-5 flex flex-col items-center justify-center p-6 rounded-3xl bg-gradient-to-b from-sky-50 to-white border border-sky-200/60 shadow-inner space-y-4">
+                <div id="inspector-card-container" class="tarot-card-container w-44 h-64 cursor-pointer tilt-card-3d">
+                  <div id="inspector-card-inner" class="tarot-card-inner">
+                    <div class="tarot-card-back border-2 border-amber-400 bg-gradient-to-b from-[#09090b] via-[#18181b] to-black">
+                      <div class="w-12 h-12 rounded-full border-2 border-amber-400 flex items-center justify-center mb-3 shadow-md bg-black">
+                        <i data-lucide="sun" class="w-7 h-7 text-amber-400"></i>
+                      </div>
+                      <span class="font-mystic text-xs text-amber-300 font-extrabold tracking-widest uppercase">FACEDOWN</span>
+                      <span class="text-[10px] text-amber-400/90 font-bold mt-1">BLACK & GOLD</span>
+                    </div>
+                    <div class="tarot-card-front p-2 flex flex-col justify-between">
+                      <div class="flex items-center justify-between text-xs font-bold text-slate-900 px-1 pt-0.5">
+                        <span id="inspector-card-num">0</span>
+                        <span id="inspector-card-elem">Air</span>
+                      </div>
+                      <div id="inspector-card-svg" class="flex-1 flex items-center justify-center my-1.5 overflow-hidden rounded-xl bg-sky-50/50 border border-sky-200/60 shadow-inner">
+                        <!-- Card Art Image -->
+                      </div>
+                      <div class="text-center pb-0.5">
+                        <div id="inspector-card-name" class="font-mystic font-bold text-xs text-slate-900 truncate">Select Card</div>
+                        <div id="inspector-card-orient" class="text-[10px] text-emerald-700 font-bold">Upright</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="flex items-center gap-2">
+                  <span id="inspector-arcana-tag" class="px-3.5 py-1 rounded-full bg-sky-100 text-sky-900 text-xs font-bold">Major Arcana</span>
+                  <span id="inspector-element-tag" class="px-3.5 py-1 rounded-full bg-slate-100 text-slate-800 text-xs font-bold">Air Element</span>
+                </div>
+              </div>
+
+              <!-- RIGHT SIDE: Simple Information Panel for Anyone to Understand -->
+              <div class="lg:col-span-7 space-y-4">
+                <div>
+                  <span id="inspector-pos-name" class="text-xs uppercase tracking-wider font-extrabold text-sky-700">Card Position</span>
+                  <h2 id="inspector-card-title" class="text-2xl font-mystic font-extrabold text-slate-900">Select a Tarot Card to Reveal</h2>
+                </div>
+
+                <div class="space-y-3">
+                  <div class="p-4 rounded-2xl bg-sky-50/80 border border-sky-200/60 space-y-1">
+                    <div class="text-xs font-bold text-sky-900 uppercase tracking-wider flex items-center gap-1.5">
+                      <i data-lucide="book-open" class="w-4 h-4 text-sky-600"></i> What This Card Means (Simple Explanation):
+                    </div>
+                    <p id="inspector-simple-meaning" class="text-sm text-slate-800 leading-relaxed font-medium">
+                      Click on any card slot in the spread or deck arcade. The card will pop up in 3D, turn over to its front side on the left, and explain its simple meaning right here so anyone can easily understand.
+                    </p>
+                  </div>
+
+                  <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <div class="p-3.5 rounded-2xl bg-white border border-sky-200/60 space-y-1 shadow-sm">
+                      <div class="text-xs font-bold text-slate-900 uppercase tracking-wider flex items-center gap-1.5">
+                        <i data-lucide="key" class="w-4 h-4 text-sky-600"></i> Simple Keywords:
+                      </div>
+                      <div id="inspector-simple-keywords" class="flex flex-wrap gap-1.5 pt-1">
+                        <span class="text-xs px-2.5 py-0.5 rounded-full bg-sky-100 text-sky-900 font-bold">Intuition</span>
+                        <span class="text-xs px-2.5 py-0.5 rounded-full bg-sky-100 text-sky-900 font-bold">Guidance</span>
+                      </div>
+                    </div>
+
+                    <div class="p-3.5 rounded-2xl bg-white border border-sky-200/60 space-y-1 shadow-sm">
+                      <div class="text-xs font-bold text-slate-900 uppercase tracking-wider flex items-center gap-1.5">
+                        <i data-lucide="compass" class="w-4 h-4 text-sky-600"></i> Position Meaning:
+                      </div>
+                      <p id="inspector-pos-desc" class="text-xs text-slate-700 leading-snug">
+                        Reveals how this card's energy affects your active spread.
+                      </p>
+                    </div>
+                  </div>
+
+                  <div class="p-3.5 rounded-2xl bg-emerald-50/80 border border-emerald-200/60 flex items-start gap-3">
+                    <i data-lucide="sparkles" class="w-5 h-5 text-emerald-600 shrink-0 mt-0.5"></i>
+                    <div>
+                      <div class="text-xs font-bold text-emerald-900 uppercase tracking-wider">Simple Friendly Advice:</div>
+                      <p id="inspector-simple-advice" class="text-xs text-slate-800 leading-relaxed font-medium mt-0.5">
+                        Trust your gut intuition as you explore the card guidance.
+                      </p>
+                    </div>
+                  </div>
+
+                  <!-- 🎴 REQUEST 1-ON-1 TAROT READER CONSULTATION -->
+                  <div class="p-4 rounded-2xl bg-gradient-to-r from-amber-900 via-slate-950 to-amber-950 border-2 border-amber-400 text-white shadow-xl flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                    <div class="space-y-0.5">
+                      <div class="font-extrabold text-xs text-amber-300 uppercase tracking-wider flex items-center gap-1.5">
+                        🎴 Request 1-on-1 Tarot Master Consultation
+                      </div>
+                      <div class="text-[11px] text-slate-300 font-medium">Book a live Google Meet consultation with Madame Seraphina for this card spread.</div>
+                    </div>
+                    <button onclick="openAppointmentModal('Tarot Reader', '1-on-1 Tarot Reading Session', document.getElementById('inspector-card-name')?.innerText || 'Selected Tarot Card')" class="px-5 py-2.5 rounded-full bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-slate-950 font-black text-xs shadow-lg transition flex items-center gap-1.5 shrink-0 border border-amber-300">
+                      📅 Request Session with Madame Seraphina
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- ================= 3 CARDS SELECTION DISPLAY & TOTAL 3-CARDS TAROT ANALYSIS ================= -->
+          <div id="selected-3-cards-synthesis-container" class="glass-panel p-6 border-2 border-amber-400 bg-gradient-to-b from-amber-50/90 via-white to-sky-50/90 shadow-2xl space-y-6 rounded-3xl my-4">
+            <div class="flex flex-col sm:flex-row items-center justify-between gap-4 pb-4 border-b border-amber-300/60">
+              <div class="space-y-1">
+                <div class="flex items-center gap-2 flex-wrap">
+                  <span class="px-3.5 py-1 rounded-full bg-gradient-to-r from-amber-500 to-amber-700 text-slate-950 font-black text-xs uppercase tracking-wider shadow-sm flex items-center gap-1.5">
+                    ✨ 3 Cards Selected by You
+                  </span>
+                  <span id="three-cards-status-badge" class="px-3.5 py-1 rounded-full bg-sky-100 text-sky-950 border border-sky-300 text-xs font-black">
+                    Selected: 0 / 3 Cards (Click cards from fan deck below)
+                  </span>
+                </div>
+                <h2 class="text-2xl font-mystic font-extrabold text-slate-900">🎴 Your Selected 3 Cards & Total Tarot Analysis</h2>
+                <p class="text-xs text-slate-700 font-medium">Click 3 cards from the 78-card fan deck below. Your selected 3 cards will pop up here, followed by a total 3-card analysis!</p>
+              </div>
+
+              <div class="flex items-center gap-2 flex-wrap">
+                <button onclick="resetAndPick3CardsAgain()" class="px-4 py-2.5 rounded-full bg-gradient-to-r from-sky-500 to-sky-700 hover:from-sky-600 hover:to-sky-800 text-white font-extrabold text-xs shadow-md transition flex items-center gap-1.5 border border-white cursor-pointer">
+                  <i data-lucide="refresh-cw" class="w-4 h-4"></i> 🔄 Pick 3 New Cards
+                </button>
+                <button onclick="openDirectPractitionerChat('Tarot Reader')" class="px-4 py-2.5 rounded-full bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white font-extrabold text-xs shadow-md transition flex items-center gap-1.5 border border-white cursor-pointer">
+                  💬 Chat about these 3 Cards
+                </button>
+              </div>
+            </div>
+
+            <!-- 3 CARDS DISPLAY GRID (PAST • PRESENT • FUTURE) -->
+            <div id="three-cards-display-grid" class="grid grid-cols-1 md:grid-cols-3 gap-6 py-2">
+              <!-- Placeholder Slots for 3 Cards -->
+              <div class="p-6 rounded-2xl border-2 border-dashed border-sky-300 bg-white/80 flex flex-col items-center justify-center text-center space-y-2 min-h-[260px]">
+                <div class="w-12 h-12 rounded-full bg-amber-100 text-amber-700 font-bold flex items-center justify-center text-xl shadow-xs">1</div>
+                <span class="font-mystic font-extrabold text-slate-900 text-sm">Card 1: Past & Root Influence</span>
+                <p class="text-xs text-slate-500">Click any card from 78-Card Fan Deck below to pick Card 1</p>
+              </div>
+
+              <div class="p-6 rounded-2xl border-2 border-dashed border-sky-300 bg-white/80 flex flex-col items-center justify-center text-center space-y-2 min-h-[260px]">
+                <div class="w-12 h-12 rounded-full bg-sky-100 text-sky-700 font-bold flex items-center justify-center text-xl shadow-xs">2</div>
+                <span class="font-mystic font-extrabold text-slate-900 text-sm">Card 2: Present Energy & Crossroads</span>
+                <p class="text-xs text-slate-500">Click any card from 78-Card Fan Deck below to pick Card 2</p>
+              </div>
+
+              <div class="p-6 rounded-2xl border-2 border-dashed border-sky-300 bg-white/80 flex flex-col items-center justify-center text-center space-y-2 min-h-[260px]">
+                <div class="w-12 h-12 rounded-full bg-purple-100 text-purple-700 font-bold flex items-center justify-center text-xl shadow-xs">3</div>
+                <span class="font-mystic font-extrabold text-slate-900 text-sm">Card 3: Future Evolution & Outcome</span>
+                <p class="text-xs text-slate-500">Click any card from 78-Card Fan Deck below to pick Card 3</p>
+              </div>
+            </div>
+
+            <!-- TOTAL 3 CARDS TAROT ANALYSIS BOX -->
+            <div id="three-cards-total-analysis-box" class="hidden p-6 rounded-3xl bg-slate-950 text-white border-2 border-amber-400 shadow-2xl space-y-5">
+              <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-amber-400/40 pb-3">
+                <div class="flex items-center gap-3">
+                  <div class="w-11 h-11 rounded-full bg-amber-500/20 border-2 border-amber-400 flex items-center justify-center text-xl shadow-md">
+                    🔮
+                  </div>
+                  <div>
+                    <h3 class="font-mystic font-black text-lg text-amber-300">Total 3 Cards Divination Analysis & Synthesis</h3>
+                    <p class="text-xs text-slate-300">Holistic reading combining Past Roots, Present Energy, and Future Manifestation</p>
+                  </div>
+                </div>
+                <div class="flex items-center gap-2">
+                  <span id="three-cards-relevance-score" class="px-3.5 py-1 rounded-full bg-amber-400 text-slate-950 font-black text-xs shadow-sm">
+                    96.8% Cosmic Relevance
+                  </span>
+                </div>
+              </div>
+
+              <!-- Synthesis Narrative -->
+              <div class="p-4 rounded-2xl bg-white/10 border border-amber-400/30 space-y-2">
+                <div class="text-xs font-black uppercase tracking-wider text-amber-300 flex items-center gap-1.5">
+                  <i data-lucide="sparkles" class="w-4 h-4 text-amber-400"></i> Overall 3-Card Energy Continuum:
+                </div>
+                <p id="three-cards-synthesis-text" class="text-sm text-slate-100 leading-relaxed font-medium">
+                  Loading 3-card holistic analysis...
+                </p>
+              </div>
+
+              <!-- Key Themes & Elemental Balance -->
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div class="p-4 rounded-2xl bg-white/5 border border-amber-400/20 space-y-2">
+                  <div class="text-xs font-extrabold uppercase tracking-wider text-amber-300">Key Themes:</div>
+                  <div id="three-cards-themes-tags" class="flex flex-wrap gap-2 text-xs"></div>
+                </div>
+
+                <div class="p-4 rounded-2xl bg-white/5 border border-amber-400/20 space-y-2">
+                  <div class="text-xs font-extrabold uppercase tracking-wider text-amber-300">Cosmic Advice for Your 3 Cards:</div>
+                  <p id="three-cards-advice-text" class="text-xs text-slate-200 leading-relaxed font-medium">
+                    Focus on integrating past wisdom into your present actions to manifest your future potential.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="pt-4 border-t border-sky-300/30 space-y-3">
+            <div class="flex items-center justify-between">
+              <span class="font-mystic text-base font-bold text-slate-900">🎴 Facedown Deck Arcade — Click Cards to Reveal:</span>
+              <span id="cards-picker-count" class="text-xs text-sky-900 font-bold bg-sky-100 px-3.5 py-1 rounded-full border border-sky-300/40">
+                Revealed 0 / 10 Cards
+              </span>
+            </div>
+            <div id="manual-cards-arcade" class="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-10 gap-3 overflow-x-auto p-2"></div>
+          </div>
+
+          <div id="spread-synthesis-box" class="glass-card p-5 border border-sky-300/40 bg-sky-50/50 space-y-2">
+            <div class="flex items-center gap-2 text-sm font-bold text-sky-900 uppercase tracking-wider">
+              <i data-lucide="sparkles" class="w-5 h-5 text-sky-600"></i> Spread Synthesis & Archetypal Guidance
+            </div>
+            <p id="spread-synthesis-text" class="text-sm text-slate-800 leading-relaxed"></p>
+            <div id="spread-themes-tags" class="flex flex-wrap gap-2 pt-1"></div>
+          </div>
+
+          <button onclick="synthesizeActiveReading()" class="w-full btn-mystic-gold py-4 text-base flex items-center justify-center gap-3">
+            <i data-lucide="wand-2" class="w-5 h-5"></i> Generate Full AI Cross-Modality Reading
+          </button>
+        </div>
+      </section>
+
+      <!-- ================= VIEW 3: UNIFIED AI SYNTHESIS STUDIO ================= -->
+      <section id="view-unified" class="hidden space-y-6">
+        <div class="glass-panel p-6 bg-white/90 border border-sky-300/40 flex flex-col md:flex-row md:items-center justify-between gap-4">
+          <div class="space-y-1">
+            <span class="px-3.5 py-1 rounded-full bg-sky-100 text-sky-900 text-xs font-bold uppercase tracking-wider border border-sky-300/40">
+              Cross-Modality Engine
+            </span>
+            <h1 class="text-3xl font-mystic font-bold text-gradient-gold">Spiritual Intelligence & Guidance Studio</h1>
+            <p class="text-sm text-slate-700 max-w-2xl">Harmonizing Computer Vision Palmistry detections with 78-card Tarot Archetypes into personalized life insights and weighted guidance scoring.</p>
+          </div>
+
+          <div class="flex items-center gap-3">
+            <button onclick="downloadReportPDF()" class="btn-mystic-gold text-xs py-2.5 px-5 flex items-center gap-2">
+              <i data-lucide="file-text" class="w-4 h-4"></i> Download PDF
+            </button>
+            <button onclick="downloadReadingsExcel()" class="btn-mystic-outline text-xs py-2.5 px-4 flex items-center gap-2">
+              <i data-lucide="file-text" class="w-4 h-4"></i> Download Executive PDF
+            </button>
+          </div>
+        </div>
+
+        <div class="glass-panel p-6 border-sky-300/40 bg-white/90">
+          <div class="flex flex-col lg:flex-row items-center justify-between gap-6">
+            <div class="flex items-center gap-6">
+              <div class="relative w-32 h-32 flex items-center justify-center rounded-full bg-gradient-to-tr from-sky-400 via-sky-500 to-sky-600 p-1 shadow-xl shadow-sky-200 pulse-animation">
+                <div class="w-full h-full rounded-full bg-white flex flex-col items-center justify-center text-center">
+                  <span class="text-[10px] uppercase tracking-wider text-sky-800 font-bold">Insight Score</span>
+                  <span id="score-overall-val" class="font-mystic text-3xl font-extrabold text-sky-700">92.4%</span>
+                  <span class="text-[9px] text-emerald-600 font-bold">Optimized</span>
+                </div>
+              </div>
+              <div class="space-y-1">
+                <h3 class="font-mystic text-xl font-bold text-slate-900">Weighted Guidance Scoring Model</h3>
+                <p class="text-xs text-slate-700 max-w-md">
+                  Specification Formula:
+                  <code class="text-xs text-sky-900 bg-sky-50 px-2.5 py-1 rounded-full font-mono border border-sky-300/40">0.30·Palm + 0.25·Tarot + 0.20·Personality + 0.15·Context + 0.10·Consistency</code>
+                </p>
+              </div>
+            </div>
+
+            <div class="w-full lg:w-96 space-y-2.5 text-xs">
+              <div>
+                <div class="flex justify-between text-slate-800 mb-1">
+                  <span>Palm Analysis Confidence (30%)</span>
+                  <span id="bar-palm-conf" class="font-bold text-sky-800">94.0%</span>
+                </div>
+                <div class="w-full h-2 bg-slate-200 rounded-full overflow-hidden border border-sky-300/30">
+                  <div id="prog-palm-conf" class="h-full bg-sky-500" style="width: 94%"></div>
+                </div>
+              </div>
+
+              <div>
+                <div class="flex justify-between text-slate-800 mb-1">
+                  <span>Tarot Interpretation Relevance (25%)</span>
+                  <span id="bar-tarot-rel" class="font-bold text-sky-800">96.0%</span>
+                </div>
+                <div class="w-full h-2 bg-slate-200 rounded-full overflow-hidden border border-sky-300/30">
+                  <div id="prog-tarot-rel" class="h-full bg-sky-600" style="width: 96%"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="glass-panel p-6 space-y-2 border-l-4 border-sky-500 bg-white/90">
+          <span class="text-xs uppercase text-sky-800 font-bold tracking-wider flex items-center gap-2">
+            <i data-lucide="sparkles" class="w-4 h-4"></i> Cross-Modality AI Synthesis Narrative
+          </span>
+          <p id="synthesis-narrative-text" class="text-sm text-slate-800 leading-relaxed"></p>
+        </div>
+
+        <div class="space-y-3">
+          <h2 class="font-mystic text-xl font-bold text-slate-900 flex items-center gap-2">
+            <i data-lucide="grid" class="w-5 h-5 text-sky-600"></i> Synthesized Insights by Category (7 Key Domains)
+          </h2>
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5" id="seven-insights-grid"></div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+          <div class="lg:col-span-5 glass-panel p-6 bg-gradient-to-br from-sky-50 to-white space-y-4 border-sky-300/40">
+            <div class="space-y-2">
+              <div class="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-sky-900">
+                <i data-lucide="quote" class="w-5 h-5"></i> Sovereign Affirmation
+              </div>
+              <p id="affirmation-quote" class="text-base italic text-slate-900 font-serif leading-relaxed"></p>
+            </div>
+          </div>
+
+          <div class="lg:col-span-7 glass-panel p-6 space-y-3 bg-white/90">
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-sky-900">
+                <i data-lucide="check-circle" class="w-5 h-5 text-sky-600"></i> Personalized Action Blueprint
+              </div>
+            </div>
+            <div id="unified-recs-list" class="space-y-3 text-xs"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= VIEW 4: PERSONALITY & TRENDS OBSERVATORY ================= -->
+      <section id="view-trends" class="hidden space-y-6">
+        <div>
+          <h1 class="text-3xl font-mystic font-bold text-gradient-gold">Personality Intelligence & Life Trend Observatory</h1>
+          <p class="text-base text-slate-700">Spiritual Big Five correlation, 4-element balance, and timeline forecasting.</p>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+          <!-- Left: Soul Archetype & Palm Lines Graph -->
+          <div class="lg:col-span-6 glass-panel p-6 space-y-5 bg-white/90">
+            <div class="flex items-center justify-between">
+              <div>
+                <span class="text-xs uppercase text-sky-800 font-bold tracking-wider">Soul Archetype & Palm Line Matrix</span>
+                <h2 id="personality-title" class="font-mystic text-2xl font-bold text-slate-900">The Mystic Visionary</h2>
+              </div>
+              <span id="personality-elem-badge" class="px-3.5 py-1 rounded-full bg-sky-100 text-sky-900 border border-sky-300/40 text-xs font-bold">Water Element</span>
+            </div>
+
+            <p id="personality-desc" class="text-xs text-slate-700 leading-relaxed"></p>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div class="space-y-1">
+                <span class="text-[11px] font-extrabold uppercase text-sky-900 flex items-center gap-1">
+                  <i data-lucide="compass" class="w-3.5 h-3.5 text-sky-600"></i> Spiritual Big Five Radar
+                </span>
+                <div class="h-56 relative flex items-center justify-center">
+                  <canvas id="spiritualBigFiveChart"></canvas>
+                </div>
+              </div>
+
+              <div class="space-y-1">
+                <span class="text-[11px] font-extrabold uppercase text-sky-900 flex items-center gap-1">
+                  <i data-lucide="hand" class="w-3.5 h-3.5 text-sky-600"></i> Palm Lines Analysis Graph
+                </span>
+                <div class="h-56 relative flex items-center justify-center">
+                  <canvas id="chart-palm-lines-trends"></canvas>
+                </div>
+              </div>
+            </div>
+
+            <!-- Informative Graph Guide for Seeker -->
+            <div class="p-3.5 rounded-2xl bg-sky-50/90 border border-sky-200/80 text-xs text-sky-950 space-y-1 shadow-xs">
+              <div class="font-extrabold text-sky-900 flex items-center gap-1.5 text-xs">
+                <i data-lucide="info" class="w-4 h-4 text-sky-600"></i> How to Interpret Your Seeker Graphs:
+              </div>
+              <p class="leading-relaxed text-[11px] text-slate-700">
+                • <strong>Palm Lines Analysis Radar Graph:</strong> Quantifies energy strength across 5 core palm lines (Heart Line for emotional depth, Life Line for physical vitality, Head Line for intellectual focus, Fate Line for career destiny, Sun Line for charisma) on a 0-100 scale.<br/>
+                • <strong>Life Trend Trajectory Graph:</strong> A 5-year multi-line projection (2026-2030) modeling your evolving spiritual vitality, career purpose alignment, and emotional equilibrium index over time.
+              </p>
+            </div>
+          </div>
+
+          <!-- Right: Life Trend Trajectory Multi-Line Graph -->
+          <div class="lg:col-span-6 space-y-5">
+            <div class="glass-panel p-5 space-y-3 bg-white/90">
+              <div class="flex items-center justify-between">
+                <h3 class="font-mystic text-base uppercase tracking-wider text-sky-900 font-bold flex items-center gap-2">
+                  <i data-lucide="trending-up" class="w-5 h-5 text-sky-600"></i> Life Trend Trajectory Projection Graph
+                </h3>
+                <span class="text-[10px] px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-900 font-extrabold">2026 - 2030 Horizon</span>
+              </div>
+
+              <!-- Life Trajectory Chart.js Canvas -->
+              <div class="h-64 relative w-full">
+                <canvas id="chart-life-trajectory"></canvas>
+              </div>
+
+              <div id="trend-timeline-container" class="space-y-2 text-xs pt-1"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 🤖 MACHINE LEARNING PERSONALITY INTELLIGENCE & GROWTH STUDIO -->
+        <div class="glass-panel p-6 border-2 border-sky-400/50 bg-gradient-to-br from-sky-50 via-white to-sky-50 space-y-6 shadow-xl">
+          <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-4 border-b border-sky-300/40">
+            <div class="space-y-1">
+              <div class="flex items-center gap-2">
+                <span class="px-3.5 py-1 rounded-full bg-sky-600 text-white text-xs font-extrabold uppercase tracking-wider shadow-sm flex items-center gap-1.5">
+                  <i data-lucide="cpu" class="w-4 h-4"></i> Scikit-Learn ML Engine Active
+                </span>
+                <span id="ml-model-confidence-badge" class="px-3 py-1 rounded-full bg-emerald-100 text-emerald-900 border border-emerald-300 text-xs font-bold">
+                  Model Accuracy: 100%
+                </span>
+              </div>
+              <h2 class="text-2xl font-mystic font-extrabold text-slate-900 flex items-center gap-2">
+                🤖 Machine Learning Personality Growth Studio
+              </h2>
+              <p class="text-xs text-slate-700">RandomForest Ensemble + K-Means Clustering analyzing Palm lines, Tarot cards, Astrological sign, and Behavioral resilience to predict your Big Five Personality traits & custom growth roadmap.</p>
+            </div>
+
+            <button onclick="runMLPersonalityPrediction()" class="btn-mystic-gold py-3 px-6 text-xs font-extrabold flex items-center gap-2 shrink-0">
+              <i data-lucide="sparkles" class="w-4 h-4"></i> Run Live ML Personality Assessment
+            </button>
+          </div>
+
+          <!-- Interactive Controls & ML Feature Sliders -->
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-6 p-4 rounded-2xl bg-white/80 border border-sky-200/60 shadow-inner">
+            <div class="space-y-2">
+              <label class="text-xs font-bold text-sky-900 flex items-center justify-between">
+                <span>✋ Heart Line Depth (Empathy)</span>
+                <span id="val-heart-line" class="text-sky-700 font-extrabold">8.5</span>
+              </label>
+              <input type="range" id="slider-heart-line" min="1" max="10" step="0.5" value="8.5" oninput="document.getElementById('val-heart-line').innerText = this.value" class="w-full accent-sky-600 cursor-pointer">
+              
+              <label class="text-xs font-bold text-sky-900 flex items-center justify-between mt-3">
+                <span>🧠 Head Line Clarity (Intellect)</span>
+                <span id="val-head-line" class="text-sky-700 font-extrabold">8.0</span>
+              </label>
+              <input type="range" id="slider-head-line" min="1" max="10" step="0.5" value="8.0" oninput="document.getElementById('val-head-line').innerText = this.value" class="w-full accent-sky-600 cursor-pointer">
+            </div>
+
+            <div class="space-y-2">
+              <label class="text-xs font-bold text-sky-900 flex items-center justify-between">
+                <span>🌱 Life Line Length (Resilience)</span>
+                <span id="val-life-line" class="text-sky-700 font-extrabold">8.5</span>
+              </label>
+              <input type="range" id="slider-life-line" min="1" max="10" step="0.5" value="8.5" oninput="document.getElementById('val-life-line').innerText = this.value" class="w-full accent-sky-600 cursor-pointer">
+
+              <label class="text-xs font-bold text-sky-900 flex items-center justify-between mt-3">
+                <span>🌟 Fate Line Prominence (Vocation)</span>
+                <span id="val-fate-line" class="text-sky-700 font-extrabold">7.5</span>
+              </label>
+              <input type="range" id="slider-fate-line" min="1" max="10" step="0.5" value="7.5" oninput="document.getElementById('val-fate-line').innerText = this.value" class="w-full accent-sky-600 cursor-pointer">
+            </div>
+
+            <div class="space-y-2">
+              <label class="text-xs font-bold text-sky-900 flex items-center justify-between">
+                <span>🔥 Stress Resilience Level</span>
+                <span id="val-stress-res" class="text-sky-700 font-extrabold">8.0</span>
+              </label>
+              <input type="range" id="slider-stress-res" min="1" max="10" step="0.5" value="8.0" oninput="document.getElementById('val-stress-res').innerText = this.value" class="w-full accent-sky-600 cursor-pointer">
+
+              <label class="text-xs font-bold text-sky-900 flex items-center justify-between mt-3">
+                <span>💼 Ambition & Drive Score</span>
+                <span id="val-ambition" class="text-sky-700 font-extrabold">8.5</span>
+              </label>
+              <input type="range" id="slider-ambition" min="1" max="10" step="0.5" value="8.5" oninput="document.getElementById('val-ambition').innerText = this.value" class="w-full accent-sky-600 cursor-pointer">
+            </div>
+          </div>
+
+          <!-- ML Inference Results Grid -->
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+            <!-- Left: Predicted OCEAN Big Five Traits -->
+            <div class="lg:col-span-6 glass-panel p-5 bg-white space-y-4 border-sky-300/40">
+              <div class="flex items-center justify-between pb-2 border-b border-sky-100">
+                <h3 class="font-mystic font-bold text-base text-slate-900 flex items-center gap-2">
+                  <i data-lucide="bar-chart-2" class="w-4 h-4 text-sky-600"></i> ML Predicted OCEAN Big Five Traits
+                </h3>
+                <span id="ml-growth-index-badge" class="px-2.5 py-0.5 rounded-full bg-sky-100 text-sky-900 text-xs font-extrabold">
+                  Growth Index: 91.5
+                </span>
+              </div>
+
+              <div id="ocean-traits-container" class="space-y-3 text-xs"></div>
+            </div>
+
+            <!-- Right: ML Feature Importance Breakdown & Archetype Confidence -->
+            <div class="lg:col-span-6 space-y-4">
+              <div class="glass-panel p-5 bg-white space-y-3 border-sky-300/40">
+                <h3 class="font-mystic font-bold text-base text-slate-900 flex items-center gap-2">
+                  <i data-lucide="pie-chart" class="w-4 h-4 text-sky-600"></i> ML Feature Weight Breakdown
+                </h3>
+                <p class="text-[11px] text-slate-600">RandomForest Feature Importance indicating how each domain influences your personality classification:</p>
+                <div id="ml-feature-importance-container" class="space-y-2 text-xs"></div>
+              </div>
+
+              <div class="glass-panel p-5 bg-gradient-to-r from-sky-100 to-sky-50 border border-sky-300/50 space-y-2">
+                <div class="flex items-center justify-between">
+                  <span class="text-xs uppercase tracking-wider font-bold text-sky-900">ML Class Confidence</span>
+                  <span id="ml-arch-confidence-val" class="font-extrabold text-sm text-sky-700">95.0%</span>
+                </div>
+                <div class="w-full h-2.5 bg-white rounded-full overflow-hidden border border-sky-300/50">
+                  <div id="ml-arch-confidence-bar" class="h-full bg-gradient-to-r from-sky-500 to-sky-600" style="width: 95%"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- ML Personality Development Action Plan -->
+          <div class="glass-panel p-5 bg-white space-y-3 border-sky-300/40">
+            <h3 class="font-mystic font-bold text-base text-slate-900 flex items-center gap-2">
+              <i data-lucide="compass" class="w-5 h-5 text-sky-600"></i> Machine Learning Personality Development Action Plan
+            </h3>
+            <div id="ml-action-plan-grid" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
+          </div>
+        </div>
+
+        <!-- 🚀 MACHINE LEARNING CAREER CHOICE & STEP-BY-STEP ROADMAP STUDIO -->
+        <div class="glass-panel p-6 border-2 border-amber-400/50 bg-gradient-to-br from-amber-50/60 via-white to-sky-50 space-y-6 shadow-xl">
+          <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-4 border-b border-amber-300/40">
+            <div class="space-y-1">
+              <div class="flex items-center gap-2">
+                <span class="px-3.5 py-1 rounded-full bg-amber-600 text-white text-xs font-extrabold uppercase tracking-wider shadow-sm flex items-center gap-1.5">
+                  <i data-lucide="award" class="w-4 h-4"></i> Scikit-Learn RandomForest + NearestNeighbors Active
+                </span>
+                <span id="ml-career-accuracy-badge" class="px-3 py-1 rounded-full bg-emerald-100 text-emerald-900 border border-emerald-300 text-xs font-bold">
+                  ML Model Accuracy: 98.5%
+                </span>
+              </div>
+              <h2 class="text-2xl font-mystic font-extrabold text-slate-900 flex items-center gap-2">
+                🚀 AI Career Choice & Execution Roadmap Studio
+              </h2>
+              <p class="text-xs text-slate-700">Predict your highest-matching career choices based on technical interest, management drive, design creativity, and analytical rigor with structured 30-day, 90-day, 6-month, and 1-year milestones.</p>
+            </div>
+
+            <button onclick="runMLCareerRoadmapPrediction()" class="btn-mystic-gold py-3 px-6 text-xs font-extrabold flex items-center gap-2 shrink-0">
+              <i data-lucide="target" class="w-4 h-4"></i> Predict Best Career Matches & Roadmap
+            </button>
+          </div>
+
+          <!-- Interactive Sliders for Career ML Model -->
+          <div class="grid grid-cols-1 md:grid-cols-4 gap-4 p-4 rounded-2xl bg-white/80 border border-amber-200/60 shadow-inner text-xs">
+            <div class="space-y-1">
+              <label class="font-bold text-slate-800 flex justify-between">
+                <span>💻 Tech & Systems</span>
+                <span id="val-career-tech" class="text-amber-700 font-extrabold">8.5</span>
+              </label>
+              <input type="range" id="slider-career-tech" min="1" max="10" step="0.5" value="8.5" oninput="document.getElementById('val-career-tech').innerText = this.value" class="w-full accent-amber-600 cursor-pointer">
+            </div>
+
+            <div class="space-y-1">
+              <label class="font-bold text-slate-800 flex justify-between">
+                <span>📊 Executive Management</span>
+                <span id="val-career-mgmt" class="text-amber-700 font-extrabold">7.5</span>
+              </label>
+              <input type="range" id="slider-career-mgmt" min="1" max="10" step="0.5" value="7.5" oninput="document.getElementById('val-career-mgmt').innerText = this.value" class="w-full accent-amber-600 cursor-pointer">
+            </div>
+
+            <div class="space-y-1">
+              <label class="font-bold text-slate-800 flex justify-between">
+                <span>🎨 Creative & Product UX</span>
+                <span id="val-career-design" class="text-amber-700 font-extrabold">6.5</span>
+              </label>
+              <input type="range" id="slider-career-design" min="1" max="10" step="0.5" value="6.5" oninput="document.getElementById('val-career-design').innerText = this.value" class="w-full accent-amber-600 cursor-pointer">
+            </div>
+
+            <div class="space-y-1">
+              <label class="font-bold text-slate-800 flex justify-between">
+                <span>📈 Analytical & Financial Score</span>
+                <span id="val-career-analytical" class="text-amber-700 font-extrabold">8.5</span>
+              </label>
+              <input type="range" id="slider-career-analytical" min="1" max="10" step="0.5" value="8.5" oninput="document.getElementById('val-career-analytical').innerText = this.value" class="w-full accent-amber-600 cursor-pointer">
+            </div>
+          </div>
+
+          <!-- Career ML Inference Results Output Container -->
+          <div id="ml-career-results-container" class="space-y-4"></div>
+        </div>
+
+        <!-- 🌟 PERSONAL DEVELOPMENT & 1-ON-1 RELATIONSHIP GUIDANCE STUDIO -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+          <!-- Left: 4 Pillars of Character & Personal Growth -->
+          <div class="lg:col-span-6 glass-panel p-6 bg-white space-y-4 border-2 border-sky-300/40 shadow-lg">
+            <div class="flex items-center justify-between pb-3 border-b border-sky-200">
+              <h3 class="font-mystic font-extrabold text-lg text-slate-900 flex items-center gap-2">
+                <i data-lucide="star" class="w-5 h-5 text-sky-600"></i> Personal Development Blueprint (Become a Great Person)
+              </h3>
+              <span class="px-2.5 py-0.5 rounded-full bg-sky-100 text-sky-900 text-xs font-bold">4 Character Pillars</span>
+            </div>
+            <div id="personal-development-container" class="space-y-3 text-xs"></div>
+          </div>
+
+          <!-- Right: 1-on-1 Relationship Advice & Conflict Resolution -->
+          <div class="lg:col-span-6 glass-panel p-6 bg-white space-y-4 border-2 border-rose-300/40 shadow-lg">
+            <div class="flex items-center justify-between pb-3 border-b border-rose-200">
+              <h3 class="font-mystic font-extrabold text-lg text-slate-900 flex items-center gap-2">
+                <i data-lucide="heart" class="w-5 h-5 text-rose-600"></i> 1-on-1 Relationship Advice & Conflict Resolution
+              </h3>
+              <span class="px-2.5 py-0.5 rounded-full bg-rose-100 text-rose-900 text-xs font-bold">Harmonious Living</span>
+            </div>
+            <div id="relationship-guidance-container" class="space-y-3 text-xs"></div>
+          </div>
+        </div>
+      </section>
+
+
+      <!-- ================= VIEW 5: RECOMMENDATIONS ================= -->
+      <section id="view-recommendations" class="hidden space-y-6">
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+          <div>
+            <h1 class="text-3xl font-mystic font-bold text-gradient-gold">Recommendation Engine & Day-to-Day Rituals</h1>
+            <p class="text-base text-slate-700">Goal-aligned day-to-day rituals, relationship guidance, career strategies, and daily cosmic practices.</p>
+          </div>
+        </div>
+
+        <!-- 🗓️ DAY-TO-DAY RITUAL RECOMMENDATION ENGINE -->
+        <div id="daily-rituals-hero-panel" class="glass-panel p-6 md:p-8 border-2 border-amber-400/80 bg-gradient-to-b from-white via-amber-50/20 to-white space-y-6 shadow-2xl rounded-3xl">
+          <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-4 border-b border-amber-200">
+            <div class="space-y-1.5">
+              <div class="flex items-center gap-2.5 flex-wrap">
+                <span class="px-4 py-1 rounded-full bg-slate-950 text-amber-300 text-xs font-black uppercase tracking-wider border border-amber-400 shadow-md flex items-center gap-1.5">
+                  <i data-lucide="calendar" class="w-4 h-4 text-amber-400"></i> Day-to-Day Recommendation Engine Active
+                </span>
+                <span id="daily-ritual-streak-badge" class="px-3.5 py-1 rounded-full bg-amber-100 text-amber-950 border border-amber-400 text-xs font-extrabold shadow-xs">
+                  🔥 14-Day Spiritual Streak
+                </span>
+                <span class="px-3 py-1 rounded-full bg-emerald-100 text-emerald-950 border border-emerald-300 text-xs font-bold flex items-center gap-1">
+                  🟢 Synchronized with Palm & Astrology Transits
+                </span>
+              </div>
+              <h2 class="text-2xl md:text-3xl font-mystic font-black text-slate-950">🗓️ Day-to-Day Ritual Schedule & Guidance</h2>
+              <p class="text-xs md:text-sm text-slate-700 font-medium max-w-2xl">Select any day of the week to view your tailored morning, midday, evening, and habit recommendations alongside high-impact personal growth goals and remedies!</p>
+            </div>
+
+            <button onclick="generateFreshDailyRituals()" class="btn-mystic-gold text-xs py-3 px-6 flex items-center gap-2 shadow-xl shrink-0 font-extrabold">
+              <i data-lucide="sparkles" class="w-4 h-4"></i> Generate Personalized Schedule
+            </button>
+          </div>
+
+          <!-- Day Navigation Pills (High Contrast Emojis & Glowing Active State) -->
+          <div class="flex items-center gap-2 overflow-x-auto pb-3 border-b border-sky-200 text-xs font-bold">
+            <button onclick="switchDailyRitualTab('Monday')" id="day-tab-Monday" class="px-4 py-2.5 rounded-full bg-white text-slate-800 hover:bg-amber-50 border-2 border-sky-200 font-bold transition">🌙 Monday</button>
+            <button onclick="switchDailyRitualTab('Tuesday')" id="day-tab-Tuesday" class="px-4 py-2.5 rounded-full bg-white text-slate-800 hover:bg-amber-50 border-2 border-sky-200 font-bold transition">🔥 Tuesday</button>
+            <button onclick="switchDailyRitualTab('Wednesday')" id="day-tab-Wednesday" class="px-4 py-2.5 rounded-full bg-white text-slate-800 hover:bg-amber-50 border-2 border-sky-200 font-bold transition">💨 Wednesday</button>
+            <button onclick="switchDailyRitualTab('Thursday')" id="day-tab-Thursday" class="px-5 py-2.5 rounded-full bg-gradient-to-r from-amber-500 via-amber-400 to-amber-600 text-slate-950 font-black shadow-lg border-2 border-amber-300 scale-105 flex items-center gap-1.5">🌟 Thursday (Today)</button>
+            <button onclick="switchDailyRitualTab('Friday')" id="day-tab-Friday" class="px-4 py-2.5 rounded-full bg-white text-slate-800 hover:bg-amber-50 border-2 border-sky-200 font-bold transition">💖 Friday</button>
+            <button onclick="switchDailyRitualTab('Saturday')" id="day-tab-Saturday" class="px-4 py-2.5 rounded-full bg-white text-slate-800 hover:bg-amber-50 border-2 border-sky-200 font-bold transition">🪐 Saturday</button>
+            <button onclick="switchDailyRitualTab('Sunday')" id="day-tab-Sunday" class="px-4 py-2.5 rounded-full bg-white text-slate-800 hover:bg-amber-50 border-2 border-sky-200 font-bold transition">☀️ Sunday</button>
+          </div>
+
+          <!-- Active Day Schedule Content Grid -->
+          <div id="daily-ritual-schedule-container" class="space-y-6"></div>
+        </div>
+
+        <div id="recs-master-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+      </section>
+
+      <!-- ================= VIEW 6: 4 ROLE DASHBOARDS ================= -->
+      <section id="view-dashboard" class="hidden space-y-6">
+        
+        <!-- DASHBOARD ROLE SUB-NAV TABS BAR -->
+        <div class="glass-panel p-4 bg-white/90 border border-sky-300/40 flex flex-col sm:flex-row items-center justify-between gap-4 shadow-sm">
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-full bg-gradient-to-tr from-sky-400 to-sky-600 flex items-center justify-center shadow-md">
+              <i data-lucide="layout-dashboard" class="w-5 h-5 text-white"></i>
+            </div>
+            <div>
+              <h2 id="dash-role-header-title" class="font-mystic font-bold text-xl text-slate-900">Role-Based Intelligence Dashboard</h2>
+              <p id="dash-role-header-subtitle" class="text-xs text-sky-800 font-semibold">Customized telemetry & workflows for your active role</p>
+            </div>
+          </div>
+          <div class="flex items-center gap-2">
+            <button onclick="downloadReadingsExcel()" class="btn-mystic-gold text-xs py-2 px-4 flex items-center gap-1.5 shadow-md">
+              <i data-lucide="file-text" class="w-4 h-4 text-white"></i> Executive PDF Report
+            </button>
+            <button onclick="downloadReportPDF()" class="btn-mystic-outline text-xs py-2 px-3.5 flex items-center gap-1.5">
+              <i data-lucide="file-text" class="w-4 h-4 text-sky-700"></i> PDF Report
+            </button>
+          </div>
+        </div>
+
+        <!-- ================= 1. USER DASHBOARD ================= -->
+        <div id="dash-user" class="space-y-6">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div>
+              <h1 class="text-2xl font-mystic font-extrabold text-slate-900">👤 Seeker Sanctuary Dashboard</h1>
+              <p class="text-xs text-slate-600">Personal reading history, goal progress, tarot & palm reports, and personalized guidance.</p>
+            </div>
+            <button onclick="switchView('unified')" class="btn-mystic-gold text-xs py-2.5 px-5 flex items-center gap-2 shadow-md">
+              <i data-lucide="plus" class="w-4 h-4"></i> Start New Reading
+            </button>
+          </div>
+
+          <!-- User Stat Cards -->
+          <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+            <div class="glass-panel p-5 space-y-1 tilt-card-3d bg-white/90 shadow-sm border border-sky-200">
+              <span class="text-[11px] uppercase tracking-wider text-slate-500 font-bold flex items-center gap-1">
+                <i data-lucide="layers" class="w-3.5 h-3.5 text-sky-600"></i> Total Readings
+              </span>
+              <div class="text-3xl font-bold font-mystic text-sky-700" id="user-stat-readings">8</div>
+            </div>
+            <div class="glass-panel p-5 space-y-1 tilt-card-3d bg-white/90 shadow-sm border border-sky-200">
+              <span class="text-[11px] uppercase tracking-wider text-slate-500 font-bold flex items-center gap-1">
+                <i data-lucide="award" class="w-3.5 h-3.5 text-sky-600"></i> Avg Insight Score
+              </span>
+              <div class="text-3xl font-bold font-mystic text-sky-700" id="user-stat-avg-score">92.4%</div>
+            </div>
+            <div class="glass-panel p-5 space-y-1 tilt-card-3d bg-white/90 shadow-sm border border-emerald-200">
+              <span class="text-[11px] uppercase tracking-wider text-slate-500 font-bold flex items-center gap-1">
+                <i data-lucide="check-circle-2" class="w-3.5 h-3.5 text-emerald-600"></i> Goals Completed
+              </span>
+              <div class="text-3xl font-bold font-mystic text-emerald-700" id="user-stat-goals">4</div>
+            </div>
+            <div class="glass-panel p-5 space-y-1 tilt-card-3d bg-white/90 shadow-sm border border-amber-200">
+              <span class="text-[11px] uppercase tracking-wider text-slate-500 font-bold flex items-center gap-1">
+                <i data-lucide="zap" class="w-3.5 h-3.5 text-amber-600"></i> Spiritual Streak
+              </span>
+              <div class="text-3xl font-bold font-mystic text-amber-700" id="user-stat-streak">14 Days</div>
+            </div>
+          </div>
+
+          <!-- User Sub-Navigation Tabs -->
+          <div class="flex items-center gap-2 overflow-x-auto border-b border-sky-300/30 pb-2 text-xs font-extrabold">
+            <button onclick="switchUserTab('appointments')" id="user-subtab-appointments" class="px-4 py-2 rounded-full bg-amber-500 text-slate-950 font-black shadow-md flex items-center gap-1.5">
+              📅 Booked Sessions & Google Meet
+            </button>
+            <button onclick="switchUserTab('history')" id="user-subtab-history" class="px-4 py-2 rounded-full bg-white text-slate-700 hover:bg-sky-50 border border-sky-300/40 flex items-center gap-1.5">
+              📖 Reading History
+            </button>
+            <button onclick="switchUserTab('personality')" id="user-subtab-personality" class="px-4 py-2 rounded-full bg-white text-slate-700 hover:bg-sky-50 border border-sky-300/40 flex items-center gap-1.5">
+              🧠 Personality Insights
+            </button>
+            <button onclick="switchUserTab('tarot')" id="user-subtab-tarot" class="px-4 py-2 rounded-full bg-white text-slate-700 hover:bg-sky-50 border border-sky-300/40 flex items-center gap-1.5">
+              🎴 Tarot Reports
+            </button>
+            <button onclick="switchUserTab('palm')" id="user-subtab-palm" class="px-4 py-2 rounded-full bg-white text-slate-700 hover:bg-sky-50 border border-sky-300/40 flex items-center gap-1.5">
+              ✋ Palm Reports
+            </button>
+            <button onclick="switchUserTab('guidance')" id="user-subtab-guidance" class="px-4 py-2 rounded-full bg-white text-slate-700 hover:bg-sky-50 border border-sky-300/40 flex items-center gap-1.5">
+              🌟 Personalized Guidance
+            </button>
+          </div>
+
+          <!-- Subview 0: Booked Appointments & Google Meet Sessions -->
+          <div id="user-subview-appointments" class="glass-panel p-6 space-y-4 bg-white/95 border-2 border-amber-400/80 shadow-xl rounded-3xl">
+            <div class="flex items-center justify-between border-b border-amber-200 pb-3">
+              <div class="space-y-0.5">
+                <h3 class="font-mystic text-lg font-black text-slate-950 flex items-center gap-2">
+                  <i data-lucide="video" class="w-5 h-5 text-amber-600"></i> My Booked Consultation Sessions & Google Meet Links
+                </h3>
+                <p class="text-xs text-slate-600">Track 1-on-1 session requests, join live Google Meet calls upon practitioner acceptance, and leave feedback reviews.</p>
+              </div>
+              <button onclick="openAppointmentModal('Tarot Reader', '1-on-1 Tarot Reading Session', 'Celtic Cross Spread')" class="btn-mystic-gold text-xs py-2 px-4 flex items-center gap-1.5 shadow-md">
+                📅 Request New Session
+              </button>
+            </div>
+            <div id="user-appointments-container" class="space-y-3 text-xs"></div>
+          </div>
+
+          <!-- Subview 1: Reading History -->
+          <div id="user-subview-history" class="glass-panel p-6 space-y-4 bg-white/90">
+            <div class="flex items-center justify-between">
+              <h3 class="font-mystic text-lg font-bold text-slate-900 flex items-center gap-2">
+                <i data-lucide="book-open" class="w-5 h-5 text-sky-600"></i> Complete Seeker Reading History & PDF Reports
+              </h3>
+              <button onclick="downloadReadingsExcel()" class="btn-mystic-outline text-xs py-1.5 px-3 flex items-center gap-1.5">
+                <i data-lucide="file-text" class="w-4 h-4 text-purple-600"></i> Download Full History PDF
+              </button>
+            </div>
+            <div class="overflow-x-auto">
+              <table class="w-full text-left text-xs">
+                <thead class="text-xs uppercase text-sky-900 border-b border-sky-300/30 bg-sky-50/60">
+                  <tr>
+                    <th class="p-3">Reading ID</th>
+                    <th class="p-3">Date</th>
+                    <th class="p-3">Spread Type</th>
+                    <th class="p-3">Palm Element</th>
+                    <th class="p-3">Insight Score</th>
+                    <th class="p-3 text-right">Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="user-history-tbody" class="divide-y divide-slate-200 text-slate-800"></tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Subview 2: Personality Insights -->
+          <div id="user-subview-personality" class="hidden space-y-4">
+            <div class="glass-panel p-6 bg-white space-y-3 border-sky-300/40">
+              <div class="flex items-center justify-between border-b border-sky-100 pb-3">
+                <h3 class="font-mystic text-lg font-bold text-slate-900 flex items-center gap-2">
+                  <i data-lucide="brain" class="w-5 h-5 text-sky-600"></i> Seeker Personality Insights & Soul Archetype
+                </h3>
+                <span class="px-3 py-1 rounded-full bg-sky-100 text-sky-900 font-extrabold text-xs">Big Five OCEAN Model</span>
+              </div>
+              <div id="user-personality-content" class="space-y-3 text-xs"></div>
+            </div>
+          </div>
+
+          <!-- Subview 3: Tarot Reports -->
+          <div id="user-subview-tarot" class="hidden space-y-4">
+            <div class="glass-panel p-6 bg-white space-y-3 border-sky-300/40">
+              <div class="flex items-center justify-between border-b border-sky-100 pb-3">
+                <h3 class="font-mystic text-lg font-bold text-slate-900 flex items-center gap-2">
+                  <i data-lucide="layers" class="w-5 h-5 text-sky-600"></i> Seeker Tarot Divination Reports & Drawn Spreads
+                </h3>
+                <button onclick="switchView('tarot')" class="btn-mystic-gold text-xs py-1.5 px-3">Open Tarot Sanctuary</button>
+              </div>
+              <div id="user-tarot-reports-content" class="space-y-3 text-xs"></div>
+            </div>
+          </div>
+
+          <!-- Subview 4: Palm Reports -->
+          <div id="user-subview-palm" class="hidden space-y-4">
+            <div class="glass-panel p-6 bg-white space-y-3 border-sky-300/40">
+              <div class="flex items-center justify-between border-b border-sky-100 pb-3">
+                <h3 class="font-mystic text-lg font-bold text-slate-900 flex items-center gap-2">
+                  <i data-lucide="hand" class="w-5 h-5 text-sky-600"></i> Computer Vision Palmistry Reports & Line Detections
+                </h3>
+                <button onclick="downloadPalmData()" class="btn-mystic-gold text-xs py-1.5 px-3 flex items-center gap-1.5"><i data-lucide="file-text" class="w-4 h-4"></i> Download Palm PDF Report</button>
+              </div>
+              <div id="user-palm-reports-content" class="space-y-3 text-xs"></div>
+            </div>
+          </div>
+
+          <!-- Subview 5: Personalized Guidance -->
+          <div id="user-subview-guidance" class="hidden space-y-4">
+            <div class="glass-panel p-6 bg-white space-y-3 border-sky-300/40">
+              <div class="flex items-center justify-between border-b border-sky-100 pb-3">
+                <h3 class="font-mystic text-lg font-bold text-slate-900 flex items-center gap-2">
+                  <i data-lucide="compass" class="w-5 h-5 text-sky-600"></i> Personalized Life Guidance Workflows & Daily Habits
+                </h3>
+                <span class="px-3 py-1 rounded-full bg-emerald-100 text-emerald-900 font-extrabold text-xs">ML Guided</span>
+              </div>
+              <div id="user-guidance-content" class="space-y-3 text-xs"></div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- ================= 2. TAROT READER DASHBOARD ================= -->
+        <div id="dash-reader" class="hidden space-y-6">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div>
+              <h1 class="text-2xl font-mystic font-extrabold text-slate-900">🎴 Tarot Master Practitioner Desk</h1>
+              <p class="text-xs text-slate-600">Reading analytics, user engagement insights, session tracking, and report management.</p>
+            </div>
+            <span class="px-3.5 py-1.5 rounded-full bg-purple-100 text-purple-900 text-xs font-extrabold border border-purple-300 flex items-center gap-1.5 shadow-sm">
+              <i data-lucide="check-circle-2" class="w-4 h-4 text-purple-600"></i> Practitioner Session Active
+            </span>
+          </div>
+
+          <!-- Reader Stat Cards -->
+          <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+            <div class="glass-panel p-5 space-y-1 tilt-card-3d bg-white/90 shadow-sm border border-purple-200">
+              <span class="text-[11px] uppercase tracking-wider text-slate-500 font-bold">Active Clients</span>
+              <div class="text-3xl font-bold font-mystic text-purple-700" id="reader-stat-clients">48</div>
+            </div>
+            <div class="glass-panel p-5 space-y-1 tilt-card-3d bg-white/90 shadow-sm border border-purple-200">
+              <span class="text-[11px] uppercase tracking-wider text-slate-500 font-bold">Total Consultations</span>
+              <div class="text-3xl font-bold font-mystic text-purple-700" id="reader-stat-total">342</div>
+            </div>
+            <div class="glass-panel p-5 space-y-1 tilt-card-3d bg-white/90 shadow-sm border border-emerald-200">
+              <span class="text-[11px] uppercase tracking-wider text-slate-500 font-bold">Client Satisfaction</span>
+              <div class="text-3xl font-bold font-mystic text-emerald-700" id="reader-stat-satisfaction">4.94 / 5.0</div>
+            </div>
+            <div class="glass-panel p-5 space-y-1 tilt-card-3d bg-white/90 shadow-sm border border-sky-200">
+              <span class="text-[11px] uppercase tracking-wider text-slate-500 font-bold">Avg Session Time</span>
+              <div class="text-3xl font-bold font-mystic text-sky-700" id="reader-stat-duration">32 mins</div>
+            </div>
+          </div>
+
+          <!-- Reader Sub-Navigation Tabs -->
+          <div class="flex items-center gap-2 overflow-x-auto border-b border-purple-300/30 pb-2 text-xs font-extrabold">
+            <button onclick="switchReaderTab('appointments')" id="reader-subtab-appointments" class="px-4 py-2 rounded-full bg-purple-600 text-white shadow-sm flex items-center gap-1.5">
+              📅 Booked Sessions & Meet Links
+            </button>
+            <button onclick="switchReaderTab('reviews')" id="reader-subtab-reviews" class="px-4 py-2 rounded-full bg-white text-slate-700 hover:bg-purple-50 border border-purple-300/40 flex items-center gap-1.5">
+              ⭐ Seeker Reviews
+            </button>
+            <button onclick="switchReaderTab('analytics')" id="reader-subtab-analytics" class="px-4 py-2 rounded-full bg-white text-slate-700 hover:bg-purple-50 border border-purple-300/40 flex items-center gap-1.5">
+              📊 Reading Analytics
+            </button>
+            <button onclick="switchReaderTab('engagement')" id="reader-subtab-engagement" class="px-4 py-2 rounded-full bg-white text-slate-700 hover:bg-purple-50 border border-purple-300/40 flex items-center gap-1.5">
+              👥 User Engagement Insights
+            </button>
+            <button onclick="switchReaderTab('tracking')" id="reader-subtab-tracking" class="px-4 py-2 rounded-full bg-white text-slate-700 hover:bg-purple-50 border border-purple-300/40 flex items-center gap-1.5">
+              ⏱️ Session Tracking
+            </button>
+            <button onclick="switchReaderTab('management')" id="reader-subtab-management" class="px-4 py-2 rounded-full bg-white text-slate-700 hover:bg-purple-50 border border-purple-300/40 flex items-center gap-1.5">
+              📝 Report Management
+            </button>
+          </div>
+
+          <!-- Subview 0: Booked Appointments & Google Meet Room -->
+          <div id="reader-subview-appointments" class="glass-panel p-6 space-y-4 bg-white/95 border-2 border-purple-300/80 shadow-xl rounded-3xl">
+            <div class="flex items-center justify-between border-b border-purple-200 pb-3">
+              <div class="space-y-0.5">
+                <h3 class="font-mystic text-lg font-black text-slate-950 flex items-center gap-2">
+                  <i data-lucide="video" class="w-5 h-5 text-purple-600"></i> Tarot Session Requests & Google Meet Management
+                </h3>
+                <p class="text-xs text-slate-600">Accept seeker session requests, generate live Google Meet links, and manage appointment schedules.</p>
+              </div>
+              <span class="px-3.5 py-1 rounded-full bg-purple-100 text-purple-950 font-bold text-xs border border-purple-300">
+                Madame Seraphina's Desk
+              </span>
+            </div>
+            <div id="reader-appointments-container" class="space-y-3 text-xs"></div>
+          </div>
+
+          <!-- Subview 0b: Seeker Post-Consultation Reviews -->
+          <div id="reader-subview-reviews" class="hidden glass-panel p-6 space-y-4 bg-white/95 border-2 border-purple-300/80 shadow-xl rounded-3xl">
+            <div class="flex items-center justify-between border-b border-purple-200 pb-3">
+              <div class="space-y-0.5">
+                <h3 class="font-mystic text-lg font-black text-slate-950 flex items-center gap-2">
+                  <i data-lucide="star" class="w-5 h-5 text-amber-500"></i> Seeker Post-Consultation Reviews & Ratings
+                </h3>
+                <p class="text-xs text-slate-600">Verified feedback and 5-star ratings submitted by seekers following 1-on-1 tarot consultations.</p>
+              </div>
+              <span class="px-3 py-1 rounded-full bg-amber-100 text-amber-950 font-bold text-xs border border-amber-300">
+                ⭐ 4.94 / 5.0 Rating Average
+              </span>
+            </div>
+            <div id="reader-reviews-container" class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs"></div>
+          </div>
+
+          <!-- Subview 1: Reading Analytics -->
+          <div id="reader-subview-analytics" class="hidden space-y-6">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+              <!-- Visual Chart 1: Monthly Reading Volume & Accuracy -->
+              <div class="lg:col-span-7 glass-panel p-5 bg-white space-y-3 border-purple-300/40 shadow-sm">
+                <div class="flex items-center justify-between">
+                  <h3 class="font-mystic font-bold text-base text-slate-900 flex items-center gap-2">
+                    <i data-lucide="bar-chart-3" class="w-4 h-4 text-purple-600"></i> Monthly Consultations & Accuracy Growth
+                  </h3>
+                  <span class="text-[10px] px-2.5 py-0.5 rounded-full bg-purple-100 text-purple-900 font-bold">Live Graph</span>
+                </div>
+                <div class="h-64 relative w-full">
+                  <canvas id="chart-reader-volume"></canvas>
+                </div>
+              </div>
+
+              <!-- Visual Chart 2: Spread Distribution -->
+              <div class="lg:col-span-5 glass-panel p-5 bg-white space-y-3 border-purple-300/40 shadow-sm">
+                <div class="flex items-center justify-between">
+                  <h3 class="font-mystic font-bold text-base text-slate-900 flex items-center gap-2">
+                    <i data-lucide="pie-chart" class="w-4 h-4 text-purple-600"></i> Divination Spread Share
+                  </h3>
+                  <span class="text-[10px] px-2.5 py-0.5 rounded-full bg-purple-100 text-purple-900 font-bold">Distribution</span>
+                </div>
+                <div class="h-64 relative w-full flex items-center justify-center">
+                  <canvas id="chart-reader-spreads"></canvas>
+                </div>
+              </div>
+            </div>
+
+            <!-- Informative Graph Guide for Tarot Reader -->
+            <div class="p-4 rounded-2xl bg-purple-50/90 border border-purple-200/80 text-xs text-purple-950 space-y-1 shadow-xs">
+              <div class="font-extrabold text-purple-900 flex items-center gap-1.5 text-xs">
+                <i data-lucide="info" class="w-4 h-4 text-purple-600"></i> Tarot Reader Desk Graph Structure & Analytics Guide:
+              </div>
+              <p class="leading-relaxed text-[11px] text-slate-700">
+                • <strong>Monthly Consultations & Accuracy Growth Graph:</strong> Tracks practitioner session volume per month alongside AI-evaluated tarot spread synthesis accuracy ratings.<br/>
+                • <strong>Divination Spread Share Doughnut Graph:</strong> Measures market demand breakdown across Celtic Cross 10-Card, 3-Card Timeline, Past/Present/Future, and Single Card spreads.
+              </p>
+            </div>
+
+            <!-- Most Frequently Drawn Cards Breakdown -->
+            <div class="glass-panel p-5 bg-white space-y-3 border-purple-300/40 shadow-sm">
+              <h3 class="font-mystic font-bold text-base text-slate-900 flex items-center gap-2">
+                <i data-lucide="layers" class="w-4 h-4 text-purple-600"></i> Most Frequently Drawn Tarot Cards & Elemental Affinity
+              </h3>
+              <div id="reader-most-drawn-container" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-3 text-xs"></div>
+            </div>
+          </div>
+
+          <!-- Subview 2: User Engagement Insights -->
+          <div id="reader-subview-engagement" class="hidden space-y-6">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+              <!-- Chart: Retention & Active Consultations -->
+              <div class="lg:col-span-8 glass-panel p-5 bg-white space-y-3 border-purple-300/40 shadow-sm">
+                <div class="flex items-center justify-between">
+                  <h3 class="font-mystic font-bold text-base text-slate-900 flex items-center gap-2">
+                    <i data-lucide="trending-up" class="w-4 h-4 text-purple-600"></i> Seeker Retention & Active Consultations Curve
+                  </h3>
+                  <span class="text-[10px] px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-900 font-bold">92.4% Retention</span>
+                </div>
+                <div class="h-64 relative w-full">
+                  <canvas id="chart-reader-retention"></canvas>
+                </div>
+              </div>
+
+              <!-- Ratings & Feedback Meter -->
+              <div class="lg:col-span-4 glass-panel p-5 bg-white space-y-4 border-purple-300/40 shadow-sm">
+                <h3 class="font-mystic font-bold text-base text-slate-900 flex items-center gap-2">
+                  <i data-lucide="star" class="w-4 h-4 text-amber-500"></i> Rating Breakdown (4.94 / 5.0)
+                </h3>
+                <div class="space-y-2.5 text-xs">
+                  <div>
+                    <div class="flex justify-between font-bold text-slate-800 mb-1">
+                      <span>5 Stars (Exceptional Insight)</span>
+                      <span class="text-purple-900">88%</span>
+                    </div>
+                    <div class="w-full h-2 bg-slate-100 rounded-full overflow-hidden">
+                      <div class="h-full bg-purple-600 rounded-full" style="width: 88%"></div>
+                    </div>
+                  </div>
+                  <div>
+                    <div class="flex justify-between font-bold text-slate-800 mb-1">
+                      <span>4 Stars (Great Guidance)</span>
+                      <span class="text-purple-900">10%</span>
+                    </div>
+                    <div class="w-full h-2 bg-slate-100 rounded-full overflow-hidden">
+                      <div class="h-full bg-purple-400 rounded-full" style="width: 10%"></div>
+                    </div>
+                  </div>
+                  <div>
+                    <div class="flex justify-between font-bold text-slate-800 mb-1">
+                      <span>3 Stars (Satisfactory)</span>
+                      <span class="text-purple-900">2%</span>
+                    </div>
+                    <div class="w-full h-2 bg-slate-100 rounded-full overflow-hidden">
+                      <div class="h-full bg-amber-400 rounded-full" style="width: 2%"></div>
+                    </div>
+                  </div>
+                </div>
+                <div class="p-3 rounded-xl bg-purple-50/70 border border-purple-200 text-xs text-purple-950 font-medium space-y-1">
+                  <div class="font-bold text-purple-900">💬 Practitioner Note:</div>
+                  <p class="text-[11px] text-slate-700">"Seekers report highest clarity during Celtic Cross and Life Path spreads."</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Seeker Engagement Telemetry Cards -->
+            <div id="reader-engagement-container" class="space-y-3"></div>
+          </div>
+
+          <!-- Subview 3: Session Tracking -->
+          <div id="reader-subview-tracking" class="hidden space-y-6">
+            <div class="glass-panel p-6 bg-white space-y-4 border-purple-300/40 shadow-sm">
+              <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-purple-100">
+                <div>
+                  <h3 class="font-mystic text-lg font-bold text-slate-900 flex items-center gap-2">
+                    <i data-lucide="clock" class="w-5 h-5 text-purple-600"></i> Practitioner Session Tracking & Active Queue
+                  </h3>
+                  <p class="text-xs text-slate-600">Track real-time seeker consultations and active divination sessions</p>
+                </div>
+                <div class="flex items-center gap-1.5 text-xs font-bold">
+                  <button onclick="filterReaderQueue('All')" class="px-3 py-1 rounded-full bg-purple-600 text-white shadow-xs">All</button>
+                  <button onclick="filterReaderQueue('Completed')" class="px-3 py-1 rounded-full bg-slate-100 text-slate-700 hover:bg-purple-100">Completed</button>
+                  <button onclick="filterReaderQueue('Active')" class="px-3 py-1 rounded-full bg-slate-100 text-slate-700 hover:bg-purple-100">Active</button>
+                </div>
+              </div>
+
+              <div id="reader-client-queue" class="space-y-3 text-xs"></div>
+            </div>
+          </div>
+
+          <!-- Subview 4: Report Management -->
+          <div id="reader-subview-management" class="hidden space-y-6">
+            <div class="glass-panel p-6 bg-white space-y-4 border-purple-300/40 shadow-sm">
+              <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-purple-100 pb-3">
+                <div>
+                  <h3 class="font-mystic text-lg font-bold text-slate-900 flex items-center gap-2">
+                    <i data-lucide="file-check" class="w-5 h-5 text-purple-600"></i> Practitioner Report Management & Sign-off
+                  </h3>
+                  <p class="text-xs text-slate-600">Review, sign off, and export official client divination reports</p>
+                </div>
+                <button onclick="downloadReadingsExcel()" class="btn-mystic-gold text-xs py-2 px-4 shadow-md flex items-center gap-1.5">
+                  <i data-lucide="file-text" class="w-4 h-4"></i> Export Client PDF Report
+                </button>
+              </div>
+
+              <div id="reader-report-mgmt-container" class="space-y-3 text-xs"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ================= 3. SPIRITUAL CONSULTANT DASHBOARD ================= -->
+        <div id="dash-consultant" class="hidden space-y-6">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div>
+              <h1 class="text-2xl font-mystic font-extrabold text-slate-900">🔮 Spiritual Consultant Life Trends Desk</h1>
+              <p class="text-xs text-slate-600">User trend analysis, guidance effectiveness rates, and consultation insights.</p>
+            </div>
+            <span class="px-3.5 py-1.5 rounded-full bg-emerald-100 text-emerald-900 text-xs font-extrabold border border-emerald-300 flex items-center gap-1.5 shadow-sm">
+              <i data-lucide="activity" class="w-4 h-4 text-emerald-600"></i> Cohort Monitoring Active
+            </span>
+          </div>
+
+          <!-- Consultant Stat Cards -->
+          <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+            <div class="glass-panel p-5 space-y-1 tilt-card-3d bg-white/90 shadow-sm border border-emerald-200">
+              <span class="text-[11px] uppercase tracking-wider text-slate-500 font-bold">Cohorts Monitored</span>
+              <div class="text-3xl font-bold font-mystic text-emerald-700" id="consultant-stat-cohorts">114</div>
+            </div>
+            <div class="glass-panel p-5 space-y-1 tilt-card-3d bg-white/90 shadow-sm border border-emerald-200">
+              <span class="text-[11px] uppercase tracking-wider text-slate-500 font-bold">Guidance Effectiveness</span>
+              <div class="text-3xl font-bold font-mystic text-emerald-700" id="consultant-stat-eff">93.8%</div>
+            </div>
+            <div class="glass-panel p-5 space-y-1 tilt-card-3d bg-white/90 shadow-sm border border-cyan-200">
+              <span class="text-[11px] uppercase tracking-wider text-slate-500 font-bold">Trend Accuracy Index</span>
+              <div class="text-3xl font-bold font-mystic text-cyan-700" id="consultant-stat-acc">91.5%</div>
+            </div>
+            <div class="glass-panel p-5 space-y-1 tilt-card-3d bg-white/90 shadow-sm border border-sky-200">
+              <span class="text-[11px] uppercase tracking-wider text-slate-500 font-bold">Growth Velocity</span>
+              <div class="text-3xl font-bold font-mystic text-sky-700" id="consultant-stat-velocity">+18.4%</div>
+            </div>
+          </div>
+
+          <!-- Consultant Sub-Navigation Tabs -->
+          <div class="flex items-center gap-2 overflow-x-auto border-b border-emerald-300/30 pb-2 text-xs font-extrabold">
+            <button onclick="switchConsultantTab('appointments')" id="consultant-subtab-appointments" class="px-4 py-2 rounded-full bg-emerald-600 text-white shadow-sm flex items-center gap-1.5">
+              📅 Booked Sessions & Meet Links
+            </button>
+            <button onclick="switchConsultantTab('reviews')" id="consultant-subtab-reviews" class="px-4 py-2 rounded-full bg-white text-slate-700 hover:bg-emerald-50 border border-emerald-300/40 flex items-center gap-1.5">
+              ⭐ Seeker Reviews
+            </button>
+            <button onclick="switchConsultantTab('trends')" id="consultant-subtab-trends" class="px-4 py-2 rounded-full bg-white text-slate-700 hover:bg-emerald-50 border border-emerald-300/40 flex items-center gap-1.5">
+              📈 User Trend Analysis
+            </button>
+            <button onclick="switchConsultantTab('effectiveness')" id="consultant-subtab-effectiveness" class="px-4 py-2 rounded-full bg-white text-slate-700 hover:bg-emerald-50 border border-emerald-300/40 flex items-center gap-1.5">
+              ✨ Guidance Effectiveness
+            </button>
+            <button onclick="switchConsultantTab('insights')" id="consultant-subtab-insights" class="px-4 py-2 rounded-full bg-white text-slate-700 hover:bg-emerald-50 border border-emerald-300/40 flex items-center gap-1.5">
+              💡 Consultation Insights
+            </button>
+          </div>
+
+          <!-- Subview 0: Booked Appointments & Google Meet Room -->
+          <div id="consultant-subview-appointments" class="glass-panel p-6 space-y-4 bg-white/95 border-2 border-emerald-300/80 shadow-xl rounded-3xl">
+            <div class="flex items-center justify-between border-b border-emerald-200 pb-3">
+              <div class="space-y-0.5">
+                <h3 class="font-mystic text-lg font-black text-slate-950 flex items-center gap-2">
+                  <i data-lucide="video" class="w-5 h-5 text-emerald-600"></i> Palmistry & Guidance Session Requests
+                </h3>
+                <p class="text-xs text-slate-600">Manage seeker consultation bookings, accept sessions, and dispatch live Google Meet room links.</p>
+              </div>
+              <span class="px-3.5 py-1 rounded-full bg-emerald-100 text-emerald-950 font-bold text-xs border border-emerald-300">
+                Zachary Vance's Desk
+              </span>
+            </div>
+            <div id="consultant-appointments-container" class="space-y-3 text-xs"></div>
+          </div>
+
+          <!-- Subview 0b: Seeker Post-Consultation Reviews -->
+          <div id="consultant-subview-reviews" class="hidden glass-panel p-6 space-y-4 bg-white/95 border-2 border-emerald-300/80 shadow-xl rounded-3xl">
+            <div class="flex items-center justify-between border-b border-emerald-200 pb-3">
+              <div class="space-y-0.5">
+                <h3 class="font-mystic text-lg font-black text-slate-950 flex items-center gap-2">
+                  <i data-lucide="star" class="w-5 h-5 text-amber-500"></i> Seeker Post-Consultation Reviews & Ratings
+                </h3>
+                <p class="text-xs text-slate-600">Qualitative seeker feedback and 5-star growth ratings for spiritual life trajectory coaching.</p>
+              </div>
+              <span class="px-3 py-1 rounded-full bg-amber-100 text-amber-950 font-bold text-xs border border-amber-300">
+                ⭐ 4.96 / 5.0 Rating Average
+              </span>
+            </div>
+            <div id="consultant-reviews-container" class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs"></div>
+          </div>
+
+          <!-- Subview 1: User Trend Analysis -->
+          <div id="consultant-subview-trends" class="hidden space-y-6">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+              <!-- Visual Chart 1: 30/90-Day Trajectory Curve -->
+              <div class="lg:col-span-8 glass-panel p-5 bg-white space-y-3 border-emerald-300/40 shadow-sm">
+                <div class="flex items-center justify-between">
+                  <h3 class="font-mystic font-bold text-base text-slate-900 flex items-center gap-2">
+                    <i data-lucide="trending-up" class="w-4 h-4 text-emerald-600"></i> Seeker Biorhythm & Equilibrium Trajectory Curve
+                  </h3>
+                  <span class="text-[10px] px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-900 font-bold">90-Day Projection</span>
+                </div>
+                <div class="h-64 relative w-full">
+                  <canvas id="chart-consultant-biorhythms"></canvas>
+                </div>
+              </div>
+
+              <!-- Visual Chart 2: Elemental Hand Shape Balance -->
+              <div class="lg:col-span-4 glass-panel p-5 bg-white space-y-3 border-emerald-300/40 shadow-sm">
+                <div class="flex items-center justify-between">
+                  <h3 class="font-mystic font-bold text-base text-slate-900 flex items-center gap-2">
+                    <i data-lucide="pie-chart" class="w-4 h-4 text-emerald-600"></i> Cohort Elemental Balance
+                  </h3>
+                  <span class="text-[10px] px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-900 font-bold">4 Elements</span>
+                </div>
+                <div class="h-64 relative w-full flex items-center justify-center">
+                  <canvas id="chart-consultant-elements"></canvas>
+                </div>
+              </div>
+            </div>
+
+            <!-- Informative Graph Guide for Spiritual Consultant -->
+            <div class="p-4 rounded-2xl bg-emerald-50/90 border border-emerald-200/80 text-xs text-emerald-950 space-y-1 shadow-xs">
+              <div class="font-extrabold text-emerald-900 flex items-center gap-1.5 text-xs">
+                <i data-lucide="info" class="w-4 h-4 text-emerald-600"></i> Spiritual Consultant Desk Graph Telemetry Guide:
+              </div>
+              <p class="leading-relaxed text-[11px] text-slate-700">
+                • <strong>Seeker Biorhythm & Equilibrium Curve:</strong> Multi-line trend graph tracking physical stamina, emotional balance, and spiritual growth velocity across monitored seeker cohorts.<br/>
+                • <strong>Cohort Elemental Balance Doughnut Graph:</strong> Categorizes seeker cohorts by Palmistry CV elemental hand signatures (Earth, Water, Fire, Air) to tailor consultation modalities.
+              </p>
+            </div>
+
+            <!-- Cohort Seeker List -->
+            <div class="glass-panel p-6 bg-white space-y-3 border-emerald-300/40 shadow-sm">
+              <h3 class="font-mystic text-lg font-bold text-slate-900 flex items-center gap-2">
+                <i data-lucide="users" class="w-5 h-5 text-emerald-600"></i> Seeker Cohort Trajectory & Trend Monitoring Table
+              </h3>
+              <div id="consultant-cohort-list" class="space-y-3 text-xs"></div>
+            </div>
+          </div>
+
+          <!-- Subview 2: Guidance Effectiveness -->
+          <div id="consultant-subview-effectiveness" class="hidden space-y-6">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+              <!-- Radar Chart: Guidance Impact Velocity -->
+              <div class="lg:col-span-7 glass-panel p-5 bg-white space-y-3 border-emerald-300/40 shadow-sm">
+                <div class="flex items-center justify-between">
+                  <h3 class="font-mystic font-bold text-base text-slate-900 flex items-center gap-2">
+                    <i data-lucide="target" class="w-4 h-4 text-emerald-600"></i> Guidance Impact Velocity Across Life Pillars
+                  </h3>
+                  <span class="text-[10px] px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-900 font-bold">Radar Analysis</span>
+                </div>
+                <div class="h-64 relative w-full flex items-center justify-center">
+                  <canvas id="chart-consultant-radar"></canvas>
+                </div>
+              </div>
+
+              <!-- Category Velocity Meters -->
+              <div class="lg:col-span-5 glass-panel p-5 bg-white space-y-4 border-emerald-300/40 shadow-sm">
+                <h3 class="font-mystic font-bold text-base text-slate-900 flex items-center gap-2">
+                  <i data-lucide="award" class="w-4 h-4 text-emerald-600"></i> Pillar Improvement Velocity
+                </h3>
+                <div class="space-y-3 text-xs">
+                  <div>
+                    <div class="flex justify-between font-bold text-slate-800 mb-1">
+                      <span>Career Path Alignment</span>
+                      <span class="text-emerald-700 font-extrabold">+19.2%</span>
+                    </div>
+                    <div class="w-full h-2 bg-slate-100 rounded-full overflow-hidden">
+                      <div class="h-full bg-emerald-500 rounded-full" style="width: 95%"></div>
+                    </div>
+                  </div>
+                  <div>
+                    <div class="flex justify-between font-bold text-slate-800 mb-1">
+                      <span>Emotional Mastery & Resilience</span>
+                      <span class="text-emerald-700 font-extrabold">+18.4%</span>
+                    </div>
+                    <div class="w-full h-2 bg-slate-100 rounded-full overflow-hidden">
+                      <div class="h-full bg-emerald-600 rounded-full" style="width: 92%"></div>
+                    </div>
+                  </div>
+                  <div>
+                    <div class="flex justify-between font-bold text-slate-800 mb-1">
+                      <span>Relationship Empathy</span>
+                      <span class="text-emerald-700 font-extrabold">+16.7%</span>
+                    </div>
+                    <div class="w-full h-2 bg-slate-100 rounded-full overflow-hidden">
+                      <div class="h-full bg-teal-500 rounded-full" style="width: 88%"></div>
+                    </div>
+                  </div>
+                  <div>
+                    <div class="flex justify-between font-bold text-slate-800 mb-1">
+                      <span>Daily Habit Consistency</span>
+                      <span class="text-emerald-700 font-extrabold">+14.2%</span>
+                    </div>
+                    <div class="w-full h-2 bg-slate-100 rounded-full overflow-hidden">
+                      <div class="h-full bg-cyan-500 rounded-full" style="width: 84%"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Effectiveness Summary Container -->
+            <div id="consultant-effectiveness-container" class="space-y-3 text-xs"></div>
+          </div>
+
+          <!-- Subview 3: Consultation Insights -->
+          <div id="consultant-subview-insights" class="hidden space-y-6">
+            <div class="glass-panel p-6 bg-white space-y-4 border-emerald-300/40 shadow-sm">
+              <div class="flex items-center justify-between border-b border-emerald-100 pb-3">
+                <h3 class="font-mystic text-lg font-bold text-slate-900 flex items-center gap-2">
+                  <i data-lucide="sparkles" class="w-5 h-5 text-emerald-600"></i> Consultation Synthesis & Holistic Recommendations
+                </h3>
+                <span class="px-3 py-1 rounded-full bg-emerald-100 text-emerald-900 font-extrabold text-xs">Consultant Matrix</span>
+              </div>
+              <div id="consultant-insights-container" class="space-y-3 text-xs"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ================= 4. ADMIN DASHBOARD ================= -->
+        <div id="dash-admin" class="hidden space-y-6">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div>
+              <h1 class="text-2xl font-mystic font-extrabold text-slate-900">👑 Grand Sovereign Platform Administration</h1>
+              <p class="text-xs text-slate-600">User management, platform analytics, reading statistics, and system reports.</p>
+            </div>
+            <span class="px-3.5 py-1.5 rounded-full bg-amber-100 text-amber-900 text-xs font-extrabold border border-amber-300 flex items-center gap-1.5 shadow-sm">
+              <i data-lucide="shield-check" class="w-4 h-4 text-amber-600"></i> Admin Controls Active
+            </span>
+          </div>
+
+          <!-- Admin Stat Cards -->
+          <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+            <div class="glass-panel p-5 space-y-1 tilt-card-3d bg-white/90 shadow-sm border border-amber-200">
+              <span class="text-[11px] uppercase tracking-wider text-slate-500 font-bold">Registered Users</span>
+              <div class="text-3xl font-bold font-mystic text-amber-700" id="admin-stat-users">5,844</div>
+            </div>
+            <div class="glass-panel p-5 space-y-1 tilt-card-3d bg-white/90 shadow-sm border border-sky-200">
+              <span class="text-[11px] uppercase tracking-wider text-slate-500 font-bold">Total Readings</span>
+              <div class="text-3xl font-bold font-mystic text-sky-700" id="admin-stat-readings">1,212</div>
+            </div>
+            <div class="glass-panel p-5 space-y-1 tilt-card-3d bg-white/90 shadow-sm border border-emerald-200">
+              <span class="text-[11px] uppercase tracking-wider text-slate-500 font-bold">API Avg Latency</span>
+              <div class="text-3xl font-bold font-mystic text-emerald-700" id="admin-stat-latency">42.8 ms</div>
+            </div>
+            <div class="glass-panel p-5 space-y-1 tilt-card-3d bg-white/90 shadow-sm border border-purple-200">
+              <span class="text-[11px] uppercase tracking-wider text-slate-500 font-bold">Active ML Models</span>
+              <div class="text-3xl font-bold font-mystic text-purple-700" id="admin-stat-models">4 / 4</div>
+            </div>
+          </div>
+
+          <!-- Admin Sub-Navigation Tabs -->
+          <div class="flex items-center gap-2 overflow-x-auto border-b border-amber-300/30 pb-2 text-xs font-extrabold">
+            <button onclick="switchAdminTab('users')" id="admin-subtab-users" class="px-4 py-2 rounded-full bg-amber-600 text-white shadow-sm flex items-center gap-1.5">
+              👥 User Management
+            </button>
+            <button onclick="switchAdminTab('analytics')" id="admin-subtab-analytics" class="px-4 py-2 rounded-full bg-white text-slate-700 hover:bg-amber-50 border border-amber-300/40 flex items-center gap-1.5">
+              🖥️ Platform Analytics
+            </button>
+            <button onclick="switchAdminTab('stats')" id="admin-subtab-stats" class="px-4 py-2 rounded-full bg-white text-slate-700 hover:bg-amber-50 border border-amber-300/40 flex items-center gap-1.5">
+              📊 Reading Statistics
+            </button>
+            <button onclick="switchAdminTab('reports')" id="admin-subtab-reports" class="px-4 py-2 rounded-full bg-white text-slate-700 hover:bg-amber-50 border border-amber-300/40 flex items-center gap-1.5">
+              📋 System Reports & Audit Logs
+            </button>
+          </div>
+
+          <!-- Subview 1: User Management -->
+          <div id="admin-subview-users" class="space-y-6">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+              <!-- Role Distribution Donut Chart -->
+              <div class="lg:col-span-5 glass-panel p-5 bg-white space-y-3 border-amber-300/40 shadow-sm">
+                <div class="flex items-center justify-between">
+                  <h3 class="font-mystic font-bold text-base text-slate-900 flex items-center gap-2">
+                    <i data-lucide="pie-chart" class="w-4 h-4 text-amber-600"></i> Role Distribution Graph
+                  </h3>
+                  <span class="text-[10px] px-2.5 py-0.5 rounded-full bg-amber-100 text-amber-900 font-bold">4 Roles</span>
+                </div>
+                <div class="h-64 relative w-full flex items-center justify-center">
+                  <canvas id="chart-admin-roles"></canvas>
+                </div>
+              </div>
+
+              <!-- User Search & Table -->
+              <div class="lg:col-span-7 glass-panel p-5 bg-white space-y-3 border-amber-300/40 shadow-sm">
+                <div class="flex items-center justify-between border-b border-amber-100 pb-2">
+                  <h3 class="font-mystic font-bold text-base text-slate-900 flex items-center gap-2">
+                    <i data-lucide="users" class="w-4 h-4 text-amber-600"></i> Registered Users Matrix
+                  </h3>
+                  <input type="text" id="admin-user-search" oninput="filterAdminUserList()" placeholder="Search user..." class="bg-amber-50/60 border border-amber-300/50 rounded-full px-3 py-1 text-xs text-slate-900 focus:outline-none">
+                </div>
+                <div id="admin-users-tbody" class="space-y-2.5 text-xs max-h-72 overflow-y-auto pr-1"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Subview 2: Platform Analytics -->
+          <div id="admin-subview-analytics" class="hidden space-y-6">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+              <!-- API Latency Line Chart -->
+              <div class="lg:col-span-7 glass-panel p-5 bg-white space-y-3 border-amber-300/40 shadow-sm">
+                <div class="flex items-center justify-between">
+                  <h3 class="font-mystic font-bold text-base text-slate-900 flex items-center gap-2">
+                    <i data-lucide="activity" class="w-4 h-4 text-amber-600"></i> API Response Latency (ms) Timeline
+                  </h3>
+                  <span class="text-[10px] px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-900 font-bold">42.8ms Avg</span>
+                </div>
+                <div class="h-64 relative w-full">
+                  <canvas id="chart-admin-latency"></canvas>
+                </div>
+              </div>
+
+              <!-- ML Engines Status -->
+              <div class="lg:col-span-5 glass-panel p-5 bg-white space-y-3 border-amber-300/40 shadow-sm">
+                <h3 class="font-mystic font-bold text-base text-slate-900 flex items-center gap-2">
+                  <i data-lucide="cpu" class="w-4 h-4 text-amber-600"></i> Active Machine Learning Engines
+                </h3>
+                <div id="admin-models-container" class="space-y-2.5 text-xs"></div>
+              </div>
+            </div>
+
+            <!-- Informative Graph Guide for Admin -->
+            <div class="p-4 rounded-2xl bg-amber-50/90 border border-amber-200/80 text-xs text-amber-950 space-y-1 shadow-xs">
+              <div class="font-extrabold text-amber-900 flex items-center gap-1.5 text-xs">
+                <i data-lucide="info" class="w-4 h-4 text-amber-600"></i> Admin Portal System Telemetry Graph Guide:
+              </div>
+              <p class="leading-relaxed text-[11px] text-slate-700">
+                • <strong>Role Distribution Graph:</strong> Displays active account ratio across Seekers, Tarot Readers, Spiritual Consultants, and Administrators.<br/>
+                • <strong>API Response Latency Timeline:</strong> Tracks real-time network request execution speed across FastAPI microservices and database queries.<br/>
+                • <strong>Global Divination Statistics:</strong> System-wide breakdown of readings generated across Palmistry CV, Tarot Inference, and Recommendation engines.
+              </p>
+            </div>
+          </div>
+
+          <!-- Subview 3: Reading Statistics -->
+          <div id="admin-subview-stats" class="hidden space-y-6">
+            <div class="glass-panel p-6 bg-white space-y-4 border-amber-300/40 shadow-sm">
+              <div class="flex items-center justify-between border-b border-amber-100 pb-3">
+                <h3 class="font-mystic text-lg font-bold text-slate-900 flex items-center gap-2">
+                  <i data-lucide="bar-chart-2" class="w-5 h-5 text-amber-600"></i> Global Divination Statistics & Modality Breakdown
+                </h3>
+                <span class="px-3 py-1 rounded-full bg-amber-100 text-amber-900 font-extrabold text-xs">Platform Telemetry</span>
+              </div>
+              
+              <div class="h-64 relative w-full">
+                <canvas id="chart-admin-global-readings"></canvas>
+              </div>
+
+              <div id="admin-stats-container" class="grid grid-cols-2 md:grid-cols-4 gap-3 text-xs pt-2"></div>
+            </div>
+          </div>
+
+          <!-- Subview 4: System Reports -->
+          <div id="admin-subview-reports" class="hidden space-y-6">
+            <div class="glass-panel p-6 bg-white space-y-4 border-amber-300/40 shadow-sm">
+              <div class="flex items-center justify-between border-b border-amber-100 pb-3">
+                <h3 class="font-mystic text-lg font-bold text-slate-900 flex items-center gap-2">
+                  <i data-lucide="shield" class="w-5 h-5 text-amber-600"></i> Platform System Audit Logs & Diagnostics
+                </h3>
+                <button onclick="downloadReadingsExcel()" class="btn-mystic-gold text-xs py-2 px-4 shadow-md flex items-center gap-1.5">
+                  <i data-lucide="file-text" class="w-4 h-4"></i> Export Platform PDF Report
+                </button>
+              </div>
+
+              <div id="admin-audit-logs-container" class="space-y-3 text-xs"></div>
+            </div>
+          </div>
+
+        </div>
+
+
+      </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="relative z-10 mt-auto bg-white/80 border-t border-sky-300/30 px-4 py-6 text-center text-xs text-slate-600 space-y-1">
+      <p class="font-mystic tracking-wider text-sky-900 font-bold uppercase">AI based palmistry & tarot intelligence © 2026</p>
+      <p>White, Light Blue & Black Edition • Computer Vision Live Scan • AI Chatbot Friend & Teacher</p>
+    </footer>
+
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- DEDICATED MY ACCOUNT MODAL                                                -->
+  <!-- ========================================================================= -->
+  <div id="my-account-modal" class="fixed inset-0 z-50 bg-slate-950/60 backdrop-blur-md hidden flex items-center justify-center p-4">
+    <div class="glass-panel w-full max-w-xl p-6 space-y-5 border-2 border-sky-300/50 shadow-2xl bg-white">
+      <div class="flex items-center justify-between pb-4 border-b border-sky-300/30">
+        <div class="flex items-center gap-3">
+          <div class="w-12 h-12 rounded-full border-2 border-sky-400 overflow-hidden bg-sky-100 flex items-center justify-center shadow-md">
+            <img id="account-modal-avatar" src="https://api.dicebear.com/7.x/bottts/svg?seed=Aria" alt="Avatar" class="w-full h-full object-cover">
+          </div>
+          <div>
+            <h3 id="account-modal-name" class="font-mystic text-xl font-bold text-slate-900">Aria Solstice</h3>
+            <p id="account-modal-email" class="text-xs text-sky-800 font-mono font-bold">user@mystic.io</p>
+          </div>
+        </div>
+        <button onclick="closeMyAccountModal()" class="text-slate-400 hover:text-slate-800 p-1">
+          <i data-lucide="x" class="w-6 h-6"></i>
+        </button>
+      </div>
+
+      <div class="grid grid-cols-2 gap-3 text-xs">
+        <div class="glass-card p-3 space-y-0.5 border-l-4 border-sky-500 bg-sky-50/50">
+          <span class="text-[10px] text-slate-500 uppercase font-bold">Active Account Role (Locked)</span>
+          <div id="account-modal-role" class="font-bold text-slate-900 text-sm">User (Seeker)</div>
+        </div>
+
+        <div class="glass-card p-3 space-y-0.5 border-l-4 border-sky-400 bg-sky-50/50">
+          <span class="text-[10px] text-slate-500 uppercase font-bold">Age Group</span>
+          <div id="account-modal-age" class="font-bold text-slate-900 text-sm">26-35</div>
+        </div>
+
+        <div class="col-span-2 glass-card p-3 space-y-1 border-l-4 border-emerald-500 bg-emerald-50/30">
+          <span class="text-[10px] text-slate-500 uppercase font-bold">Spiritual Goals</span>
+          <div id="account-modal-goals" class="text-slate-800 text-xs">Discover Soul Purpose, Strengthen Relationship Empathy</div>
+        </div>
+
+        <div class="col-span-2 glass-card p-3 space-y-1 border-l-4 border-cyan-500 bg-cyan-50/30">
+          <span class="text-[10px] text-slate-500 uppercase font-bold">Personal Bio</span>
+          <div id="account-modal-bio" class="text-slate-800 text-xs italic">Spiritual seeker passionate about intuitive living and cosmic alignments.</div>
+        </div>
+
+        <div class="col-span-2 glass-card p-3 space-y-1 border-l-4 border-purple-500 bg-purple-50/30">
+          <span class="text-[10px] text-slate-500 uppercase font-bold">Reading Preferences (Palmistry & Tarot)</span>
+          <div id="account-modal-reading-prefs" class="text-slate-800 text-xs font-semibold space-y-0.5">
+            <div>✋ <strong>Palm Focus:</strong> <span id="account-pref-palm" class="text-purple-900 font-bold">Heart Line & Relationships</span></div>
+            <div>🎴 <strong>Tarot Spread:</strong> <span id="account-pref-tarot" class="text-purple-900 font-bold">Celtic Cross Spread (10 Cards)</span></div>
+            <div>🔮 <strong>Reading Style:</strong> <span id="account-pref-style" class="text-purple-900 font-bold">Spiritual & Mystic</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="pt-3 border-t border-sky-300/30 flex flex-wrap items-center justify-between gap-3">
+        <button onclick="closeMyAccountModal(); openProfileEditModal();" class="btn-mystic-outline text-xs py-2.5 px-4 flex items-center gap-2">
+          <i data-lucide="edit-3" class="w-4 h-4"></i> Edit Profile & Preferences
+        </button>
+
+        <div class="flex items-center gap-2">
+          <button onclick="closeMyAccountModal(); logoutUser();" class="px-4 py-2.5 rounded-full bg-slate-900 hover:bg-slate-800 text-sky-200 border border-sky-300/40 text-xs font-bold transition flex items-center gap-1.5 shadow-sm">
+            <i data-lucide="log-out" class="w-4 h-4"></i> Logout Account
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FLOATING AI CHATBOT WIDGET -->
+  <button onclick="toggleOracleDrawer()" class="fixed bottom-6 right-6 z-40 btn-mystic-gold py-3.5 px-6 rounded-full shadow-2xl flex items-center gap-3 border-2 border-white hover:scale-105 transition transform">
+    <div class="w-8 h-8 rounded-full bg-slate-950 flex items-center justify-center text-lg shadow-inner">
+      🤖
+    </div>
+    <span class="font-mystic font-extrabold text-sm text-white">Ask AI Chatbot</span>
+  </button>
+
+  <aside id="oracle-drawer" class="fixed inset-y-0 right-0 z-50 w-full sm:w-[480px] bg-white/95 backdrop-blur-2xl border-l-2 border-sky-300/40 shadow-2xl p-6 transform translate-x-full transition-transform duration-300 ease-in-out flex flex-col justify-between">
+    <div class="flex flex-col h-full space-y-4">
+      <div class="flex items-center justify-between pb-4 border-b border-sky-300/30">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-full bg-gradient-to-tr from-sky-400 to-sky-600 flex items-center justify-center text-xl shadow-md">
+            🤖
+          </div>
+          <div>
+            <h3 class="font-mystic font-bold text-xl text-slate-900">AI Chatbot</h3>
+            <p class="text-xs text-sky-800">Your warm friend & insightful teacher</p>
+          </div>
+        </div>
+        <button onclick="toggleOracleDrawer()" class="text-slate-400 hover:text-slate-800 p-1">
+          <i data-lucide="x" class="w-6 h-6"></i>
+        </button>
+      </div>
+
+      <div class="space-y-2">
+        <span class="text-[11px] font-bold text-sky-800 uppercase tracking-wider">Suggested Inquiries:</span>
+        <div class="flex flex-wrap gap-1.5 text-xs">
+          <button onclick="askOracleQuestion('What is my prediction for love and soul relationships?')" class="px-3 py-1 rounded-full bg-sky-50 border border-sky-300/40 text-sky-900 hover:bg-sky-100 font-semibold">
+            💖 Love Prediction
+          </button>
+          <button onclick="askOracleQuestion('What are my career and financial prospects for the next 90 days?')" class="px-3 py-1 rounded-full bg-sky-50 border border-sky-300/40 text-sky-900 hover:bg-sky-100 font-semibold">
+            💼 Career Guidance
+          </button>
+          <button onclick="askOracleQuestion('What does my palmistry lines say about my future destiny?')" class="px-3 py-1 rounded-full bg-sky-50 border border-sky-300/40 text-sky-900 hover:bg-sky-100 font-semibold">
+            ✋ Palmistry Lines
+          </button>
+        </div>
+      </div>
+
+      <div id="oracle-chat-messages" class="flex-1 overflow-y-auto space-y-3 p-3 bg-sky-50/50 rounded-2xl border border-sky-300/30 text-xs">
+        <div class="glass-card p-3.5 space-y-1 border-l-4 border-sky-500 bg-white">
+          <div class="font-bold text-sky-900 flex items-center gap-1.5">
+            <span>🤖 AI Chatbot (Friend & Teacher)</span>
+          </div>
+          <p class="text-slate-800 leading-relaxed">
+            Greetings! I am AI Chatbot. Ask me any question as a friend or teacher about your palmistry lines, drawn tarot cards, or life decisions!
+          </p>
+        </div>
+      </div>
+
+      <form onsubmit="submitOracleChat(event)" class="flex items-center gap-2 pt-2 border-t border-sky-300/30">
+        <input type="text" id="oracle-input-text" required placeholder="Ask AI Chatbot any question..." class="flex-1 bg-white border border-sky-300/40 rounded-full px-4 py-3 text-xs text-slate-900 focus:outline-none focus:border-sky-500 shadow-sm">
+        <button type="submit" class="btn-mystic-gold py-3 px-6 text-xs flex items-center gap-1">
+          <i data-lucide="send" class="w-4 h-4"></i> Ask
+        </button>
+      </form>
+    </div>
+  </aside>
+
+  <!-- User Profile Edit Modal -->
+  <div id="profile-edit-modal" class="fixed inset-0 z-50 bg-slate-950/60 backdrop-blur-md hidden flex items-center justify-center p-4">
+    <div class="glass-panel w-full max-w-lg p-6 space-y-4 border-2 border-sky-300/50 bg-white max-h-[90vh] overflow-y-auto">
+      <div class="flex items-center justify-between pb-3 border-b border-sky-300/30">
+        <h3 class="font-mystic text-xl font-bold text-slate-900">Edit Profile & Preferences</h3>
+        <button onclick="closeProfileEditModal()" class="text-slate-400 hover:text-slate-800 p-1">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <form onsubmit="submitProfileForm(event)" class="space-y-3 text-xs">
+        <div>
+          <label class="block text-slate-800 mb-1 font-semibold">Full Name</label>
+          <input type="text" id="prof-name" class="w-full bg-white border border-sky-300/40 rounded-full px-4 py-2 text-slate-900 focus:outline-none">
+        </div>
+        <div>
+          <label class="block text-slate-800 mb-1 font-semibold">Age Group</label>
+          <select id="prof-age" class="w-full bg-white border border-sky-300/40 rounded-full px-4 py-2 text-slate-900 focus:outline-none">
+            <option value="18-25">18-25</option>
+            <option value="26-35">26-35</option>
+            <option value="36-45">36-45</option>
+            <option value="46-55">46-55</option>
+            <option value="56+">56+</option>
+          </select>
+        </div>
+        <div>
+          <label class="block text-slate-800 mb-1 font-semibold">Spiritual Goals</label>
+          <input type="text" id="prof-goals" class="w-full bg-white border border-sky-300/40 rounded-full px-4 py-2 text-slate-900 focus:outline-none">
+        </div>
+
+        <!-- 🎴 & ✋ DIVINATION READING PREFERENCES -->
+        <div class="pt-2 border-t border-sky-200 space-y-2">
+          <span class="block text-sky-900 font-extrabold uppercase text-[11px] tracking-wider">🎴 & ✋ Divination Reading Preferences</span>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+            <div>
+              <label class="block text-slate-800 mb-0.5 font-semibold text-[11px]">Palmistry Reading Focus</label>
+              <select id="prof-pref-palm" class="w-full bg-white border border-sky-300/40 rounded-full px-3 py-2 text-slate-900 focus:outline-none text-[11px] font-bold">
+                <option value="Heart Line & Relationships">Heart Line & Relationships</option>
+                <option value="Life Line & Longevity">Life Line & Longevity</option>
+                <option value="Head Line & Mindset">Head Line & Mindset</option>
+                <option value="Fate Line & Career">Fate Line & Career</option>
+                <option value="7 Planetary Mounts">7 Planetary Mounts</option>
+                <option value="Comprehensive Analysis">Comprehensive Analysis</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-slate-800 mb-0.5 font-semibold text-[11px]">Tarot Spread Preference</label>
+              <select id="prof-pref-tarot" class="w-full bg-white border border-sky-300/40 rounded-full px-3 py-2 text-slate-900 focus:outline-none text-[11px] font-bold">
+                <option value="Celtic Cross Spread">Celtic Cross (10 Cards)</option>
+                <option value="Three Card Reading">Three Card (Past/Pres/Fut)</option>
+                <option value="Single Card Reading">Single Card Daily</option>
+                <option value="Relationship Spread">Relationship (5 Cards)</option>
+                <option value="Career Spread">Career & Growth (5 Cards)</option>
+                <option value="Life Path Spread">Life Path (7 Cards)</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-slate-800 mb-0.5 font-semibold text-[11px]">Reading Style</label>
+              <select id="prof-pref-style" class="w-full bg-white border border-sky-300/40 rounded-full px-3 py-2 text-slate-900 focus:outline-none text-[11px]">
+                <option value="Spiritual & Mystic">Spiritual & Mystic</option>
+                <option value="Psychological & Reflective">Psychological & Reflective</option>
+                <option value="Direct & Action-Oriented">Direct & Action-Oriented</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-slate-800 mb-0.5 font-semibold text-[11px]">Deck Art Theme</label>
+              <select id="prof-pref-deck" class="w-full bg-white border border-sky-300/40 rounded-full px-3 py-2 text-slate-900 focus:outline-none text-[11px]">
+                <option value="Rider-Waite Classic">Rider-Waite Classic</option>
+                <option value="Cosmic Sky">Cosmic Sky</option>
+                <option value="Celestial Gold">Celestial Gold</option>
+                <option value="Botanical Mystic">Botanical Mystic</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="pt-2 flex items-center justify-end gap-2">
+          <button type="button" onclick="closeProfileEditModal()" class="btn-mystic-outline py-2 px-4">Cancel</button>
+          <button type="submit" class="btn-mystic-gold py-2 px-5">Save Profile & Preferences</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- 📅 APPOINTMENT SESSION REQUEST MODAL (DATE & TIME PICKER)                  -->
+  <!-- ========================================================================= -->
+  <div id="appointment-request-modal" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-md hidden flex items-center justify-center p-4">
+    <div class="glass-panel max-w-md w-full p-6 bg-white space-y-4 rounded-3xl border-2 border-amber-400 shadow-2xl relative">
+      <button onclick="closeAppointmentModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-900 font-bold text-lg">✕</button>
+      
+      <div class="space-y-1">
+        <span id="apt-modal-role-badge" class="px-3 py-1 rounded-full bg-amber-100 text-amber-950 text-xs font-black uppercase tracking-wider">Tarot Reader</span>
+        <h3 id="apt-modal-title" class="font-mystic font-black text-xl text-slate-950">Schedule 1-on-1 Consultation Session</h3>
+        <p class="text-xs text-slate-600">Select your preferred date and time. Upon request, your practitioner will accept and generate a live Google Meet session link.</p>
+      </div>
+
+      <form onsubmit="submitAppointmentRequest(event)" class="space-y-3 pt-2 text-xs">
+        <input type="hidden" id="apt-modal-practitioner-role" value="Tarot Reader">
+        <input type="hidden" id="apt-modal-modality" value="Tarot Reading Consultation">
+
+        <div>
+          <label class="block font-bold text-slate-900 mb-1">Session Modality / Focus</label>
+          <input type="text" id="apt-modal-card-input" readonly class="w-full px-3 py-2 rounded-xl bg-slate-100 border border-slate-300 font-bold text-slate-800">
+        </div>
+
+        <div>
+          <label class="block font-bold text-slate-900 mb-1">Select Session Date & Time (*Required)</label>
+          <input type="datetime-local" id="apt-modal-datetime" required class="w-full px-3 py-2 rounded-xl border border-amber-400 font-bold text-slate-900 bg-amber-50/50 focus:outline-none focus:ring-2 focus:ring-amber-500">
+        </div>
+
+        <div>
+          <label class="block font-bold text-slate-900 mb-1">Additional Notes / Questions for Practitioner</label>
+          <textarea id="apt-modal-notes" rows="3" placeholder="Specify any specific life questions or focus area..." class="w-full px-3 py-2 rounded-xl border border-slate-300 text-slate-900 focus:outline-none focus:border-amber-400"></textarea>
+        </div>
+
+        <button type="submit" class="w-full btn-mystic-gold py-3 text-sm font-extrabold flex items-center justify-center gap-2 shadow-xl">
+          📅 Confirm & Request Session Appointment
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- ⭐ SEEKER POST-CONSULTATION REVIEW & RATING MODAL                        -->
+  <!-- ========================================================================= -->
+  <div id="submit-review-modal" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-md hidden flex items-center justify-center p-4">
+    <div class="glass-panel max-w-md w-full p-6 bg-white space-y-4 rounded-3xl border-2 border-emerald-400 shadow-2xl relative">
+      <button onclick="closeReviewModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-900 font-bold text-lg">✕</button>
+      
+      <div class="space-y-1">
+        <span class="px-3 py-1 rounded-full bg-emerald-100 text-emerald-950 text-xs font-black uppercase tracking-wider">Post-Consultation Review</span>
+        <h3 id="review-modal-title" class="font-mystic font-black text-xl text-slate-950">Rate & Review Your Consultation Session</h3>
+        <p class="text-xs text-slate-600">Your feedback helps practitioners elevate spiritual guidance standards across the platform.</p>
+      </div>
+
+      <form onsubmit="submitConsultationReview(event)" class="space-y-3 pt-2 text-xs">
+        <input type="hidden" id="review-modal-apt-id">
+        <input type="hidden" id="review-modal-role">
+        <input type="hidden" id="review-modal-name">
+
+        <div>
+          <label class="block font-bold text-slate-900 mb-1">Practitioner</label>
+          <input type="text" id="review-modal-practitioner-display" readonly class="w-full px-3 py-2 rounded-xl bg-slate-100 border border-slate-300 font-bold text-slate-800">
+        </div>
+
+        <div>
+          <label class="block font-bold text-slate-900 mb-1">Rating (1 to 5 Stars)</label>
+          <select id="review-modal-rating" class="w-full px-3 py-2 rounded-xl border border-emerald-400 font-extrabold text-amber-600 bg-amber-50 focus:outline-none">
+            <option value="5.0">⭐⭐⭐⭐⭐ 5.0 - Phenomenal & Transformational</option>
+            <option value="4.5">⭐⭐⭐⭐✨ 4.5 - Excellent Guidance</option>
+            <option value="4.0">⭐⭐⭐⭐ 4.0 - Very Good Session</option>
+            <option value="3.5">⭐⭐⭐✨ 3.5 - Good</option>
+          </select>
+        </div>
+
+        <div>
+          <label class="block font-bold text-slate-900 mb-1">Your Written Review & Feedback</label>
+          <textarea id="review-modal-text" rows="3" required placeholder="Write your experience and insights gained from the session..." class="w-full px-3 py-2 rounded-xl border border-slate-300 text-slate-900 focus:outline-none focus:border-emerald-400"></textarea>
+        </div>
+
+        <button type="submit" class="w-full bg-gradient-to-r from-emerald-600 to-teal-600 text-white py-3 rounded-xl font-extrabold flex items-center justify-center gap-2 shadow-xl hover:from-emerald-700 hover:to-teal-700">
+          ⭐ Submit Post-Consultation Review
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- 🎥 PRACTITIONER MANUAL MEETING LINK & ACCEPTANCE MODAL                    -->
+  <!-- ========================================================================= -->
+  <div id="accept-appointment-modal" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-md hidden flex items-center justify-center p-4">
+    <div class="glass-panel max-w-md w-full p-6 bg-white space-y-4 rounded-3xl border-2 border-emerald-400 shadow-2xl relative">
+      <button onclick="closeAcceptAppointmentModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-900 font-bold text-lg">✕</button>
+      
+      <div class="space-y-1">
+        <span id="accept-modal-role-badge" class="px-3 py-1 rounded-full bg-emerald-100 text-emerald-950 text-xs font-black uppercase tracking-wider">Practitioner Desk</span>
+        <h3 id="accept-modal-title" class="font-mystic font-black text-xl text-slate-950">Accept Session & Attach Meeting Link</h3>
+        <p class="text-xs text-slate-600">Provide the meeting room link for the seeker. You can use auto-generated Google Meet or paste your custom meeting URL.</p>
+      </div>
+
+      <form onsubmit="submitAcceptAppointment(event)" class="space-y-3 pt-2 text-xs">
+        <input type="hidden" id="accept-modal-apt-id">
+
+        <div>
+          <label class="block font-bold text-slate-900 mb-1">Seeker & Session Details</label>
+          <input type="text" id="accept-modal-seeker-info" readonly class="w-full px-3 py-2 rounded-xl bg-slate-100 border border-slate-300 font-bold text-slate-800">
+        </div>
+
+        <div>
+          <label class="block font-bold text-slate-900 mb-1">Google Meet / Custom Meeting Link (*Required)</label>
+          <div class="flex gap-2">
+            <input type="url" id="accept-modal-meet-link" required placeholder="https://meet.google.com/abc-defg-hij" class="flex-1 px-3 py-2 rounded-xl border border-emerald-400 font-mono text-slate-900 bg-emerald-50/40 focus:outline-none focus:ring-2 focus:ring-emerald-500">
+            <button type="button" onclick="generateRandomMeetLinkInput()" class="px-3 py-2 rounded-xl bg-emerald-100 hover:bg-emerald-200 text-emerald-900 font-bold text-[11px] border border-emerald-300">
+              ⚡ Auto-Generate
+            </button>
+          </div>
+          <p class="text-[10px] text-slate-500 mt-1">Paste your actual Google Meet, Zoom, or Teams link, or click Auto-Generate.</p>
+        </div>
+
+        <div>
+          <label class="block font-bold text-slate-900 mb-1">Practitioner Note to Seeker (Optional)</label>
+          <textarea id="accept-modal-notes" rows="2" placeholder="e.g. Please bring your birth details and palm scan ready..." class="w-full px-3 py-2 rounded-xl border border-slate-300 text-slate-900 focus:outline-none focus:border-emerald-400"></textarea>
+        </div>
+
+        <button type="submit" class="w-full bg-gradient-to-r from-emerald-600 to-teal-600 text-white py-3 rounded-xl font-extrabold flex items-center justify-center gap-2 shadow-xl hover:from-emerald-700 hover:to-teal-700">
+          🎥 Accept Session & Send Meeting Link to User
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- DYNAMIC ROLE-SPECIFIC LOGIN WELCOME ANIMATION OVERLAY                     -->
+  <!-- ========================================================================= -->
+  <div id="role-welcome-modal" class="fixed inset-0 z-50 bg-slate-950/85 backdrop-blur-2xl hidden flex items-center justify-center p-4 transition-all duration-500">
+    <div id="role-welcome-card" class="relative max-w-xl w-full p-8 rounded-3xl border-2 shadow-2xl bg-white space-y-6 text-center overflow-hidden transform scale-90 opacity-0 transition-all duration-500">
+      
+      <!-- Background Animated Glow Aura (Dynamic Per Role) -->
+      <div id="role-welcome-bg-aura" class="absolute -inset-10 opacity-30 rounded-full blur-3xl pointer-events-none transition-all duration-700"></div>
+
+      <!-- Role Animated Badge Icon (Dynamic Animation Per Role) -->
+      <div class="relative z-10 flex items-center justify-center">
+        <div id="role-welcome-icon-box" class="w-24 h-24 rounded-full flex items-center justify-center text-4xl shadow-2xl border-4 transition-transform duration-700">
+          <span id="role-welcome-icon-emoji">👤</span>
+        </div>
+      </div>
+
+      <!-- Role Welcome Titles -->
+      <div class="relative z-10 space-y-2">
+        <span id="role-welcome-badge-tag" class="px-4 py-1.5 rounded-full text-xs font-extrabold uppercase tracking-widest border shadow-xs inline-block">
+          Role Portal Unlocked
+        </span>
+        <h2 id="role-welcome-title" class="font-mystic text-2xl md:text-3xl font-extrabold text-slate-900">
+          Welcome Back!
+        </h2>
+        <p id="role-welcome-subtitle" class="text-xs text-slate-700 font-medium leading-relaxed max-w-md mx-auto">
+          Initializing your role-based workspace...
+        </p>
+      </div>
+
+      <!-- Role Telemetry Features Grid -->
+      <div id="role-welcome-features-grid" class="relative z-10 grid grid-cols-1 sm:grid-cols-2 gap-2.5 text-xs text-left pt-1"></div>
+
+      <!-- Progress Bar & Enter Action -->
+      <div class="relative z-10 space-y-3 pt-2">
+        <div class="w-full h-2 bg-slate-100 rounded-full overflow-hidden border border-slate-200">
+          <div id="role-welcome-progress" class="h-full transition-all duration-300 rounded-full" style="width: 0%"></div>
+        </div>
+        <button onclick="dismissRoleWelcomeModal()" class="w-full btn-mystic-gold py-3.5 text-sm font-extrabold flex items-center justify-center gap-2 shadow-xl">
+          <i data-lucide="sparkles" class="w-4 h-4"></i> Enter Role Sanctuary Desk
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= 1-ON-1 SESSION LIVE CHAT MODAL ================= -->
+  <div id="session-chat-modal" class="fixed inset-0 z-50 hidden bg-slate-950/70 backdrop-blur-md flex items-center justify-center p-4">
+    <div class="glass-panel w-full max-w-xl bg-white border-2 border-indigo-300 rounded-3xl shadow-2xl overflow-hidden flex flex-col max-h-[85vh] animate-in fade-in zoom-in duration-200">
+      <!-- Modal Header -->
+      <div class="px-6 py-4 bg-gradient-to-r from-indigo-900 via-purple-900 to-slate-900 text-white flex items-center justify-between">
+        <div class="space-y-0.5">
+          <h3 id="session-chat-modal-title" class="font-mystic font-extrabold text-base flex items-center gap-2">
+            💬 Live Session Chat
+          </h3>
+          <p id="session-chat-modal-sub" class="text-xs text-indigo-200 font-medium">1-on-1 Direct Messaging Session</p>
+        </div>
+        <button onclick="closeLiveSessionChatModal()" class="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white font-bold text-lg transition cursor-pointer">
+          ✕
+        </button>
+      </div>
+
+      <!-- Chat Messages Box -->
+      <div id="session-chat-messages" class="flex-1 p-5 space-y-3 overflow-y-auto bg-slate-50 min-h-[280px]">
+        <div class="text-center text-xs text-slate-500 font-medium">Loading session chat thread...</div>
+      </div>
+
+      <!-- Chat Input Form -->
+      <form onsubmit="submitLiveSessionChat(event)" class="p-4 bg-white border-t border-slate-200 flex items-center gap-2">
+        <input type="text" id="session-chat-input" placeholder="Type your message to practitioner/seeker..." class="flex-1 px-4 py-2.5 rounded-full border border-slate-300 text-xs focus:ring-2 focus:ring-indigo-500 focus:outline-none bg-slate-50 text-slate-900">
+        <button type="submit" class="px-5 py-2.5 rounded-full bg-indigo-600 hover:bg-indigo-700 text-white font-extrabold text-xs shadow-md transition flex items-center gap-1.5 cursor-pointer">
+          <span>Send</span> 🚀
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Application Logic JS -->
+  <script src="/static/js/app.js?v=20260908_vdirect"></script>
+  <script>
+    lucide.createIcons();
+  </script>
+</body>
+</html>

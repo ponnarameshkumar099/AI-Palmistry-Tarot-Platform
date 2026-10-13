@@ -4,7 +4,7 @@
       "id": "usr-seeker-101",
       "name": "Aria Solstice",
       "email": "user@mystic.io",
-      "password_hash": "$2b$12$GhIxTLoSla5/nmUObwG7/OLUKqzqR03hAlb1XXNLqk.118mxLjOjS",
+      "password_hash": "$2b$12$ljlU9FnjJ8eXQeULtRGFQeGyGAvd7jcti.grAwHE9etWtLvcuWJLu",
       "role": "User",
       "age_group": "26-35",
       "interests": [
@@ -32,7 +32,7 @@
       "id": "usr-reader-202",
       "name": "Madame Seraphina",
       "email": "reader@mystic.io",
-      "password_hash": "$2b$12$E59ol64nHiUUlFGJ3U7wt.7qdtYIaWFuenKbaGOFGBXcY68L5IkvS",
+      "password_hash": "$2b$12$fgs04dx9X7m10F5bx9TTYOKtFgdgwW5N2BxgP9ahjE1k8rTQFiSXG",
       "role": "Tarot Reader",
       "age_group": "36-45",
       "interests": [
@@ -59,7 +59,7 @@
       "id": "usr-consultant-303",
       "name": "Zachary Vance",
       "email": "consultant@mystic.io",
-      "password_hash": "$2b$12$eFbKVbuP34B79RYHruheqO4sj9RCWq/sZHCjkVwQ3T3RyRYpB6Yuq",
+      "password_hash": "$2b$12$ZCTLbC435MYfZnVOd4mpYeGuU0C1VyOTgc10iKB0sjahzCSw1CkDi",
       "role": "Spiritual Consultant",
       "age_group": "46-55",
       "interests": [
@@ -85,7 +85,7 @@
       "id": "usr-admin-404",
       "name": "Grand Sovereign Admin",
       "email": "admin@mystic.io",
-      "password_hash": "$2b$12$F46DOobbrCuSZXDde.NDSeVr.K1tItoXBT0B/XzjDgLOPPMJYzWd2",
+      "password_hash": "$2b$12$KfJgP6WUMsv1TZyz0Pc1/.LckvGxMw2ahSlO4t3LRb90rSZa2ACjW",
       "role": "Administrator",
       "age_group": "36-45",
       "interests": [
@@ -366,30 +366,29 @@
       "created_at": "2026-10-09T14:24:04.531115+00:00",
       "readings_count": 0
     },
-    "usr-80f83999": {
-      "id": "usr-80f83999",
-      "name": "Mounica",
-      "email": "mounika2830@gmail.com",
-      "password_hash": "$2b$12$yCrmzZSAIoN0yrBT.LNU6OCOdjMEldCcbiyqqQElZOIUj3ujBVSOe",
+    "usr-oauth-818ada21": {
+      "id": "usr-oauth-818ada21",
+      "name": "Google Seeker",
+      "email": "google_seeker@gmail.com",
+      "password_hash": "$2b$12$IhR2AF3nKfeySZTdegs5d.06I2H7oNaOllFBSkkOu.QmCdGaAwdnu",
       "role": "User",
-      "age_group": "18-25",
+      "age_group": "26-35",
       "interests": [
         "Tarot",
         "Palmistry",
-        "Astrology"
+        "Esoteric AI"
       ],
       "spiritual_goals": [
-        "Self-Discovery",
-        "Career Clarity"
+        "Discover Soul Purpose"
       ],
       "reading_preferences": {
         "frequency": "Weekly",
         "depth": "Deep Spiritual",
         "focus": "Life Path"
       },
-      "avatar": "https://api.dicebear.com/7.x/bottts/svg?seed=Mounica",
-      "bio": "Spiritual seeker seeking universal wisdom.",
-      "created_at": "2026-10-12T09:45:37.953458+00:00",
+      "avatar": "https://api.dicebear.com/7.x/bottts/svg?seed=Google Seeker",
+      "bio": "Joined via Google authentication.",
+      "created_at": "2026-10-12T08:54:03.434398+00:00",
       "readings_count": 0
     }
   },
@@ -75359,9 +75358,9 @@
       ],
       "user_id": "usr-seeker-101"
     },
-    "palm-d8eeae5b": {
-      "id": "palm-d8eeae5b",
-      "timestamp": "2026-10-12T09:46:10.123973+00:00",
+    "palm-5cc9abf4": {
+      "id": "palm-5cc9abf4",
+      "timestamp": "2026-10-12T08:52:59.822246+00:00",
       "hand_shape": "Water Hand",
       "element": "Water",
       "finger_structure": {
@@ -75643,293 +75642,7 @@
           "y": 0.52
         }
       ],
-      "user_id": "usr-80f83999"
-    },
-    "palm-423d526c": {
-      "id": "palm-423d526c",
-      "timestamp": "2026-10-12T09:49:24.036773+00:00",
-      "hand_shape": "Water Hand",
-      "element": "Water",
-      "finger_structure": {
-        "palm_ratio": 1.18,
-        "finger_ratio": 1.12,
-        "dominant_finger": "Index & Little (Jupiter & Mercury)",
-        "flexibility": "Supple & Sensitive"
-      },
-      "lines": {
-        "Life Line": {
-          "name": "Life Line",
-          "description": "Life Line of Water Hand",
-          "length": "Graceful contour with fine tributaries",
-          "depth": "Delicate & Clear",
-          "clarity_score": 91.0,
-          "meaning": "Sensitive constitutional nervous system; deeply attuned to atmospheric & spiritual energies.",
-          "coordinates": [
-            [
-              0.22,
-              0.46
-            ],
-            [
-              0.26,
-              0.54
-            ],
-            [
-              0.32,
-              0.65
-            ],
-            [
-              0.38,
-              0.77
-            ],
-            [
-              0.42,
-              0.88
-            ]
-          ]
-        },
-        "Head Line": {
-          "name": "Head Line",
-          "description": "Head Line of Water Hand",
-          "length": "Long sweeping slope deep into Mount of Luna",
-          "depth": "Deep & Fluid",
-          "clarity_score": 97.0,
-          "meaning": "Profound creative imagination, clairvoyant intuition, psychological insight, and poetic mind.",
-          "coordinates": [
-            [
-              0.22,
-              0.46
-            ],
-            [
-              0.34,
-              0.51
-            ],
-            [
-              0.48,
-              0.56
-            ],
-            [
-              0.65,
-              0.62
-            ],
-            [
-              0.78,
-              0.69
-            ]
-          ]
-        },
-        "Heart Line": {
-          "name": "Heart Line",
-          "description": "Heart Line of Water Hand",
-          "length": "Long, gracefully forked at Jupiter (The Mystic Trident)",
-          "depth": "Rich & Curved",
-          "clarity_score": 96.0,
-          "meaning": "Deeply empathetic, telepathic emotional resonance, soulful devotion, and unconditional compassion.",
-          "coordinates": [
-            [
-              0.3,
-              0.38
-            ],
-            [
-              0.45,
-              0.37
-            ],
-            [
-              0.6,
-              0.41
-            ],
-            [
-              0.75,
-              0.44
-            ],
-            [
-              0.85,
-              0.48
-            ]
-          ]
-        },
-        "Fate Line": {
-          "name": "Fate Line",
-          "description": "Fate Line of Water Hand",
-          "length": "Rising from the Mount of Luna",
-          "depth": "Fluid & Spiritual",
-          "clarity_score": 90.0,
-          "meaning": "Destiny shaped by spiritual callings, artistic patronages, and profound synchronicity.",
-          "coordinates": [
-            [
-              0.5,
-              0.88
-            ],
-            [
-              0.51,
-              0.7
-            ],
-            [
-              0.5,
-              0.55
-            ],
-            [
-              0.48,
-              0.42
-            ],
-            [
-              0.46,
-              0.3
-            ]
-          ]
-        },
-        "Sun Line": {
-          "name": "Sun Line",
-          "description": "Sun Line of Water Hand",
-          "length": "Parallel to Apollo with fine spiritual forks",
-          "depth": "Ethereal",
-          "clarity_score": 92.0,
-          "meaning": "Soul-level artistic expression, intuitive healing gifts, and spiritual legacy.",
-          "coordinates": [
-            [
-              0.64,
-              0.75
-            ],
-            [
-              0.64,
-              0.58
-            ],
-            [
-              0.63,
-              0.45
-            ],
-            [
-              0.62,
-              0.32
-            ]
-          ]
-        }
-      },
-      "mounts": {
-        "Jupiter": {
-          "mount_name": "Jupiter",
-          "prominence": "Elevated",
-          "spiritual_meaning": "Spiritual aspiration, benevolence, and empathetic mentorship.",
-          "energy_score": 88.0,
-          "location": {
-            "x": 0.32,
-            "y": 0.3,
-            "radius": 0.07
-          }
-        },
-        "Saturn": {
-          "mount_name": "Saturn",
-          "prominence": "Moderate",
-          "spiritual_meaning": "Karmic sensitivity and esoteric understanding of life's deeper lessons.",
-          "energy_score": 79.0,
-          "location": {
-            "x": 0.47,
-            "y": 0.28,
-            "radius": 0.07
-          }
-        },
-        "Apollo/Sun": {
-          "mount_name": "Apollo/Sun",
-          "prominence": "Well-developed",
-          "spiritual_meaning": "Transcendent artistic vision, musical sensitivity, and healing presence.",
-          "energy_score": 92.0,
-          "location": {
-            "x": 0.63,
-            "y": 0.29,
-            "radius": 0.07
-          }
-        },
-        "Mercury": {
-          "mount_name": "Mercury",
-          "prominence": "Refined",
-          "spiritual_meaning": "Psychological counseling skills, telepathic rapport, and poetic expression.",
-          "energy_score": 87.0,
-          "location": {
-            "x": 0.78,
-            "y": 0.34,
-            "radius": 0.06
-          }
-        },
-        "Venus": {
-          "mount_name": "Venus",
-          "prominence": "Soft & Full",
-          "spiritual_meaning": "Pure devotional love, aesthetic refinement, and heart chakra radiance.",
-          "energy_score": 90.0,
-          "location": {
-            "x": 0.28,
-            "y": 0.7,
-            "radius": 0.12
-          }
-        },
-        "Moon/Luna": {
-          "mount_name": "Moon/Luna",
-          "prominence": "Very High",
-          "spiritual_meaning": "Mastery of dreamwork, clairvoyance, psychic perception, and profound mystical flow.",
-          "energy_score": 98.0,
-          "location": {
-            "x": 0.76,
-            "y": 0.72,
-            "radius": 0.11
-          }
-        },
-        "Mars": {
-          "mount_name": "Mars",
-          "prominence": "Peaceful/Moderate",
-          "spiritual_meaning": "Quiet emotional resilience and spiritual warrior ethos.",
-          "energy_score": 77.0,
-          "location": {
-            "x": 0.5,
-            "y": 0.52,
-            "radius": 0.09
-          }
-        }
-      },
-      "confidence_score": 93.5,
-      "interpretation": {
-        "personality_synthesis": "Your Water Hand indicates strong Water element sovereignty: Long rectangular palm with long, supple fingers and fine skin texture. The archetypal mystic hand: highly intuitive, empathetic, psychic, and artistic.",
-        "vitality_trajectory": "Sensitive constitutional nervous system; deeply attuned to atmospheric & spiritual energies. Supported by active Venus mount.",
-        "intellectual_style": "Profound creative imagination, clairvoyant intuition, psychological insight, and poetic mind. Amplified by Saturn and Mercury alignments.",
-        "relational_resonance": "Deeply empathetic, telepathic emotional resonance, soulful devotion, and unconditional compassion. Cultivates deep spiritual bonds.",
-        "destiny_vocation": "Destiny shaped by spiritual callings, artistic patronages, and profound synchronicity. Soul-level artistic expression, intuitive healing gifts, and spiritual legacy."
-      },
-      "visual_overlay_svg": "<svg viewBox=\"0 0 500 600\" xmlns=\"http://www.w3.org/2000/svg\"><defs>  <filter id=\"line-glow\" x=\"-20%\" y=\"-20%\" width=\"140%\" height=\"140%\">    <feDropShadow dx=\"0\" dy=\"2\" stdDeviation=\"3\" flood-color=\"#0284c7\" flood-opacity=\"0.4\"/>  </filter>  <filter id=\"text-halo\" x=\"-10%\" y=\"-10%\" width=\"120%\" height=\"120%\">    <feDropShadow dx=\"0\" dy=\"1\" stdDeviation=\"1\" flood-color=\"#ffffff\" flood-opacity=\"0.9\"/>  </filter></defs><polyline points=\"110,276 130,324 160,390 190,462 210,528\" fill=\"none\" stroke=\"#dc2626\" stroke-width=\"5\" stroke-linecap=\"round\" stroke-linejoin=\"round\" opacity=\"0.95\" filter=\"url(#line-glow)\" /><polyline points=\"110,276 170,306 240,336 325,372 390,413\" fill=\"none\" stroke=\"#0284c7\" stroke-width=\"5\" stroke-linecap=\"round\" stroke-linejoin=\"round\" opacity=\"0.95\" filter=\"url(#line-glow)\" /><polyline points=\"150,228 225,222 300,245 375,264 425,288\" fill=\"none\" stroke=\"#7e22ce\" stroke-width=\"5\" stroke-linecap=\"round\" stroke-linejoin=\"round\" opacity=\"0.95\" filter=\"url(#line-glow)\" /><polyline points=\"250,528 255,420 250,330 240,252 230,180\" fill=\"none\" stroke=\"#d97706\" stroke-width=\"5\" stroke-linecap=\"round\" stroke-linejoin=\"round\" opacity=\"0.95\" filter=\"url(#line-glow)\" /><polyline points=\"320,450 320,348 315,270 310,192\" fill=\"none\" stroke=\"#c2410c\" stroke-width=\"5\" stroke-linecap=\"round\" stroke-linejoin=\"round\" opacity=\"0.95\" filter=\"url(#line-glow)\" /><circle cx=\"160\" cy=\"180\" r=\"35\" fill=\"rgba(2, 132, 199, 0.12)\" stroke=\"#0284c7\" stroke-width=\"2\" stroke-dasharray=\"4,3\" /><text x=\"160\" y=\"184\" fill=\"#0f172a\" font-size=\"11\" font-weight=\"900\" text-anchor=\"middle\" font-family=\"sans-serif\" filter=\"url(#text-halo)\">Jupiter</text><circle cx=\"235\" cy=\"168\" r=\"35\" fill=\"rgba(2, 132, 199, 0.12)\" stroke=\"#0284c7\" stroke-width=\"2\" stroke-dasharray=\"4,3\" /><text x=\"235\" y=\"172\" fill=\"#0f172a\" font-size=\"11\" font-weight=\"900\" text-anchor=\"middle\" font-family=\"sans-serif\" filter=\"url(#text-halo)\">Saturn</text><circle cx=\"315\" cy=\"174\" r=\"35\" fill=\"rgba(2, 132, 199, 0.12)\" stroke=\"#0284c7\" stroke-width=\"2\" stroke-dasharray=\"4,3\" /><text x=\"315\" y=\"178\" fill=\"#0f172a\" font-size=\"11\" font-weight=\"900\" text-anchor=\"middle\" font-family=\"sans-serif\" filter=\"url(#text-halo)\">Apollo/Sun</text><circle cx=\"390\" cy=\"204\" r=\"30\" fill=\"rgba(2, 132, 199, 0.12)\" stroke=\"#0284c7\" stroke-width=\"2\" stroke-dasharray=\"4,3\" /><text x=\"390\" y=\"208\" fill=\"#0f172a\" font-size=\"11\" font-weight=\"900\" text-anchor=\"middle\" font-family=\"sans-serif\" filter=\"url(#text-halo)\">Mercury</text><circle cx=\"140\" cy=\"420\" r=\"60\" fill=\"rgba(2, 132, 199, 0.12)\" stroke=\"#0284c7\" stroke-width=\"2\" stroke-dasharray=\"4,3\" /><text x=\"140\" y=\"424\" fill=\"#0f172a\" font-size=\"11\" font-weight=\"900\" text-anchor=\"middle\" font-family=\"sans-serif\" filter=\"url(#text-halo)\">Venus</text><circle cx=\"380\" cy=\"432\" r=\"55\" fill=\"rgba(2, 132, 199, 0.12)\" stroke=\"#0284c7\" stroke-width=\"2\" stroke-dasharray=\"4,3\" /><text x=\"380\" y=\"436\" fill=\"#0f172a\" font-size=\"11\" font-weight=\"900\" text-anchor=\"middle\" font-family=\"sans-serif\" filter=\"url(#text-halo)\">Moon/Luna</text><circle cx=\"250\" cy=\"312\" r=\"45\" fill=\"rgba(2, 132, 199, 0.12)\" stroke=\"#0284c7\" stroke-width=\"2\" stroke-dasharray=\"4,3\" /><text x=\"250\" y=\"316\" fill=\"#0f172a\" font-size=\"11\" font-weight=\"900\" text-anchor=\"middle\" font-family=\"sans-serif\" filter=\"url(#text-halo)\">Mars</text></svg>",
-      "landmarks": [
-        {
-          "name": "Jupiter",
-          "x": 0.32,
-          "y": 0.3
-        },
-        {
-          "name": "Saturn",
-          "x": 0.47,
-          "y": 0.28
-        },
-        {
-          "name": "Apollo/Sun",
-          "x": 0.63,
-          "y": 0.29
-        },
-        {
-          "name": "Mercury",
-          "x": 0.78,
-          "y": 0.34
-        },
-        {
-          "name": "Venus",
-          "x": 0.28,
-          "y": 0.7
-        },
-        {
-          "name": "Moon/Luna",
-          "x": 0.76,
-          "y": 0.72
-        },
-        {
-          "name": "Mars",
-          "x": 0.5,
-          "y": 0.52
-        }
-      ],
-      "user_id": "usr-80f83999"
+      "user_id": "usr-f1f82e28"
     }
   },
   "tarot_sessions": {
@@ -104492,6 +104205,116 @@
         "Dominant Element: Fire"
       ],
       "user_id": "usr-seeker-101"
+    },
+    "tarot-9ca8c734": {
+      "id": "tarot-9ca8c734",
+      "timestamp": "2026-10-12T08:53:09.602312+00:00",
+      "spread_type": "Three Card Reading",
+      "deck_style": "Classic Rider-Waite",
+      "question": "Cosmic guidance on destiny",
+      "cards_drawn": [
+        {
+          "position_index": 0,
+          "position_name": "Past & Root Influence",
+          "card": {
+            "id": 45,
+            "name": "Ten of Cups",
+            "arcana": "Minor Arcana",
+            "suit": "Cups",
+            "number": 10,
+            "element": "Water",
+            "astrology": "Scorpio",
+            "upright_keywords": [
+              "Culmination",
+              "Cups",
+              "Manifestation",
+              "Progress"
+            ],
+            "reversed_keywords": [
+              "Release of burden",
+              "Hesitation",
+              "Misdirection"
+            ],
+            "upright_meaning": "The Ten of Cups brings Culmination, legacy, fulfillment or heavy load to your emotions, love, intuition, relationships.",
+            "reversed_meaning": "Reversed, Ten of Cups indicates Release of burden, collapse of structure regarding emotions, love, intuition, relationships.",
+            "symbolism": "Archetypal Cups emblems radiating Water energy across the seeker's canvas.",
+            "image_url": "/static/assets/tarot/cups_10.png"
+          },
+          "is_reversed": true,
+          "position_interpretation": "In the position of 'Past & Root Influence', Ten of Cups (Reversed) reveals: Reversed, Ten of Cups indicates Release of burden, collapse of structure regarding emotions, love, intuition, relationships. Focus keywords: Release of burden, Hesitation, Misdirection."
+        },
+        {
+          "position_index": 1,
+          "position_name": "Present Energy & Crossroads",
+          "card": {
+            "id": 36,
+            "name": "Ace of Cups",
+            "arcana": "Minor Arcana",
+            "suit": "Cups",
+            "number": 1,
+            "element": "Water",
+            "astrology": "Scorpio",
+            "upright_keywords": [
+              "Raw potential",
+              "Cups",
+              "Manifestation",
+              "Progress"
+            ],
+            "reversed_keywords": [
+              "Blocked potential",
+              "Hesitation",
+              "Misdirection"
+            ],
+            "upright_meaning": "The Ace of Cups brings Raw potential, spark of new beginning, divine offering to your emotions, love, intuition, relationships.",
+            "reversed_meaning": "Reversed, Ace of Cups indicates Blocked potential, missed opportunity regarding emotions, love, intuition, relationships.",
+            "symbolism": "Archetypal Cups emblems radiating Water energy across the seeker's canvas.",
+            "image_url": "/static/assets/tarot/cups_1.png"
+          },
+          "is_reversed": false,
+          "position_interpretation": "In the position of 'Present Energy & Crossroads', Ace of Cups (Upright) reveals: The Ace of Cups brings Raw potential, spark of new beginning, divine offering to your emotions, love, intuition, relationships. Focus keywords: Raw potential, Cups, Manifestation, Progress."
+        },
+        {
+          "position_index": 2,
+          "position_name": "Future Evolution & Outcome",
+          "card": {
+            "id": 1,
+            "name": "The Magician",
+            "arcana": "Major Arcana",
+            "suit": null,
+            "number": 1,
+            "element": "Air",
+            "astrology": "Mercury",
+            "upright_keywords": [
+              "Manifestation",
+              "Resourcefulness",
+              "Power",
+              "Inspired Action",
+              "Skill"
+            ],
+            "reversed_keywords": [
+              "Illusion",
+              "Manipulation",
+              "Untapped Potential",
+              "Wasted Talent"
+            ],
+            "upright_meaning": "You possess all tools (wand, cup, sword, pentacle) to bridge the ethereal realms into physical manifestation. As above, so below.",
+            "reversed_meaning": "Misaligned creative energy, deception, or doubt in your innate manifesting capabilities.",
+            "symbolism": "The infinity sign above the head, pointing one hand to the sky and one to the earth, surrounded by blossoming red roses and white lilies.",
+            "image_url": "/static/assets/tarot/1_magician.png"
+          },
+          "is_reversed": false,
+          "position_interpretation": "In the position of 'Future Evolution & Outcome', The Magician (Upright) reveals: You possess all tools (wand, cup, sword, pentacle) to bridge the ethereal realms into physical manifestation. As above, so below. Focus keywords: Manifestation, Resourcefulness, Power, Inspired Action, Skill."
+        }
+      ],
+      "relevance_score": 94.5,
+      "spread_synthesis": "The Three Card Reading reveals a powerful energetic continuum anchored in the Water element. 1 Major Arcana keys indicate high-stakes karmic turning points. Primary catalyst: 'Ten of Cups' sets the foundational frequency, culminating in 'The Magician' for the ultimate integration.",
+      "key_themes": [
+        "Ten of Cups (Rev)",
+        "Ace of Cups (Up)",
+        "The Magician (Up)",
+        "Dominant Element: Water"
+      ],
+      "user_id": "usr-f1f82e28"
     }
   },
   "notifications": {
